@@ -35,7 +35,6 @@ export default function Transitions() {
           const dim = el.querySelector(".x1-dim");
           if (dim) gsap.fromTo(dim, { opacity: 0 }, { opacity: 0.65, ease: "none", scrollTrigger: { trigger: el, start: "bottom bottom", end: "bottom top", scrub: true } });
         };
-        overlap("#origins");
         overlap("#beans");
 
         // X2: the club band washes cream → copper on its way up (its text is dark on both)

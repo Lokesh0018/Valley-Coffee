@@ -2,7 +2,7 @@
 
 import { useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import { gsap, prefersReducedMotion } from "@/lib/gsap";
-import { onBuild, onReveal } from "./CherryLoader";
+import { onBuild, onReveal } from "./BrewLoader";
 import { loading } from "@/lib/loading";
 import { harvest } from "../content";
 import Lines from "./Lines";

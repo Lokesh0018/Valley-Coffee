@@ -1,6 +1,5 @@
 import MenuCardNav from "./components/MenuCardNav";
 import HarvestHero from "./components/HarvestHero";
-import SlowStatement from "./components/SlowStatement";
 import OriginArches from "./components/OriginArches";
 import RoastDial from "./components/RoastDial";
 import ThePour from "./components/ThePour";
@@ -11,14 +10,14 @@ import StayAWhile from "./components/StayAWhile";
 import ClubAndNotes from "./components/ClubAndNotes";
 import EmberFooter from "./components/EmberFooter";
 import SiteFlags from "./components/SiteFlags";
-import CherryLoader from "./components/CherryLoader";
+import BrewLoader from "./components/BrewLoader";
 import Transitions from "./components/Transitions";
 import { faviconSvg } from "./components/Logo";
 import { meta } from "./site";
 
 const ICON = `data:image/svg+xml,${encodeURIComponent(faviconSvg)}`;
 
-/** Ember Roast: a slow morning at the café, told through the coffee itself. Plan + Motion map: site/DESIGN.md. */
+/** Aura Roast: a slow morning at the café, told through the coffee itself. Plan + Motion map: site/DESIGN.md. */
 export default function Page() {
   return (
     <>
@@ -31,14 +30,13 @@ export default function Page() {
       />
       <link rel="icon" type="image/svg+xml" href={ICON} />
       <SiteFlags />
-      <CherryLoader name={meta.loaderText ?? meta.name} />
+      <BrewLoader name={meta.loaderText ?? meta.name} tagline="Roasted every morning · Hyderabad" />
       <Transitions />
       <MenuCardNav />
       <main className="relative overflow-x-clip">
         <HarvestHero />
-        <SlowStatement />
-        <OriginArches />
         <RoastDial />
+        <OriginArches />
         <ThePour />
         <MenuBoard />
         <BakeShelf />
