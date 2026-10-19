@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import TornEdge from "./TornEdge";
 import { gsap, prefersReducedMotion } from "@/lib/gsap";
 import { club, reviews } from "../content";
 import Lines from "./Lines";
@@ -32,7 +33,8 @@ export default function ClubAndNotes() {
 
   return (
     <>
-      <section id="club" data-record-time="1" data-record-hold="0.3" data-record-align="center" data-record-label="Ember Club" className="club band-copper relative z-[2]">
+      <section id="club" data-record-time="1" data-record-hold="0.3" data-record-align="center" data-record-label="Ember Club" className="club band-copper relative z-[4]">
+        <TornEdge color="var(--bg)" seed={61} />
         <div className="container-x grid items-center gap-8 py-[clamp(48px,8vh,90px)] md:grid-cols-12">
           <div className="md:col-span-7">
             <p className="mb-5 text-[12px] font-semibold uppercase tracking-[0.24em]">{club.eyebrow}</p>
@@ -55,6 +57,7 @@ export default function ClubAndNotes() {
       </section>
 
       <section id="reviews" data-record-time="0.9" data-record-hold="1.3" data-record-label="Reviews" className="reviews relative pb-[clamp(90px,13vh,160px)] pt-[clamp(56px,8vh,96px)]">
+        <TornEdge color="#fafcf7" seed={73} />
         <div className="container-x">
           <div className="flex flex-wrap items-end justify-between gap-x-6 gap-y-3">
             <div>

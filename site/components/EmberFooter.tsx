@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import TornEdge from "./TornEdge";
 import { prefersReducedMotion } from "@/lib/gsap";
 import { footer, visit } from "../content";
 import { playOnceInView } from "./recordDemo";
@@ -34,6 +35,7 @@ export default function EmberFooter() {
     <>
       {/* Visit: a plain section on the site's own background */}
       <section id="visit" className="visit relative py-[clamp(90px,13vh,150px)]">
+        <TornEdge color="#fafcf7" side="bottom" seed={89} />
         <div className="container-x grid items-start gap-12 lg:grid-cols-12 lg:gap-8">
           <div className="lg:col-span-5">
             <p className="eyebrow mb-7 uppercase">{visit.eyebrow}</p>

@@ -33,7 +33,7 @@ export default function TornEdge({ color, side = "top", seed = 7, fiber = "#ffff
       className={`pointer-events-none absolute left-0 z-[2] block h-[clamp(18px,2.4vw,34px)] w-full ${side === "top" ? "bottom-[calc(100%-1px)]" : "top-[calc(100%-1px)] rotate-180"}`}
     >
       <path d={d} fill={fiber} opacity="0.55" transform="translate(0 -3)" />
-      <path d={d} fill={color} />
+      <path d={d} style={{ fill: color }} />
     </svg>
   );
 }
