@@ -1,17 +1,21 @@
 // All text and data for Ember Roast (a concept site: brand, products and prices are samples).
 
 export const nav = {
+  // in page order; the logo takes you back to the top
   links: [
-    { label: "The café", href: "#top" },
+    { label: "The roast", href: "#roast" },
     { label: "Our beans", href: "#origins" },
-    { label: "The pour", href: "#pour" },
-    { label: "The menu", href: "#menu" },
+    { label: "Menu", href: "#menu" },
     { label: "Bakes", href: "#bakes" },
-    { label: "Take home", href: "#beans" },
     { label: "Visit", href: "#visit" },
   ],
-  todaysPour: { label: "Today's pour", value: "Araku Valley, washed", note: "Jasmine, stone fruit, raw honey" },
-  hours: ["Mon–Fri · 7:30 am – 11 pm", "Sat–Sun · 8 am – midnight"],
+  cta: { label: "Shop beans", href: "#beans" },
+  // opening hours in Hyderabad, 24 h clock (7.5 = 7:30). The live "Open now" status and the menu panel both read these.
+  hours: [
+    { days: "Mon–Fri", weekdays: [1, 2, 3, 4, 5], open: 7.5, close: 23 },
+    { days: "Sat–Sun", weekdays: [0, 6], open: 8, close: 24 },
+  ],
+  address: "Jubilee Hills, Hyderabad",
 };
 
 export const hero = {
@@ -26,11 +30,6 @@ export const hero = {
   ],
   note: "Open today · 7:30 am – 11 pm",
   captions: ["Roasted in Hyderabad,\nevery morning.", "Pull up a *chair.*"],
-};
-
-export const statement = {
-  eyebrow: "From hill to cup",
-  text: "We buy from four Indian estates, roast every morning and brew every cup by hand.",
 };
 
 export type Origin = {
@@ -48,7 +47,7 @@ export const origins = {
   eyebrow: "Our beans",
   title: ["Four hills.", "*One roaster.*"],
   text: "Every bag starts on a hillside in the south, picked ripe and shipped to our roaster in Hyderabad.",
-  roastery: { name: "Ember Roastery, Hyderabad", lon: 78.47, lat: 17.39 },
+  roastery: { name: "Aura Roastery, Hyderabad", lon: 78.47, lat: 17.39 },
   items: [
     { name: "Chikmagalur", estate: "Kalasa Ridge Estate", altitude: "1,450 m", process: "Washed", notes: ["Cocoa", "Orange peel", "Jaggery"], image: "/images/ember/origin-chikmagalur.webp", lon: 75.77, lat: 13.32 },
     { name: "Coorg", estate: "Misty Fold Estate", altitude: "1,150 m", process: "Honey", notes: ["Plum", "Brown sugar", "Clove"], image: "/images/ember/origin-coorg.webp", lon: 75.74, lat: 12.42 },
@@ -150,19 +149,33 @@ export const bakes = {
   ],
 };
 
-export type Bag = { origin: string; roast: string; roastLevel: number; notes: string; price: number; label: string; ink: string };
+export type Bag = {
+  name: string; // the lot, printed big on the label
+  process: string;
+  village: string;
+  altitude: string;
+  roast: string;
+  roastLevel: number;
+  notes: string;
+  price: number;
+  label: string;
+  ink: string;
+};
 
+// Every bag comes from Araku Valley (Eastern Ghats): four lots from small family farms, one per process / roast.
 export const beans = {
-  eyebrow: "Take home",
-  title: ["Take the café", "*home.*"],
-  text: "Roasted this week, packed the same day. 250 g bags, ground the way you brew.",
+  eyebrow: "Take home · Araku Valley",
+  title: ["Straight from", "*Araku.*"],
+  text: "Four lots from small family farms in the Araku hills, shade-grown under silver oaks. Roasted this week in Hyderabad, packed the same day. 250 g bags, ground the way you brew.",
   bagImage: "/images/ember/bag-kraft.webp",
   grinds: ["Whole bean", "Espresso", "Pour-over", "French press"],
+  // the small "map" caption over the hills behind the bags
+  place: { name: "Araku Valley, Andhra Pradesh", coords: "18.33° N · 82.87° E", range: "900 – 1,200 m · Eastern Ghats" },
   items: [
-    { origin: "Araku Valley", roast: "Light", roastLevel: 1, notes: "Jasmine · stone fruit · honey", price: 790, label: "#f4e9d8", ink: "#2a1a10" },
-    { origin: "Chikmagalur", roast: "Medium", roastLevel: 2, notes: "Cocoa · orange peel · jaggery", price: 650, label: "#2f7d4a", ink: "#ffffff" },
-    { origin: "Coorg", roast: "Medium", roastLevel: 2, notes: "Plum · brown sugar · clove", price: 720, label: "#cdbd9c", ink: "#2a1a10" },
-    { origin: "Ember House", roast: "Ember dark", roastLevel: 4, notes: "Dark chocolate · molasses · spice", price: 690, label: "#1f4d33", ink: "#f4f8f1" },
+    { name: "Mist Line", process: "Washed", village: "Chompi", altitude: "1,100 m", roast: "Light", roastLevel: 1, notes: "Jasmine · stone fruit · honey", price: 790, label: "#f4e9d8", ink: "#2a1a10" },
+    { name: "Sun Terrace", process: "Natural", village: "Madagada", altitude: "980 m", roast: "Medium-light", roastLevel: 2, notes: "Blueberry · cacao · red wine", price: 890, label: "#2f7d4a", ink: "#ffffff" },
+    { name: "Silver Oak", process: "Honey", village: "Sunkarametta", altitude: "1,050 m", roast: "Medium", roastLevel: 3, notes: "Plum · jaggery · orange peel", price: 840, label: "#cdbd9c", ink: "#2a1a10" },
+    { name: "Valley Dark", process: "Washed", village: "Galikonda slopes", altitude: "1,150 m", roast: "Dark", roastLevel: 4, notes: "Dark chocolate · molasses · clove", price: 690, label: "#1f4d33", ink: "#f4f8f1" },
   ] satisfies Bag[],
 };
 
@@ -192,7 +205,7 @@ export const reviews = {
     { order: [["Flat white", 230], ["Cardamom bun", 160]], text: "My Tuesday office. Great Wi-Fi, better flat whites, and nobody minds if I stay till lunch.", name: "Meera", who: "UX designer, works here Tuesdays" },
     { order: [["Pour-over, Araku", 290], ["Pour-over, Coorg", 300]], text: "We come every Sunday and try a new pour-over. The baristas remember our names now.", name: "Arjun & Sana", who: "Sunday regulars" },
     { order: [["Cold brew", 240], ["Banana bread", 180]], text: "Cheapest good coffee near campus, and the banana bread is unreal. Student discount helps.", name: "Karthik", who: "Final-year student" },
-    { order: [["Beans, Ember House", 690]], text: "Bought a bag after the roastery tour. My mornings at home finally taste like this place.", name: "Farah", who: "Takes the beans home" },
+    { order: [["Beans, Valley Dark", 690]], text: "Bought a bag after the roastery tour. My mornings at home finally taste like this place.", name: "Farah", who: "Takes the beans home" },
   ] as { order: [string, number][]; text: string; name: string; who: string }[],
 };
 
@@ -213,13 +226,13 @@ export const visit = {
 };
 
 export const footer = {
-  wordmark: "Ember Roast",
+  wordmark: "Aura Roast",
   columns: [
     { title: "Café", links: ["The menu", "Fresh bakes", "Stay a while", "Visit"] },
-    { title: "Beans", links: ["Single origins", "Ember Club", "Brew guides", "Gift a bag"] },
+    { title: "Beans", links: ["Single origins", "Aura Club", "Brew guides", "Gift a bag"] },
     { title: "Follow", links: ["Instagram", "Spotify playlist", "Newsletter"] },
   ],
-  note: "Concept website by Triozen Tech. Ember Roast is an invented brand; products and prices are samples.",
+  note: "Concept website by SHM Technologies. Aura Roast is an invented brand; products and prices are samples.",
 };
 
 // Hero "Picked by hand" (HarvestHero.tsx): the Araku Valley harvest, a handmade animated illustration
@@ -229,7 +242,7 @@ export const harvest = {
   text: "Grown under silver oaks on small family farms in the Eastern Ghats, picked cherry by cherry when ripe, and roasted fresh in Hyderabad.",
   buttons: [
     { label: "Shop our coffee", href: "#beans" },
-    { label: "Our story", href: "#story" },
+    { label: "Our story", href: "#origins" },
   ],
   facts: ["1,100 m up", "Shade-grown", "Picked Nov–Feb"],
 };

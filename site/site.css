@@ -452,46 +452,56 @@ html.is-static .hv-anim {
   will-change: transform;
 }
 
-/* ---------- Loader "Cherry to bean" (CherryLoader.tsx) ----------
-   White paper with a soft leaf-green glow and grain. Things that must keep moving while the farm is being built
-   (the page is busy then) are CSS animations on their own layers: the branch's sway and the beans roasting. */
-.cl-paper {
+/* ---------- Loader "Brew the mark" (BrewLoader.tsx) ----------
+   White paper with a soft leaf-green glow and grain; the logo builds itself on it. Things that must keep moving
+   while the hero is being built (the page is busy then) are CSS animations: the coffee surface and the steam. */
+.bl-paper {
   background-color: #fafcf7;
   background-image:
-    radial-gradient(ellipse 55% 48% at 50% 42%, rgba(214, 236, 214, 0.75), rgba(214, 236, 214, 0) 70%),
+    radial-gradient(ellipse 46% 42% at 50% 40%, rgba(208, 234, 210, 0.8), rgba(208, 234, 210, 0) 70%),
     url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' seed='3'/><feColorMatrix values='0 0 0 0 0.2  0 0 0 0 0.32  0 0 0 0 0.24  0 0 0 0.12 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
   background-size: 100% 100%, 220px 220px;
 }
-.cl-letter {
+.bl-letter {
   transform: translateY(110%);
 }
-/* the branch sways gently the whole time (composited, so it keeps going while the page is busy) */
-.cl-sway {
-  transform-origin: 8% 82%;
-  will-change: transform;
-  animation: cl-sway 3.4s ease-in-out infinite alternate;
+/* the coffee's surface drifts sideways (one wave = 16 units, so it loops seamlessly) */
+.bl-wave {
+  animation: bl-wave 1.6s linear infinite;
 }
-@keyframes cl-sway {
-  from { transform: rotate(-1.6deg); }
-  to { transform: rotate(1.8deg); }
+@keyframes bl-wave {
+  to { transform: translateX(-16px); }
 }
-/* raw (pale green) beans roast to brown: a cross-fade of a second layer, started while the farm is built */
-.cl-roasted {
+/* the two flames of steam flicker gently once they have risen */
+.bl-flicker {
+  transform-box: fill-box;
+  transform-origin: 50% 100%;
+}
+.is-brewing .bl-flicker {
+  animation: bl-flicker 1.4s ease-in-out infinite alternate;
+}
+@keyframes bl-flicker {
+  0% { transform: scale(1, 1) skewX(0deg); }
+  50% { transform: scale(0.96, 1.07) skewX(-4deg); }
+  100% { transform: scale(1.02, 0.97) skewX(3deg); }
+}
+/* the progress line breathes while the hero is built */
+.is-brewing .bl-progress {
+  animation: bl-breathe 1s ease-in-out infinite alternate;
+}
+@keyframes bl-breathe {
+  to { opacity: 0.55; }
+}
+/* the nav logo waits under the loader; the flying mark lands on it, then it takes over */
+html.brand-loading header [data-brand-mark] {
   opacity: 0;
-  will-change: opacity;
 }
-.is-roasting .cl-roasted {
-  animation: cl-roast 1.8s ease-in-out forwards;
-}
-@keyframes cl-roast {
-  to { opacity: 1; }
-}
-/* the page is its own layer from the start (no re-raster when it moves); while the farm is built under it, it is
-   99.7 % opaque (no visible ghost), so the browser paints the farm then rather than all at once when it is uncovered */
-.cl-sheet {
+/* the page is its own layer from the start (no re-raster when it moves); while the hero is built under it, it is
+   99.7 % opaque (no visible ghost), so the browser paints the hero then rather than all at once when it is uncovered */
+.bl-sheet {
   will-change: transform;
 }
-.cl-sheet.is-building {
+.bl-sheet.is-building {
   opacity: 0.997;
 }
 
@@ -576,13 +586,13 @@ html.is-static .nav-live-ping {
 
 /* ---------- Footer, folk-badge style (EmberFooter.tsx + FooterEmblem.tsx) ---------- */
 .footer-folk {
-  --bg: #f4ebdd; /* warm cream */
-  --surface: #fbf6ee;
-  --text: #1c2a20;
-  --muted: #5a5446;
-  --accent: #1f5a35;
-  --accent-text: #f4ebdd;
-  --line: rgba(28, 27, 23, 0.16);
+  --bg: #f5eedc; /* warm cream, as the mural */
+  --surface: #fbf7ee;
+  --text: #171714;
+  --muted: #4a463c;
+  --accent: #124d25; /* forest green */
+  --accent-text: #f7f1e3;
+  --line: rgba(23, 23, 20, 0.18);
   background: var(--bg);
   color: var(--text);
 }
@@ -651,6 +661,52 @@ html.is-static .roast-bean {
 }
 @media (prefers-reduced-motion: reduce) {
   .roast-bean {
+    animation: none;
+  }
+}
+
+/* footer sun: rises a few px and settles (9 s), its rays sway slowly (12 s); still for reduced motion */
+.fs-sun {
+  animation: fs-sun-rise 9s ease-in-out infinite;
+}
+.fs-sun-rays {
+  transform-box: view-box;
+  transform-origin: 50% 50%;
+  animation: fs-sun-rays 12s ease-in-out infinite alternate;
+}
+@keyframes fs-sun-rise {
+  0%, 100% { transform: translateY(4px); opacity: 0.92; }
+  50% { transform: translateY(0); opacity: 1; }
+}
+@keyframes fs-sun-rays {
+  from { transform: rotate(-9deg) scale(0.97); }
+  to { transform: rotate(9deg) scale(1.03); }
+}
+html.is-static .fs-sun,
+html.is-static .fs-sun-rays {
+  animation: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  .fs-sun,
+  .fs-sun-rays {
+    animation: none;
+  }
+}
+
+/* footer mural: the sun's rays turn slowly around a still disc (60 s a turn) */
+.fm-rays {
+  transform-box: fill-box;
+  transform-origin: 50% 50%;
+  animation: fm-rays 60s linear infinite;
+}
+@keyframes fm-rays {
+  to { transform: rotate(360deg); }
+}
+html.is-static .fm-rays {
+  animation: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  .fm-rays {
     animation: none;
   }
 }

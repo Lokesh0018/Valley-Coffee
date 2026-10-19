@@ -5,10 +5,12 @@ import { gsap, prefersReducedMotion } from "@/lib/gsap";
 import { beans } from "../content";
 import Lines from "./Lines";
 import TornEdge from "./TornEdge";
+import ArakuBackdrop from "./ArakuBackdrop";
 import { BAG_EVENT } from "./MenuCardNav";
 import { playOnceInView } from "./recordDemo";
 
-// Take home (Motion map M4 stack fan-out): one kraft bag photo, four bags made in code by printing a different
+// Take home (Motion map M4 stack fan-out): four Araku Valley lots, one per process / roast, over a backdrop of
+// the Araku hills (ArakuBackdrop.tsx). One kraft bag photo, four bags made in code by printing a different
 // label on it (colour, origin, roast, notes, grind). The bags start as a tight stack in the middle of the row
 // (fanned a little) and spread out to their places as you scroll; their names and prices follow. The grind
 // chips cycle by themselves while the bags are on screen (they stop once someone picks one). Phone: the stack
@@ -112,9 +114,10 @@ export default function BeanBags() {
   return (
     <section ref={root} id="beans" className="beans relative z-[2] bg-bg pb-[clamp(110px,16vh,190px)] pt-[clamp(90px,13vh,160px)]">
       <TornEdge color="#fafcf7" seed={37} fiber="#c8a57a" />
+      <ArakuBackdrop />
       {/* X1: dims while the next section slides over it */}
       <div className="x1-dim pointer-events-none absolute inset-0 z-[5] bg-[#fafcf7] opacity-0" />
-      <div className="container-x">
+      <div className="container-x relative">
         <div className="grid items-end gap-8 md:grid-cols-12">
           <div className="md:col-span-6">
             <p className="eyebrow mb-7 uppercase">{beans.eyebrow}</p>
@@ -144,10 +147,10 @@ export default function BeanBags() {
 
         <div data-record-time="1.3" data-record-hold="1.4" data-record-align="center" data-record-label="Beans" className="bag-row mt-[clamp(40px,7vh,80px)] grid grid-cols-2 gap-x-4 gap-y-10 md:grid-cols-4 md:gap-8">
           {beans.items.map((b, i) => (
-            <article key={b.origin} className="bag-card" data-card={i} data-cursor="Take home">
+            <article key={b.name} className="bag-card" data-card={i} data-cursor="Take home">
               <div className="bag-art relative mx-auto w-[88%] [container-type:inline-size]">
                 <div className="amber-glow absolute inset-x-[-10%] bottom-[-6%] h-[40%]" />
-                <img src={beans.bagImage} alt={`${b.origin} coffee bag`} className="relative block w-full drop-shadow-[0_24px_30px_rgba(0,0,0,0.55)]" />
+                <img src={beans.bagImage} alt={`${b.name}, Araku Valley coffee bag`} className="relative block w-full drop-shadow-[0_26px_28px_rgba(19,48,36,0.38)]" />
                 {/* printed label */}
                 <div
                   className="absolute flex flex-col overflow-hidden rounded-[2px] text-center"
@@ -155,10 +158,11 @@ export default function BeanBags() {
                 >
                   <span className="absolute inset-0 mix-blend-multiply" style={{ background: b.label }} />
                   <div className="relative flex h-full flex-col items-center justify-between px-[6cqw] py-[7cqw]">
-                    <span className="text-[4.2cqw] font-semibold uppercase tracking-[0.3em]">Ember Roast</span>
+                    <span className="text-[4.2cqw] font-semibold uppercase tracking-[0.3em]">Aura Roast</span>
                     <div>
-                      <p className="font-display text-[8.4cqw] leading-[0.98]">{b.origin}</p>
-                      <p className="mt-[3cqw] text-[4.6cqw] uppercase tracking-[0.14em] opacity-80">{b.roast} roast</p>
+                      <p className="mb-[2cqw] text-[3.8cqw] uppercase tracking-[0.2em] opacity-75">Araku Valley</p>
+                      <p className="font-display text-[8.4cqw] leading-[0.98]">{b.name}</p>
+                      <p className="mt-[3cqw] text-[4.2cqw] uppercase tracking-[0.12em] opacity-80">{b.process} · {b.roast}</p>
                       <div className="mt-[3cqw] flex justify-center gap-[1.6cqw]">
                         {[1, 2, 3, 4].map((n) => (
                           <span key={n} className="h-[2.6cqw] w-[2.6cqw] rounded-full border" style={{ borderColor: b.ink, background: n <= b.roastLevel ? b.ink : "transparent" }} />
@@ -170,8 +174,14 @@ export default function BeanBags() {
                 </div>
               </div>
               <div className="bag-info mt-6 text-center">
-                <h3 className="font-display text-[clamp(22px,1.9vw,30px)]">{b.origin}</h3>
+                <p className="text-[12px] font-semibold uppercase tracking-[0.14em] text-accent">
+                  {b.process} · {b.roast} roast
+                </p>
+                <h3 className="mt-1 font-display text-[clamp(22px,1.9vw,30px)]">{b.name}</h3>
                 <p className="mt-1 text-[14px] text-muted">{b.notes}</p>
+                <p className="mt-1 text-[12px] text-muted">
+                  {b.village} · {b.altitude}
+                </p>
                 <div className="mt-4 flex items-center justify-center gap-3 max-md:flex-col max-md:gap-2">
                   <span className="text-[18px] font-semibold text-accent">₹{b.price}</span>
                   <button type="button" onClick={(e) => add(i, e.currentTarget)} className="add-btn min-h-11 rounded-full border border-line px-4 py-2 text-[14px] transition-colors duration-300 hover:border-accent hover:bg-accent hover:text-accent-fg">

@@ -129,23 +129,24 @@ export default function MenuCardNav() {
 
   return (
     <header className="fixed inset-x-0 top-0 z-50 px-[clamp(10px,2vw,28px)] pt-[clamp(10px,1.6vw,20px)]">
+      {/* outer radius = button radius (22) + bar padding (6), so the buttons sit concentric inside the bar */}
       <div
-        className={`nav-bar relative flex items-center justify-between gap-3 rounded-[22px] border py-1.5 pl-4 pr-1.5 text-[#133024] backdrop-blur-md transition-[background-color,box-shadow,border-color] duration-300 md:pl-5 ${
+        className={`nav-bar relative mx-auto flex max-w-[1360px] items-center justify-between gap-3 rounded-[28px] border py-1.5 pl-4 pr-1.5 text-[#133024] backdrop-blur-md transition-[background-color,box-shadow,border-color] duration-300 md:pl-5 lg:grid lg:grid-cols-[1fr_auto_1fr] ${
           scrolled || open
-            ? "border-[#133024]/12 bg-[#fafcf7]/95 shadow-[0_14px_34px_-18px_rgba(19,48,36,0.45)]"
-            : "border-[#133024]/8 bg-[#fafcf7]/75 shadow-[0_10px_28px_-20px_rgba(19,48,36,0.35)]"
+            ? "border-[#133024]/12 bg-[#fafcf7]/95 shadow-[inset_0_1px_0_rgba(255,255,255,0.8),0_14px_34px_-18px_rgba(19,48,36,0.45)]"
+            : "border-[#133024]/8 bg-[#fafcf7]/75 shadow-[inset_0_1px_0_rgba(255,255,255,0.7),0_10px_28px_-20px_rgba(19,48,36,0.35)]"
         }`}
       >
-        <a href="#top" className="flex min-h-11 shrink-0 items-center rounded-full" data-cursor="Home" aria-label="Aura Roast, back to top" onClick={() => setOpen(false)}>
+        <a href="#top" className="flex min-h-11 shrink-0 items-center justify-self-start rounded-full" data-cursor="Home" aria-label="Aura Roast, back to top" onClick={() => setOpen(false)}>
           <Logo />
         </a>
 
-        {/* laptop: links in page order; a soft pill slides to the section you are in */}
+        {/* laptop: links in page order, centred on a soft track; a raised white pill slides to the section you are in */}
         <nav aria-label="Primary" className="hidden lg:block">
-          <div ref={linksRef} className="relative flex items-center gap-0.5">
+          <div ref={linksRef} className="relative flex items-center rounded-full bg-[#133024]/[0.045] p-1">
             <span
               aria-hidden
-              className="pointer-events-none absolute inset-y-0 left-0 rounded-full bg-[#2f7d4a]/12 transition-[transform,width,opacity] duration-500 ease-[cubic-bezier(0.2,0.7,0.2,1)]"
+              className="pointer-events-none absolute inset-y-1 left-0 rounded-full bg-white shadow-[0_1px_2px_rgba(19,48,36,0.14),0_0_0_1px_rgba(19,48,36,0.06)] transition-[transform,width,opacity] duration-500 ease-[cubic-bezier(0.2,0.7,0.2,1)]"
               style={{ width: pill?.w ?? 0, transform: `translateX(${pill?.x ?? 0}px)`, opacity: pill ? 1 : 0 }}
             />
             {nav.links.map((l) => {
@@ -155,10 +156,14 @@ export default function MenuCardNav() {
                   key={l.href}
                   href={l.href}
                   aria-current={isActive ? "location" : undefined}
-                  className={`relative inline-flex h-10 items-center rounded-full px-4 text-[14px] font-medium tracking-[0.01em] transition-colors duration-200 ${
-                    isActive ? "text-[#133024]" : "text-[#133024]/70 hover:text-[#133024]"
+                  className={`relative inline-flex h-9 items-center gap-1.5 rounded-full px-4 text-[14px] font-medium tracking-[0.01em] transition-colors duration-200 ${
+                    isActive ? "text-[#1f5a35]" : "text-[#133024]/65 hover:text-[#133024]"
                   }`}
                 >
+                  <span
+                    aria-hidden
+                    className={`h-1.5 w-1.5 rounded-full bg-[#2f7d4a] transition-[transform,opacity] duration-300 ${isActive ? "scale-100 opacity-100" : "scale-0 opacity-0"}`}
+                  />
                   {l.label}
                 </a>
               );
@@ -166,18 +171,24 @@ export default function MenuCardNav() {
           </div>
         </nav>
 
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 justify-self-end">
           {status && (
-            <span className="hidden items-center gap-2 pr-1 text-[13px] text-[#133024]/80 xl:inline-flex" title={hoursText}>
+            <span
+              className="mr-1 hidden items-center gap-2 border-r border-[#133024]/12 pr-4 text-[13px] text-[#133024]/80 xl:inline-flex"
+              title={hoursText}
+            >
               <StatusDot open={status.open} />
               {status.text}
             </span>
           )}
           <a
             href={nav.cta.href}
-            className="hidden h-11 items-center rounded-full bg-[#2f7d4a] px-5 text-[14px] font-semibold text-white transition-colors duration-200 hover:bg-[#24683c] active:translate-y-px md:inline-flex"
+            className="hv-cta hidden h-11 items-center gap-2 rounded-full bg-[#2f7d4a] pl-5 pr-4 text-[14px] font-semibold text-white md:inline-flex"
           >
             {nav.cta.label}
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden className="hv-cta-arrow">
+              <path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
           </a>
           <a
             ref={bagIcon}
@@ -190,8 +201,9 @@ export default function MenuCardNav() {
               <path d="M5 8h14l-1.2 12H6.2L5 8Z M9 8V6a3 3 0 0 1 6 0v2" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round" />
             </svg>
             <span
-              className={`bag-count absolute -right-0.5 -top-0.5 grid h-5 min-w-5 place-items-center rounded-full px-1 text-[11px] font-semibold transition-colors ${
-                bag ? "bg-[#2f7d4a] text-white" : "bg-[#dfe9dc] text-[#133024]"
+              aria-hidden
+              className={`bag-count absolute -right-0.5 -top-0.5 grid h-5 min-w-5 place-items-center rounded-full bg-[#2f7d4a] px-1 text-[11px] font-semibold text-white ring-2 ring-[#fafcf7] transition-opacity duration-200 ${
+                bag ? "opacity-100" : "opacity-0"
               }`}
             >
               {bag}
@@ -220,25 +232,32 @@ export default function MenuCardNav() {
         id="nav-panel"
         ref={panel}
         aria-hidden={!open}
-        className={`mt-2 origin-top rounded-[22px] border border-[#133024]/12 bg-[#fafcf7]/[0.97] p-3 text-[#133024] shadow-[0_24px_50px_-24px_rgba(19,48,36,0.5)] backdrop-blur-md transition-[opacity,transform,visibility] duration-300 lg:hidden ${
+        className={`mx-auto mt-2 max-w-[1360px] origin-top rounded-[28px] border border-[#133024]/12 bg-[#fafcf7]/[0.97] p-3 text-[#133024] shadow-[0_24px_50px_-24px_rgba(19,48,36,0.5)] backdrop-blur-md transition-[opacity,transform,visibility] duration-300 lg:hidden ${
           open ? "visible translate-y-0 opacity-100" : "invisible -translate-y-2 opacity-0"
         }`}
       >
         <nav aria-label="Sections">
           <ul>
-            {nav.links.map((l) => (
-              <li key={l.href}>
+            {nav.links.map((l, i) => (
+              <li
+                key={l.href}
+                className={`border-b border-[#133024]/8 transition-[opacity,transform] duration-500 ease-[cubic-bezier(0.2,0.7,0.2,1)] last:border-0 ${
+                  open ? "translate-y-0 opacity-100" : "translate-y-2 opacity-0"
+                }`}
+                style={{ transitionDelay: open ? `${60 + i * 45}ms` : "0ms" }}
+              >
                 <a
                   href={l.href}
                   tabIndex={open ? 0 : -1}
                   onClick={() => setOpen(false)}
                   aria-current={active === l.href ? "location" : undefined}
-                  className={`font-display flex min-h-12 items-center justify-between rounded-2xl px-4 text-[22px] transition-colors ${
-                    active === l.href ? "bg-[#2f7d4a]/10" : "hover:bg-[#133024]/5"
+                  className={`font-display group my-1 flex min-h-12 items-center gap-4 rounded-2xl px-4 text-[22px] transition-colors ${
+                    active === l.href ? "bg-[#2f7d4a]/10 text-[#1f5a35]" : "hover:bg-[#133024]/5"
                   }`}
                 >
-                  {l.label}
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden className="text-[#2f7d4a]">
+                  <span className="w-6 [font-family:var(--font-body-family),sans-serif] text-[12px] tabular-nums tracking-[0.08em] text-[#50685a]">{String(i + 1).padStart(2, "0")}</span>
+                  <span className="flex-1">{l.label}</span>
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden className="text-[#2f7d4a] transition-transform duration-200 group-hover:translate-x-0.5">
                     <path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
                   </svg>
                 </a>
