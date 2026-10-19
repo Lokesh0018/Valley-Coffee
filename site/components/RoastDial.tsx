@@ -5,7 +5,9 @@ import { gsap, prefersReducedMotion } from "@/lib/gsap";
 import { roast } from "../content";
 import Lines from "./Lines";
 
-// Roast dial (Motion map M30 dial rotate): pinned; a copper half-circle dial sits over a round tray of beans.
+// Roast dial (Motion map M30 dial rotate): pinned; the whole section roasts with the beans (background, text and
+// dial colours run Green → Light → Medium → Ember with the needle; a glow, the stop's name and drifting beans behind);
+// a half-circle dial sits over a round tray of beans.
 // Scrolling turns the needle Green → Light → Medium → Ember (it rests at each stop), the copper arc fills behind
 // it, and the bean photo + notes switch as the needle passes each stop. The pills jump to a stop.
 // ?static=1: the last stop (Ember); the pills switch stops by hand.
@@ -15,6 +17,18 @@ const fillFor = (angle: number) => 100 - ((angle + 90) / 180) * 100; // arc dash
 // scroll progress (0–1) where the needle arrives at / leaves each stop
 const ARRIVE = [0, 0.3, 0.56, 0.82];
 const LEAVE = [0.12, 0.38, 0.64];
+
+// the whole section roasts with the beans: colours per stop (Green → Light → Medium → Ember). Every token the
+// section uses (text, muted, accent, line, the dial) reads these, so contrast holds at every stop.
+const STAGES = [
+  { "--bg": "#eef5ea", "--text": "#133024", "--muted": "#4f6657", "--accent": "#2f7d4a", "--accent-text": "#ffffff", "--line": "#cfe0cc", "--glow": "rgba(111, 190, 120, 0.45)" },
+  { "--bg": "#f5ecdc", "--text": "#2c2014", "--muted": "#6a5640", "--accent": "#8a5a1e", "--accent-text": "#ffffff", "--line": "#e3d3b8", "--glow": "rgba(230, 180, 110, 0.5)" },
+  { "--bg": "#d9b993", "--text": "#2a1a0e", "--muted": "#55391f", "--accent": "#6b3410", "--accent-text": "#fff4e6", "--line": "#c29d74", "--glow": "rgba(170, 92, 40, 0.45)" },
+  { "--bg": "#21150e", "--text": "#f6eadb", "--muted": "#cbb59b", "--accent": "#f0a35e", "--accent-text": "#21150e", "--line": "#4a3424", "--glow": "rgba(240, 120, 50, 0.42)" },
+] as const;
+
+// deterministic background beans (same every load)
+const BEANS = Array.from({ length: 14 }, (_, i) => ({ x: (i * 37 + 7) % 96, y: (i * 53 + 11) % 92, s: 14 + ((i * 7) % 18), r: (i * 47) % 360, d: 9 + ((i * 5) % 8), delay: -((i * 1.7) % 9) }));
 
 export default function RoastDial() {
   const outer = useRef<HTMLElement>(null);
@@ -27,6 +41,7 @@ export default function RoastDial() {
     const fill = root.querySelector(".dial-fill");
     if (prefersReducedMotion()) {
       gsap.set(needle, { rotation: ANGLES[3], svgOrigin: "200 200" });
+      gsap.set(root, { ...STAGES[3] });
       return;
     }
     motion.current = true;
@@ -35,6 +50,7 @@ export default function RoastDial() {
     const ctx = gsap.context(() => {
       gsap.set(needle, { rotation: ANGLES[0], svgOrigin: "200 200" });
       gsap.set(fill, { strokeDashoffset: fillFor(ANGLES[0]) });
+      gsap.set(root, { ...STAGES[0] });
 
       let last = 0;
       const tl = gsap.timeline({
@@ -56,15 +72,21 @@ export default function RoastDial() {
         const d = ARRIVE[k] - LEAVE[k - 1];
         tl.to(needle, { rotation: ANGLES[k], duration: d }, LEAVE[k - 1]);
         tl.to(fill, { strokeDashoffset: fillFor(ANGLES[k]), duration: d }, LEAVE[k - 1]);
+        // the section roasts along with the needle
+        tl.to(root, { ...STAGES[k], duration: d, ease: "sine.inOut" }, LEAVE[k - 1]);
       }
-      // the tray turns a little with the needle, like beans in the drum
-      tl.fromTo(".roast-tray", { rotation: -24 }, { rotation: 24, ease: "none", duration: 1 }, 0);
     }, root);
     return () => {
       motion.current = false;
       ctx.revert();
     };
   }, []);
+
+  // without motion the pills switch stops by hand: the colours follow
+  useEffect(() => {
+    if (motion.current || !outer.current) return;
+    gsap.to(outer.current, { ...STAGES[active], duration: 0.6, ease: "sine.inOut" });
+  }, [active]);
 
   // pill: with motion, scroll to where the needle rests on that stop; without, just switch
   const go = (i: number) => {
@@ -80,8 +102,32 @@ export default function RoastDial() {
       {/* record-mode stop: the needle has reached Ember (90% of the 220vh of scroll) */}
       <div aria-hidden className="pointer-events-none absolute left-0 h-px w-px" style={{ top: "198vh" }} data-record-time="3.4" data-record-label="Roast dial: Ember" />
       <div className="pin-stage flex items-center">
+        {/* background: a soft glow behind the dial (green → ember heat), the stop's name huge and faint, drifting beans */}
+        <div aria-hidden className="roast-bg pointer-events-none absolute inset-0 overflow-hidden">
+          <div className="roast-glow absolute right-[-8%] top-1/2 aspect-square w-[min(78vw,1100px)] -translate-y-1/2 rounded-full max-lg:left-1/2 max-lg:right-auto max-lg:top-[32%] max-lg:w-[130vw] max-lg:-translate-x-1/2" />
+          {roast.stops.map((s, i) => (
+            <span
+              key={s.name}
+              className="roast-word font-display absolute bottom-[-0.12em] right-[-0.04em] whitespace-nowrap leading-none transition-opacity duration-700 max-lg:bottom-auto max-lg:right-auto max-lg:left-1/2 max-lg:top-[4%] max-lg:-translate-x-1/2"
+              style={{ opacity: i === active ? 1 : 0 }}
+            >
+              {s.name}
+            </span>
+          ))}
+          {BEANS.map((b, i) => (
+            <svg
+              key={i}
+              viewBox="-10 -14 20 28"
+              className="roast-bean absolute"
+              style={{ left: `${b.x}%`, top: `${b.y}%`, width: b.s, height: b.s * 1.4, animationDuration: `${b.d}s`, animationDelay: `${b.delay}s`, rotate: `${b.r}deg` }}
+            >
+              <ellipse rx="9" ry="13" fill="currentColor" />
+              <path d="M0 -10C4 -4 -4 4 0 10" stroke="var(--bg)" strokeWidth="2" fill="none" strokeLinecap="round" />
+            </svg>
+          ))}
+        </div>
         {/* laptop: text left, dial right · below 1024px (phones, tablets): big dial on top, text below */}
-        <div className="container-x grid items-center gap-10 max-lg:flex max-lg:h-full max-lg:flex-col max-lg:justify-center max-lg:gap-[3vh] max-lg:pt-[9vh] lg:grid-cols-12">
+        <div className="container-x relative z-[1] grid items-center gap-10 max-lg:flex max-lg:h-full max-lg:flex-col max-lg:justify-center max-lg:gap-[3vh] max-lg:pt-[9vh] lg:grid-cols-12">
           {/* text */}
           <div className="lg:col-span-5 max-lg:order-2 max-lg:w-full max-lg:max-w-[560px]">
             <p className="eyebrow mb-6 uppercase max-lg:mb-3">{roast.eyebrow}</p>
@@ -126,7 +172,7 @@ export default function RoastDial() {
 
           {/* dial + bean tray */}
           <div className="relative mx-auto aspect-square w-full max-w-[min(680px,78vh)] lg:col-span-7 max-lg:order-1 max-lg:w-[min(86vw,46vh)] max-lg:shrink-0">
-            <div className="absolute inset-[13%] overflow-hidden rounded-full shadow-[0_40px_80px_rgba(0,0,0,0.5),inset_0_0_0_1px_rgba(47,125,74,0.25)]">
+            <div className="absolute inset-[13%] overflow-hidden rounded-full shadow-[0_40px_80px_rgba(0,0,0,0.45),0_0_0_10px_color-mix(in_srgb,var(--bg)_70%,transparent),inset_0_0_0_1px_rgba(255,255,255,0.12)]">
               <div className="roast-tray absolute inset-0">
                 {roast.stops.map((s, i) => (
                   <img
@@ -142,11 +188,11 @@ export default function RoastDial() {
             </div>
             <svg viewBox="0 0 400 400" className="absolute inset-0 h-full w-full overflow-visible" aria-hidden>
               {/* the arc */}
-              <path d="M 34 200 A 166 166 0 0 1 366 200" stroke="#d5e2d3" strokeWidth="10" strokeLinecap="round" fill="none" />
+              <path d="M 34 200 A 166 166 0 0 1 366 200" style={{ stroke: "var(--line)" }} strokeWidth="10" strokeLinecap="round" fill="none" />
               <path
                 className="dial-fill"
                 d="M 34 200 A 166 166 0 0 1 366 200"
-                stroke="#2f7d4a"
+                style={{ stroke: "var(--accent)" }}
                 strokeWidth="10"
                 strokeLinecap="round"
                 fill="none"
@@ -165,16 +211,15 @@ export default function RoastDial() {
                 const ly = 200 + Math.sin(a) * 214;
                 return (
                   <g key={s.name}>
-                    <line x1={x1} y1={y1} x2={x2} y2={y2} stroke="#50685a" strokeWidth="1.5" />
+                    <line x1={x1} y1={y1} x2={x2} y2={y2} style={{ stroke: "var(--muted)" }} strokeWidth="1.5" />
                     <text
                       x={lx}
                       y={ly + 5}
                       textAnchor="middle"
                       fontSize="14"
                       fontFamily="var(--font-body-family)"
-                      fill={i === active ? "#2f7d4a" : "#50685a"}
                       fontWeight={i === active ? 600 : 400}
-                      style={{ transition: "fill .4s ease" }}
+                      style={{ fill: i === active ? "var(--accent)" : "var(--muted)", transition: "fill .4s ease" }}
                     >
                       {s.name}
                     </text>
@@ -183,8 +228,8 @@ export default function RoastDial() {
               })}
               {/* needle (GSAP turns it around the dial centre) */}
               <g className="dial-needle">
-                <path d="M200 26 L207 44 L193 44 Z" fill="#2f7d4a" />
-                <circle cx="200" cy="18" r="3" fill="#2f7d4a" opacity=".6" />
+                <path d="M200 26 L207 44 L193 44 Z" style={{ fill: "var(--accent)" }} />
+                <circle cx="200" cy="18" r="3" style={{ fill: "var(--accent)" }} opacity=".6" />
               </g>
             </svg>
           </div>
