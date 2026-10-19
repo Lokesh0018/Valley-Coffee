@@ -82,7 +82,7 @@ export default function ThePour() {
       <div className="pin-stage">
         {/* phone: the video takes the top of the screen so the whole dripper + jug shows above the scale */}
         <canvas ref={canvas} className="absolute inset-0 h-full w-full max-md:bottom-auto max-md:h-[56%]" />
-        <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(90deg,rgba(27,18,12,0.92)_0%,rgba(27,18,12,0.7)_32%,transparent_58%),linear-gradient(0deg,rgba(27,18,12,0.7)_0%,transparent_22%)] max-md:bg-[linear-gradient(0deg,#1b120c_0%,#1b120c_44%,transparent_60%)]" />
+        <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(90deg,rgba(250,252,247,0.95)_0%,rgba(250,252,247,0.82)_34%,transparent_60%),linear-gradient(0deg,rgba(250,252,247,0.8)_0%,transparent_22%)] max-md:bg-[linear-gradient(0deg,#fafcf7_0%,#fafcf7_44%,transparent_60%)]" />
 
         <div className="container-x relative z-[2] flex h-full flex-col justify-center max-md:justify-end max-md:pb-[5vh]">
           <div className="pour-copy max-w-[580px]">
@@ -91,23 +91,23 @@ export default function ThePour() {
 
             <ul className="mt-6 flex flex-wrap gap-2 max-md:hidden">
               {pour.recipe.map((r) => (
-                <li key={r} className="rounded-full border border-[#f4e9d8]/20 px-3 py-1 text-[13px] text-muted">
+                <li key={r} className="rounded-full border border-[#133024]/20 px-3 py-1 text-[13px] text-muted">
                   {r}
                 </li>
               ))}
             </ul>
 
             {/* brew scale */}
-            <div className="brew-scale mt-[clamp(20px,4vh,40px)] inline-flex items-stretch gap-1 rounded-[20px] bg-[#0e0906] p-2 shadow-[0_20px_50px_rgba(0,0,0,0.5),inset_0_0_0_1px_rgba(244,233,216,0.08)]">
-              <div className="rounded-[14px] bg-[#130c08] px-5 py-3">
+            <div className="brew-scale mt-[clamp(20px,4vh,40px)] inline-flex items-stretch gap-1 rounded-[20px] bg-[#10261b] p-2 shadow-[0_20px_50px_rgba(0,0,0,0.5),inset_0_0_0_1px_rgba(19,48,36,0.08)]">
+              <div className="rounded-[14px] bg-[#163324] px-5 py-3">
                 <p className="text-[12px] uppercase tracking-[0.24em] text-muted">Time</p>
-                <p className="scale-time mt-1 font-mono text-[clamp(30px,2.8vw,44px)] leading-none tabular-nums text-[#e0913f] [text-shadow:0_0_18px_rgba(224,145,63,0.55)]">
+                <p className="scale-time mt-1 font-mono text-[clamp(30px,2.8vw,44px)] leading-none tabular-nums text-[#8fe3a8] [text-shadow:0_0_18px_rgba(111,208,140,0.55)]">
                   {fmtTime(pour.total.seconds)}
                 </p>
               </div>
-              <div className="rounded-[14px] bg-[#130c08] px-5 py-3">
+              <div className="rounded-[14px] bg-[#163324] px-5 py-3">
                 <p className="text-[12px] uppercase tracking-[0.24em] text-muted">Water</p>
-                <p className="mt-1 font-mono text-[clamp(30px,2.8vw,44px)] leading-none tabular-nums text-[#e0913f] [text-shadow:0_0_18px_rgba(224,145,63,0.55)]">
+                <p className="mt-1 font-mono text-[clamp(30px,2.8vw,44px)] leading-none tabular-nums text-[#8fe3a8] [text-shadow:0_0_18px_rgba(111,208,140,0.55)]">
                   <span className="scale-grams">{pour.total.grams.toFixed(1)}</span>
                   <span className="ml-1 text-[0.5em] text-muted">g</span>
                 </p>
@@ -119,7 +119,7 @@ export default function ThePour() {
               {pour.steps.map((s, i) => (
                 <li key={s.name} data-step={i} className="pour-step is-on flex items-baseline gap-4">
                   <span className="w-11 font-mono text-[13px] tabular-nums text-muted max-md:text-[14px]">{s.at}</span>
-                  <span className="step-dot relative top-[-2px] h-2 w-2 shrink-0 rounded-full bg-[#e0913f] shadow-[0_0_10px_#e0913f]" />
+                  <span className="step-dot relative top-[-2px] h-2 w-2 shrink-0 rounded-full bg-[#2f7d4a] shadow-[0_0_10px_#2f7d4a]" />
                   <span className="text-[clamp(15px,1.2vw,18px)] font-medium">{s.name}</span>
                   <span className="text-[14px] text-muted max-md:hidden">{s.detail}</span>
                 </li>

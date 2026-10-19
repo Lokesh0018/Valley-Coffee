@@ -11,7 +11,7 @@ import StayAWhile from "./components/StayAWhile";
 import ClubAndNotes from "./components/ClubAndNotes";
 import EmberFooter from "./components/EmberFooter";
 import SiteFlags from "./components/SiteFlags";
-import LatteLoader from "./components/LatteLoader";
+import CherryLoader from "./components/CherryLoader";
 import Transitions from "./components/Transitions";
 import { faviconSvg } from "./components/Logo";
 import { meta } from "./site";
@@ -26,12 +26,12 @@ export default function Page() {
           reload never flashes the old page · ?record=1: hide the mouse arrow from the first frame */}
       <script
         dangerouslySetInnerHTML={{
-          __html: `history.scrollRestoration="manual";addEventListener("pagehide",function(){var c=document.createElement("div");c.style.cssText="position:fixed;inset:0;z-index:2147483647;background:#1b120c";document.body.appendChild(c)});addEventListener("pageshow",function(e){if(e.persisted)location.reload()});if(/[?&]record/.test(location.search)){var s=document.createElement("style");s.textContent="*,*::before,*::after{cursor:none!important}html{scrollbar-width:none}html::-webkit-scrollbar{display:none}";document.head.appendChild(s)}`,
+          __html: `history.scrollRestoration="manual";addEventListener("pagehide",function(){var c=document.createElement("div");c.style.cssText="position:fixed;inset:0;z-index:2147483647;background:#fafcf7";document.body.appendChild(c)});addEventListener("pageshow",function(e){if(e.persisted)location.reload()});if(/[?&]record/.test(location.search)){var s=document.createElement("style");s.textContent="*,*::before,*::after{cursor:none!important}html{scrollbar-width:none}html::-webkit-scrollbar{display:none}";document.head.appendChild(s)}`,
         }}
       />
       <link rel="icon" type="image/svg+xml" href={ICON} />
       <SiteFlags />
-      <LatteLoader name={meta.loaderText ?? meta.name} />
+      <CherryLoader name={meta.loaderText ?? meta.name} />
       <Transitions />
       <MenuCardNav />
       <main className="relative overflow-x-clip">

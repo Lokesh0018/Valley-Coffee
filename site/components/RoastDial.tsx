@@ -126,7 +126,7 @@ export default function RoastDial() {
 
           {/* dial + bean tray */}
           <div className="relative mx-auto aspect-square w-full max-w-[min(680px,78vh)] lg:col-span-7 max-lg:order-1 max-lg:w-[min(86vw,46vh)] max-lg:shrink-0">
-            <div className="absolute inset-[13%] overflow-hidden rounded-full shadow-[0_40px_80px_rgba(0,0,0,0.5),inset_0_0_0_1px_rgba(224,145,63,0.25)]">
+            <div className="absolute inset-[13%] overflow-hidden rounded-full shadow-[0_40px_80px_rgba(0,0,0,0.5),inset_0_0_0_1px_rgba(47,125,74,0.25)]">
               <div className="roast-tray absolute inset-0">
                 {roast.stops.map((s, i) => (
                   <img
@@ -142,11 +142,11 @@ export default function RoastDial() {
             </div>
             <svg viewBox="0 0 400 400" className="absolute inset-0 h-full w-full overflow-visible" aria-hidden>
               {/* the arc */}
-              <path d="M 34 200 A 166 166 0 0 1 366 200" stroke="#3b2b1f" strokeWidth="10" strokeLinecap="round" fill="none" />
+              <path d="M 34 200 A 166 166 0 0 1 366 200" stroke="#d5e2d3" strokeWidth="10" strokeLinecap="round" fill="none" />
               <path
                 className="dial-fill"
                 d="M 34 200 A 166 166 0 0 1 366 200"
-                stroke="#e0913f"
+                stroke="#2f7d4a"
                 strokeWidth="10"
                 strokeLinecap="round"
                 fill="none"
@@ -165,14 +165,14 @@ export default function RoastDial() {
                 const ly = 200 + Math.sin(a) * 214;
                 return (
                   <g key={s.name}>
-                    <line x1={x1} y1={y1} x2={x2} y2={y2} stroke="#c4ad92" strokeWidth="1.5" />
+                    <line x1={x1} y1={y1} x2={x2} y2={y2} stroke="#50685a" strokeWidth="1.5" />
                     <text
                       x={lx}
                       y={ly + 5}
                       textAnchor="middle"
                       fontSize="14"
                       fontFamily="var(--font-body-family)"
-                      fill={i === active ? "#e0913f" : "#c4ad92"}
+                      fill={i === active ? "#2f7d4a" : "#50685a"}
                       fontWeight={i === active ? 600 : 400}
                       style={{ transition: "fill .4s ease" }}
                     >
@@ -183,8 +183,8 @@ export default function RoastDial() {
               })}
               {/* needle (GSAP turns it around the dial centre) */}
               <g className="dial-needle">
-                <path d="M200 26 L207 44 L193 44 Z" fill="#e0913f" />
-                <circle cx="200" cy="18" r="3" fill="#e0913f" opacity=".6" />
+                <path d="M200 26 L207 44 L193 44 Z" fill="#2f7d4a" />
+                <circle cx="200" cy="18" r="3" fill="#2f7d4a" opacity=".6" />
               </g>
             </svg>
           </div>

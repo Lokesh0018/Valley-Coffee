@@ -43,9 +43,9 @@ export default function OriginArches() {
 
   return (
     <section ref={root} id="origins" data-cursor-demo="Swipe" data-record-time="1.8" data-record-hold="0.4" data-record-align="bottom" data-record-label="Origins" className="origins paper relative z-[2] pb-[clamp(90px,13vh,170px)] pt-[clamp(80px,12vh,150px)]">
-      <TornEdge color="#f2e7d6" seed={11} />
+      <TornEdge color="#edf4ea" seed={11} />
       {/* X1: dims while the next section slides over it */}
-      <div className="x1-dim pointer-events-none absolute inset-0 z-[5] bg-[#1b120c] opacity-0" />
+      <div className="x1-dim pointer-events-none absolute inset-0 z-[5] bg-[#fafcf7] opacity-0" />
       <div className="container-x">
         <div className="grid items-center gap-10 md:grid-cols-12">
           <div className="md:col-span-5">
@@ -64,7 +64,7 @@ export default function OriginArches() {
             <article key={o.name} className="origin-card w-[min(74vw,360px)] shrink-0 snap-start min-[820px]:w-auto" data-card={i}>
               <div className="arch tilt-card relative aspect-[4/5]">
                 <img src={o.image} alt={`Coffee hills of ${o.name}`} className="arch-img absolute inset-0 h-full w-full object-cover" />
-                <span className="absolute left-1/2 top-5 -translate-x-1/2 rounded-full bg-[#f2e7d6]/90 px-3 py-1 text-[12px] font-semibold tracking-[0.18em] text-[#2a1a10]">
+                <span className="absolute left-1/2 top-5 -translate-x-1/2 rounded-full bg-[#edf4ea]/90 px-3 py-1 text-[12px] font-semibold tracking-[0.18em] text-[#133024]">
                   {String(i + 1).padStart(2, "0")}
                 </span>
               </div>

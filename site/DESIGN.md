@@ -233,6 +233,10 @@ Everything else (loader, map, dial, scale, steam, torn edges, menu) I draw with 
 
 **Speed** (production build, local): the page opens ~2.9 s after load (loader included) with all video frames in: 28 MB on laptop, 13 MB on phone (phone frames); a full-page scroll holds 60 fps with 0 slow frames at 1440 and at 390.
 
+## Loader update: "Cherry to bean" (replaces the latte cup)
+
+`CherryLoader.tsx`, code-drawn. On warm paper: a coffee branch draws itself and its leaves fill in, a green cherry grows and ripens (green → yellow → red), splits open and two coffee beans come out; "Ember Roast" rises with "Picked by hand · Araku Valley". The hero scene is built while this finished drawing holds (a thin copper line slides meanwhile, a CSS animation so it keeps moving while the page is busy); then the paper slides up and away with a soft shadow under it, and the hero headline rises. Same contract as before: `onReveal`, `&at=` support, the engine starts after the reveal. Motion code stays an intro (I-style), M5 retired with the cup. `?static=1`: no loader.
+
 ## Hero update: "Picked by hand", the Araku harvest (replaces the steamy-window hero)
 
 `HarvestHero.tsx` + `components/harvest/` (art.ts generators, Backdrop, Tree, People, rig). A handmade, storybook-style animated illustration, **all drawn and animated in code** (no images, no video). One screen, not pinned; motion: a seamless 10 s character loop with layered ambient motion (the old M19 is retired with the old hero; M7 is still used by "Stay a while", so this loop is logged as a custom hero motion).

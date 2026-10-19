@@ -19,10 +19,10 @@ export default function SlowStatement() {
       const w = gsap.utils.toArray<HTMLElement>(".lit-word");
       gsap.fromTo(
         w,
-        { opacity: 0.16, color: "#c4ad92" },
+        { opacity: 0.16, color: "#50685a" },
         {
           opacity: 1,
-          color: "#f4e9d8",
+          color: "#133024",
           ease: "none",
           stagger: 0.12,
           scrollTrigger: { trigger: el, start: "top 85%", end: "center 35%", scrub: 0.6 },
@@ -48,8 +48,8 @@ export default function SlowStatement() {
             </span>
           ))}
           <svg className="steam ml-3 inline-block h-[1.2em] w-[0.7em] -translate-y-[0.35em] overflow-visible align-baseline" viewBox="0 0 28 48" fill="none" aria-hidden>
-            <path className="steam-line" d="M7 46c-4-6 4-10 0-17s4-11 0-18" stroke="#e0913f" strokeOpacity=".7" strokeWidth="1.6" strokeLinecap="round" />
-            <path className="steam-line" d="M17 46c-4-6 4-10 0-17s4-11 0-18" stroke="#f4e9d8" strokeOpacity=".45" strokeWidth="1.4" strokeLinecap="round" />
+            <path className="steam-line" d="M7 46c-4-6 4-10 0-17s4-11 0-18" stroke="#2f7d4a" strokeOpacity=".7" strokeWidth="1.6" strokeLinecap="round" />
+            <path className="steam-line" d="M17 46c-4-6 4-10 0-17s4-11 0-18" stroke="#133024" strokeOpacity=".45" strokeWidth="1.4" strokeLinecap="round" />
           </svg>
         </p>
       </div>

@@ -10,9 +10,9 @@ export function LogoMark({ className = "", glow = true }: { className?: string; 
     <svg viewBox="0 0 32 32" fill="none" className={className} aria-hidden>
       <g transform="rotate(28 16 16)">
         <path d={LOGO_PATHS.bean} fill="currentColor" />
-        <path d={LOGO_PATHS.crease} stroke="#e0913f" strokeWidth="1.9" strokeLinecap="round" />
+        <path d={LOGO_PATHS.crease} stroke="#2f7d4a" strokeWidth="1.9" strokeLinecap="round" />
       </g>
-      {glow && <circle cx="24.5" cy="7" r="1.8" fill="#e0913f" />}
+      {glow && <circle cx="24.5" cy="7" r="1.8" fill="#2f7d4a" />}
     </svg>
   );
 }
@@ -20,10 +20,10 @@ export function LogoMark({ className = "", glow = true }: { className?: string; 
 export function Logo({ className = "" }: { className?: string }) {
   return (
     <span className={`inline-flex items-center gap-2.5 ${className}`}>
-      <LogoMark className="h-7 w-7 text-[#f4e9d8]" />
+      <LogoMark className="h-7 w-7 text-[#133024]" />
       <span className="font-display text-[21px] leading-none tracking-[-0.01em]">Ember Roast</span>
     </span>
   );
 }
 
-export const faviconSvg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><rect width="32" height="32" rx="8" fill="#1b120c"/><g transform="rotate(28 16 16)"><path d="${LOGO_PATHS.bean}" fill="#f4e9d8" transform="translate(3.2 3.2) scale(.8)"/><path d="${LOGO_PATHS.crease}" stroke="#e0913f" stroke-width="2.2" stroke-linecap="round" fill="none" transform="translate(3.2 3.2) scale(.8)"/></g></svg>`;
+export const faviconSvg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><rect width="32" height="32" rx="8" fill="#fafcf7"/><g transform="rotate(28 16 16)"><path d="${LOGO_PATHS.bean}" fill="#133024" transform="translate(3.2 3.2) scale(.8)"/><path d="${LOGO_PATHS.crease}" stroke="#2f7d4a" stroke-width="2.2" stroke-linecap="round" fill="none" transform="translate(3.2 3.2) scale(.8)"/></g></svg>`;

@@ -1,8 +1,9 @@
 "use client";
 
-import { useEffect, useLayoutEffect, useMemo, useRef } from "react";
+import { useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import { gsap, prefersReducedMotion } from "@/lib/gsap";
-import { onReveal } from "./LatteLoader";
+import { onBuild, onReveal } from "./CherryLoader";
+import { loading } from "@/lib/loading";
 import { harvest } from "../content";
 import Lines from "./Lines";
 import { branchBox, C, coffeeTree, dressBranch, f1, leafPath, rng, SCENE_H, SCENE_W } from "./harvest/art";
@@ -97,6 +98,15 @@ export default function HarvestHero() {
   const root = useRef<HTMLElement>(null);
   const stage = useRef<HTMLDivElement>(null);
   const rig = useMemo(() => new Rig(), []);
+  // the scene (~10k SVG nodes) is built while the loader holds its finished drawing, never during it
+  const [built, setBuilt] = useState(false);
+  useEffect(() => onBuild(() => setBuilt(true)), []);
+  useEffect(() => {
+    if (!built) return;
+    // tell the loader once the scene has been laid out and painted
+    const id = requestAnimationFrame(() => requestAnimationFrame(() => loading.update("hero", 1)));
+    return () => cancelAnimationFrame(id);
+  }, [built]);
 
   // cover the screen with the 1920 × 1080 scene, ground at the bottom; portrait screens frame the women
   useLayoutEffect(() => {
@@ -119,7 +129,7 @@ export default function HarvestHero() {
   }, []);
 
   useEffect(() => {
-    if (prefersReducedMotion()) return;
+    if (!built || prefersReducedMotion()) return;
     const el = root.current!;
     const q = gsap.utils.selector(el);
     let offReveal = () => {};
@@ -238,12 +248,14 @@ export default function HarvestHero() {
       offReveal();
       ctx.revert();
     };
-  }, [rig]);
+  }, [rig, built]);
 
   return (
     <section ref={root} id="top" className="hv-hero relative h-[100svh] min-h-[620px] overflow-hidden" data-record-time="0" data-record-hold="3.6" data-record-label="Hero: the harvest">
       <HarvestDefs />
       <div ref={stage} className="hv-stage" aria-hidden>
+        {built && (
+          <>
         <Backdrop />
 
         {/* mist drifting between the ridges */}
@@ -308,11 +320,13 @@ export default function HarvestHero() {
         {STARS.map((p, i) => (
           <span key={i} className="hv-layer hv-pollen hv-anim" style={{ left: p.x, top: p.y, width: p.s, height: p.s, animationDuration: `${p.d}s`, animationDelay: `${p.delay}s` }} />
         ))}
+          </>
+        )}
       </div>
 
       {/* paper grain + the soft light behind the words (one still layer) */}
       <div className="hv-paper pointer-events-none absolute inset-0" />
-      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-[9vh] bg-[linear-gradient(180deg,rgba(27,18,12,0)_0%,#1b120c_100%)]" />
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-[9vh] bg-[linear-gradient(180deg,rgba(250,252,247,0)_0%,#fafcf7_100%)]" />
 
       {/* the words: real text over the calm left of the painting */}
       <div className="hv-copy container-x relative z-10 flex h-full flex-col justify-center pb-[6vh] max-md:justify-start max-md:pt-[13vh]">

@@ -39,14 +39,14 @@ export default function ClubAndNotes() {
             <h2 className="font-display text-[clamp(36px,4.4vw,74px)]">{club.title}</h2>
             <ul className="mt-6 flex flex-wrap gap-2">
               {club.perks.map((p) => (
-                <li key={p} className="rounded-full border border-[#1b120c]/30 px-4 py-2 text-[14px] font-medium">
+                <li key={p} className="rounded-full border border-[#fafcf7]/30 px-4 py-2 text-[14px] font-medium">
                   {p}
                 </li>
               ))}
             </ul>
           </div>
           <div className="flex items-center gap-8 md:col-span-5 md:justify-end">
-            <img src={club.image} alt="Flat white with latte art" className="h-[clamp(120px,14vw,200px)] w-[clamp(120px,14vw,200px)] rounded-full object-cover shadow-[0_20px_40px_rgba(27,18,12,0.35)] max-md:hidden" />
+            <img src={club.image} alt="Flat white with latte art" className="h-[clamp(120px,14vw,200px)] w-[clamp(120px,14vw,200px)] rounded-full object-cover shadow-[0_20px_40px_rgba(19,48,36,0.35)] max-md:hidden" />
             <a href="#visit" className="club-btn btn btn-solid">
               {club.button}
             </a>
@@ -70,10 +70,10 @@ export default function ClubAndNotes() {
             {reviews.items.map((r, i) => (
               <article key={r.name} className={`receipt-wrap w-[min(86vw,420px)] shrink-0 snap-start min-[820px]:w-auto ${i === 1 ? "lg:mt-10" : ""} ${i === 3 ? "lg:hidden" : ""}`} data-card={i}>
                 {/* the printer slot the receipt feeds out of */}
-                <div className="relative z-[1] -mx-2 h-3 rounded-full bg-[#0e0906] shadow-[inset_0_2px_3px_rgba(0,0,0,0.8),0_1px_0_rgba(244,233,216,0.1)]" />
+                <div className="relative z-[1] -mx-2 h-3 rounded-full bg-[#10261b] shadow-[inset_0_2px_3px_rgba(0,0,0,0.8),0_1px_0_rgba(19,48,36,0.1)]" />
                 <div className="receipt receipt-lg -mt-1 px-8 pt-8 text-[17px] shadow-[0_28px_50px_-20px_rgba(0,0,0,0.65)]">
                   <p className="receipt-line text-center text-[13px] font-semibold uppercase tracking-[0.28em]">Ember Roast · Jubilee Hills</p>
-                  <p className="receipt-line mt-1 text-center text-[13px] tracking-[0.12em] text-[#6d5744] max-md:text-[14px]">Order #{2041 + i * 17} · Table {3 + i * 2}</p>
+                  <p className="receipt-line mt-1 text-center text-[13px] tracking-[0.12em] text-[#4f6657] max-md:text-[14px]">Order #{2041 + i * 17} · Table {3 + i * 2}</p>
                   <div className="receipt-rule my-5" />
                   {r.order.map(([item, price]) => (
                     <p key={item} className="receipt-line flex justify-between gap-3 text-[16px]">
@@ -82,12 +82,12 @@ export default function ClubAndNotes() {
                     </p>
                   ))}
                   <div className="receipt-rule my-5" />
-                  <p className="receipt-line text-[20px] text-[#985018]" aria-label="5 stars">★★★★★</p>
+                  <p className="receipt-line text-[20px] text-[#24683c]" aria-label="5 stars">★★★★★</p>
                   <p className="receipt-line font-display mt-3 text-[clamp(22px,1.9vw,27px)] leading-snug">“{r.text}”</p>
                   <p className="receipt-line mt-5 text-[16px] font-semibold">{r.name}</p>
-                  <p className="receipt-line text-[14px] text-[#6d5744]">{r.who}</p>
+                  <p className="receipt-line text-[14px] text-[#4f6657]">{r.who}</p>
                   <div className="receipt-rule my-5" />
-                  <p className="receipt-line text-center text-[13px] uppercase tracking-[0.28em] text-[#6d5744]">Thank you · come back slow</p>
+                  <p className="receipt-line text-center text-[13px] uppercase tracking-[0.28em] text-[#4f6657]">Thank you · come back slow</p>
                 </div>
               </article>
             ))}

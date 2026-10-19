@@ -55,7 +55,7 @@ export default function SwipeHint() {
     <div
       ref={ref}
       aria-hidden
-      className={`pointer-events-none absolute right-[clamp(20px,5vw,80px)] top-3 z-[3] inline-flex items-center gap-2 rounded-full bg-[#1b120c]/85 px-4 py-2 text-[14px] font-medium text-[#f4e9d8] backdrop-blur transition-opacity duration-500 min-[820px]:hidden ${show ? "opacity-100" : "opacity-0"}`}
+      className={`pointer-events-none absolute right-[clamp(20px,5vw,80px)] top-3 z-[3] inline-flex items-center gap-2 rounded-full bg-[#fafcf7]/85 px-4 py-2 text-[14px] font-medium text-[#133024] backdrop-blur transition-opacity duration-500 min-[820px]:hidden ${show ? "opacity-100" : "opacity-0"}`}
     >
       Swipe <span className="swipe-arrow inline-block">→</span>
     </div>

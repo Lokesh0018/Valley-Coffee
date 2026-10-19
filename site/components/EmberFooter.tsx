@@ -44,7 +44,7 @@ export default function EmberFooter() {
   }, []);
 
   return (
-    <footer ref={root} id="visit" data-record-time="1.5" data-record-hold="1" data-record-align="bottom" data-record-label="Visit + footer" className="visit relative overflow-hidden border-t border-line pt-[clamp(90px,13vh,160px)]">
+    <footer ref={root} id="visit" data-record-time="1.5" data-record-hold="1" data-record-align="bottom" data-record-label="Visit + footer" className="visit band-forest relative overflow-hidden border-t border-line pt-[clamp(90px,13vh,160px)]">
       <div className="container-x grid gap-12 md:grid-cols-12">
         <div className="md:col-span-5">
           <p className="eyebrow mb-7 uppercase">{visit.eyebrow}</p>
@@ -101,14 +101,14 @@ export default function EmberFooter() {
           {EMBERS.map((e, i) => (
             <span
               key={i}
-              className="ember absolute bottom-0 rounded-full bg-[#f2a54e]"
+              className="ember absolute bottom-0 rounded-full bg-[#7fd39a]"
               style={{ left: `${e.left}%`, width: e.size, height: e.size, animationDelay: `${e.delay}s`, animationDuration: `${e.dur}s` }}
             />
           ))}
         </div>
         <p className="font-display outline-text whitespace-nowrap text-center text-[clamp(64px,15.4vw,260px)] leading-[0.9]">{footer.wordmark}</p>
         <p
-          className="wordmark-fill font-display absolute inset-x-[clamp(12px,2vw,28px)] top-0 whitespace-nowrap bg-[linear-gradient(0deg,#e0913f_0%,#f2b36a_55%,#f4e9d8_100%)] bg-clip-text text-center text-[clamp(64px,15.4vw,260px)] leading-[0.9] text-transparent"
+          className="wordmark-fill font-display absolute inset-x-[clamp(12px,2vw,28px)] top-0 whitespace-nowrap bg-[linear-gradient(0deg,#2f7d4a_0%,#8fe3a8_55%,#eef5ec_100%)] bg-clip-text text-center text-[clamp(64px,15.4vw,260px)] leading-[0.9] text-transparent"
           style={{ clipPath: "inset(0 0 0 0)" }}
         >
           {footer.wordmark}

@@ -40,7 +40,7 @@ export default function Transitions() {
 
         // X2: the club band washes cream → copper on its way up (its text is dark on both)
         const club = document.getElementById("club");
-        if (club) gsap.fromTo(club, { "--bg": "#f2e7d6" }, { "--bg": "#e0913f", ease: "none", scrollTrigger: { trigger: club, start: "top bottom", end: "top 45%", scrub: true } });
+        if (club) gsap.fromTo(club, { "--bg": "#edf4ea" }, { "--bg": "#2f7d4a", ease: "none", scrollTrigger: { trigger: club, start: "top bottom", end: "top 45%", scrub: true } });
       });
       ScrollTrigger.refresh();
     });

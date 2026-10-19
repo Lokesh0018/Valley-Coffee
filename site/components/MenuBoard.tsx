@@ -89,7 +89,7 @@ export default function MenuBoard() {
 
   return (
     <section ref={root} id="menu" data-cursor-demo="Flip" className="menu paper relative z-[2] pb-[clamp(60px,9vh,110px)] pt-[clamp(90px,13vh,160px)]">
-      <TornEdge color="#f2e7d6" seed={23} />
+      <TornEdge color="#edf4ea" seed={23} />
       <div className="container-x">
         <div className="flex flex-wrap items-end justify-between gap-6">
           <div>
@@ -101,7 +101,7 @@ export default function MenuBoard() {
 
         <div className="mt-[clamp(36px,6vh,72px)] grid items-stretch gap-8 md:grid-cols-12">
           {/* the printed menu card */}
-          <div data-cursor="Flip" data-record-time="1.5" data-record-hold="1.6" data-record-align="center" data-record-label="Menu board" className="menu-card-print relative rounded-[28px] border border-line bg-surface p-[clamp(20px,3vw,48px)] shadow-[0_30px_60px_-30px_rgba(42,26,16,0.35)] md:col-span-7" style={{ perspective: "1600px" }}>
+          <div data-cursor="Flip" data-record-time="1.5" data-record-hold="1.6" data-record-align="center" data-record-label="Menu board" className="menu-card-print relative rounded-[28px] border border-line bg-surface p-[clamp(20px,3vw,48px)] shadow-[0_30px_60px_-30px_rgba(19,48,36,0.35)] md:col-span-7" style={{ perspective: "1600px" }}>
             <div className="flex flex-wrap gap-2" role="tablist">
               {menu.pages.map((p, i) => (
                 <button
@@ -110,7 +110,7 @@ export default function MenuBoard() {
                   role="tab"
                   aria-selected={i === page}
                   onClick={() => choose(i)}
-                  className={`menu-tab min-h-11 rounded-full border px-4 py-2 text-[14px] transition-colors duration-300 ${i === page ? "border-[#2a1a10] bg-[#2a1a10] text-[#f4e9d8]" : "border-line text-muted hover:text-fg"}`}
+                  className={`menu-tab min-h-11 rounded-full border px-4 py-2 text-[14px] transition-colors duration-300 ${i === page ? "border-[#133024] bg-[#133024] text-[#133024]" : "border-line text-muted hover:text-fg"}`}
                 >
                   {p.tab}
                 </button>

@@ -24,15 +24,15 @@ export default function OriginMap({ className = "" }: { className?: string }) {
     <svg viewBox="0 0 520 500" className={className} fill="none" aria-label="Map of the four coffee estates and the roastery in Hyderabad">
       <defs>
         <linearGradient id="map-fade" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0" stopColor="#2a1a10" stopOpacity="0" />
-          <stop offset=".12" stopColor="#2a1a10" stopOpacity="1" />
+          <stop offset="0" stopColor="#133024" stopOpacity="0" />
+          <stop offset=".12" stopColor="#133024" stopOpacity="1" />
         </linearGradient>
       </defs>
       <path className="map-outline" d={outline} stroke="url(#map-fade)" strokeOpacity=".55" strokeWidth="1.4" strokeLinejoin="round" strokeDasharray="1 0" />
       {/* hills */}
       {origins.items.map((o) => {
         const [x, y] = px(o.lon, o.lat);
-        return <path key={`h-${o.name}`} d={`M${x - 14},${y + 6} l7,-9 l5,5 l6,-10 l10,14`} stroke="#6d5744" strokeOpacity=".6" strokeWidth="1.2" strokeLinejoin="round" />;
+        return <path key={`h-${o.name}`} d={`M${x - 14},${y + 6} l7,-9 l5,5 l6,-10 l10,14`} stroke="#4f6657" strokeOpacity=".6" strokeWidth="1.2" strokeLinejoin="round" />;
       })}
       {/* routes to the roastery: dashed, revealed by a solid mask path that draws from the estate (M8) */}
       {origins.items.map((o, i) => {
@@ -45,7 +45,7 @@ export default function OriginMap({ className = "" }: { className?: string }) {
             <mask id={`route-mask-${i}`} maskUnits="userSpaceOnUse" x="0" y="0" width="520" height="500">
               <path className="route-reveal" d={d} stroke="#fff" strokeWidth="6" fill="none" pathLength={1} strokeDasharray="1" strokeDashoffset="0" />
             </mask>
-            <path className="map-route" d={d} stroke="#985018" strokeWidth="1.8" strokeLinecap="round" strokeDasharray="5 6" mask={`url(#route-mask-${i})`} />
+            <path className="map-route" d={d} stroke="#24683c" strokeWidth="1.8" strokeLinecap="round" strokeDasharray="5 6" mask={`url(#route-mask-${i})`} />
           </g>
         );
       })}
@@ -54,18 +54,18 @@ export default function OriginMap({ className = "" }: { className?: string }) {
         const east = o.lon > 80; // Araku: label below the dot, clear of the roastery
         return (
           <g key={o.name} className="map-dot" data-dot={i}>
-            <circle cx={x} cy={y} r="9" fill="#985018" fillOpacity=".18" />
-            <circle cx={x} cy={y} r="4.5" fill="#985018" />
-            <text x={east ? x + 6 : x + 14} y={east ? y + 28 : y + 5} textAnchor={east ? "middle" : "start"} fill="#2a1a10" fontSize="15" fontFamily="var(--font-body-family)" fontWeight="500">
+            <circle cx={x} cy={y} r="9" fill="#24683c" fillOpacity=".18" />
+            <circle cx={x} cy={y} r="4.5" fill="#24683c" />
+            <text x={east ? x + 6 : x + 14} y={east ? y + 28 : y + 5} textAnchor={east ? "middle" : "start"} fill="#133024" fontSize="15" fontFamily="var(--font-body-family)" fontWeight="500">
               {String(i + 1).padStart(2, "0")} {o.name}
             </text>
           </g>
         );
       })}
       <g className="map-roastery">
-        <circle cx={rx} cy={ry} r="16" fill="#e0913f" fillOpacity=".22" />
-        <circle cx={rx} cy={ry} r="7" fill="#e0913f" stroke="#1b120c" strokeWidth="2" />
-        <text x={rx - 18} y={ry + 5} textAnchor="end" fill="#2a1a10" fontSize="15" fontFamily="var(--font-body-family)" fontWeight="600">
+        <circle cx={rx} cy={ry} r="16" fill="#2f7d4a" fillOpacity=".22" />
+        <circle cx={rx} cy={ry} r="7" fill="#2f7d4a" stroke="#fafcf7" strokeWidth="2" />
+        <text x={rx - 18} y={ry + 5} textAnchor="end" fill="#133024" fontSize="15" fontFamily="var(--font-body-family)" fontWeight="600">
           Roastery · Hyderabad
         </text>
       </g>

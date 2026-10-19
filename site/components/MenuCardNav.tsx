@@ -5,7 +5,7 @@ import { gsap, prefersReducedMotion, ScrollTrigger } from "@/lib/gsap";
 import { onSiteReady } from "@/lib/loading";
 import { nav } from "../content";
 import { Logo } from "./Logo";
-import { onReveal } from "./LatteLoader";
+import { onReveal } from "./CherryLoader";
 import { isRecord } from "./recordDemo";
 
 // the section pill: section id → the name it shows
@@ -152,12 +152,12 @@ export default function MenuCardNav() {
   return (
     <>
       <header className="fixed inset-x-0 top-0 z-50 flex items-center justify-between gap-3 px-[clamp(14px,2.2vw,32px)] pt-[clamp(14px,2vw,24px)]">
-        <a href="#top" className="flex items-center rounded-full bg-[#1b120c]/80 px-4 py-2.5 text-[#f4e9d8] backdrop-blur-md" data-cursor="Home">
+        <a href="#top" className="flex items-center rounded-full bg-[#fafcf7]/80 px-4 py-2.5 text-[#133024] backdrop-blur-md" data-cursor="Home">
           <Logo />
         </a>
         {/* the section pill (laptop/tablet): the new name slides up into place */}
-        <div className="section-pill pointer-events-none absolute left-1/2 top-[clamp(14px,2vw,24px)] hidden h-11 -translate-x-1/2 items-center gap-2.5 rounded-full bg-[#1b120c]/80 px-5 text-[13px] text-[#f4e9d8] backdrop-blur-md md:flex" aria-live="polite">
-          <span className="h-1.5 w-1.5 rounded-full bg-[#e0913f] shadow-[0_0_8px_#e0913f]" />
+        <div className="section-pill pointer-events-none absolute left-1/2 top-[clamp(14px,2vw,24px)] hidden h-11 -translate-x-1/2 items-center gap-2.5 rounded-full bg-[#fafcf7]/80 px-5 text-[13px] text-[#133024] backdrop-blur-md md:flex" aria-live="polite">
+          <span className="h-1.5 w-1.5 rounded-full bg-[#2f7d4a] shadow-[0_0_8px_#2f7d4a]" />
           <span className="relative block h-[1.3em] overflow-hidden">
             <span className="block transition-transform duration-500 ease-[cubic-bezier(0.2,0.7,0.2,1)]" style={{ transform: `translateY(${-section * 1.3}em)` }}>
               {SECTIONS.map(([id, name]) => (
@@ -168,26 +168,26 @@ export default function MenuCardNav() {
             </span>
           </span>
         </div>
-        <div className="flex items-center gap-2 rounded-full bg-[#1b120c]/80 p-1.5 pl-4 text-[#f4e9d8] backdrop-blur-md">
-          <span className="hidden items-center gap-2 pr-2 text-[13px] text-[#f4e9d8]/85 md:inline-flex">
+        <div className="flex items-center gap-2 rounded-full bg-[#fafcf7]/80 p-1.5 pl-4 text-[#133024] backdrop-blur-md">
+          <span className="hidden items-center gap-2 pr-2 text-[13px] text-[#133024]/85 md:inline-flex">
             <span className="live-dot h-2 w-2 rounded-full bg-[#7bc47f] shadow-[0_0_8px_#7bc47f]" />
             {nav.status}
           </span>
-          <a ref={bagIcon} href="#beans" aria-label={`Bag, ${bag} items`} className="bag-icon relative grid h-11 w-11 place-items-center rounded-full border border-[#f4e9d8]/15" data-cursor="Bag">
+          <a ref={bagIcon} href="#beans" aria-label={`Bag, ${bag} items`} className="bag-icon relative grid h-11 w-11 place-items-center rounded-full border border-[#133024]/15" data-cursor="Bag">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden>
               <path d="M5 8h14l-1.2 12H6.2L5 8Z M9 8V6a3 3 0 0 1 6 0v2" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round" />
             </svg>
-            <span className="bag-count absolute -right-0.5 -top-0.5 grid h-5 min-w-5 place-items-center rounded-full bg-[#e0913f] px-1 text-[11px] font-semibold text-[#1b120c]">{bag}</span>
+            <span className="bag-count absolute -right-0.5 -top-0.5 grid h-5 min-w-5 place-items-center rounded-full bg-[#2f7d4a] px-1 text-[11px] font-semibold text-[#fafcf7]">{bag}</span>
           </a>
           <button
             ref={menuBtn}
             type="button"
             onClick={() => setOpen(true)}
-            className="menu-btn relative grid h-11 place-items-center overflow-hidden rounded-full border border-[#e0913f] px-5 text-[14px] font-semibold tracking-[0.06em] text-[#f4e9d8]"
+            className="menu-btn relative grid h-11 place-items-center overflow-hidden rounded-full border border-[#2f7d4a] px-5 text-[14px] font-semibold tracking-[0.06em] text-[#133024]"
             aria-expanded={open}
             aria-controls="menu-card"
           >
-            <span className="menu-btn-fill absolute inset-0 rounded-full bg-[#e0913f]" />
+            <span className="menu-btn-fill absolute inset-0 rounded-full bg-[#2f7d4a]" />
             <span className="relative">Menu</span>
           </button>
         </div>
@@ -205,11 +205,11 @@ export default function MenuCardNav() {
         <div className="flex min-h-full flex-col px-[clamp(20px,5vw,72px)] py-[clamp(20px,4vh,44px)]">
           <div className="flex items-center justify-between">
             <span className="inline-flex items-center gap-2.5">
-              <span className="grid h-10 w-10 place-items-center rounded-full bg-[#1b120c]">
+              <span className="grid h-10 w-10 place-items-center rounded-full bg-[#fafcf7]">
                 <svg viewBox="0 0 32 32" className="h-6 w-6" aria-hidden>
                   <g transform="rotate(28 16 16)">
-                    <path d="M16 3.2c6.4 0 10.6 5.9 10.6 12.8S22.4 28.8 16 28.8 5.4 22.9 5.4 16 9.6 3.2 16 3.2Z" fill="#f4e9d8" />
-                    <path d="M15.2 6.2c-3.4 3.6 3.9 6.6 0.4 10.2s-2.6 6.8 1.2 9.4" stroke="#e0913f" strokeWidth="1.9" strokeLinecap="round" fill="none" />
+                    <path d="M16 3.2c6.4 0 10.6 5.9 10.6 12.8S22.4 28.8 16 28.8 5.4 22.9 5.4 16 9.6 3.2 16 3.2Z" fill="#133024" />
+                    <path d="M15.2 6.2c-3.4 3.6 3.9 6.6 0.4 10.2s-2.6 6.8 1.2 9.4" stroke="#2f7d4a" strokeWidth="1.9" strokeLinecap="round" fill="none" />
                   </g>
                 </svg>
               </span>
@@ -238,10 +238,10 @@ export default function MenuCardNav() {
               </ul>
             </nav>
             <aside className="flex flex-col gap-6 md:col-span-4 md:pt-4">
-              <div className="rounded-[22px] bg-[#1b120c] p-7 text-[#f4e9d8]">
+              <div className="rounded-[22px] bg-[#fafcf7] p-7 text-[#133024]">
                 <p className="eyebrow uppercase">{nav.todaysPour.label}</p>
                 <p className="font-display mt-4 text-[32px]">{nav.todaysPour.value}</p>
-                <p className="mt-2 text-[15px] text-[#c4ad92]">{nav.todaysPour.note}</p>
+                <p className="mt-2 text-[15px] text-[#50685a]">{nav.todaysPour.note}</p>
               </div>
               <div className="rounded-[22px] border border-line p-7">
                 <p className="text-[12px] uppercase tracking-[0.22em] text-muted">Hours</p>

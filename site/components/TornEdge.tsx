@@ -22,7 +22,7 @@ function tornPath(seed: number, w = 1440, h = 34) {
 }
 
 /** side="top": the edge sits on top of its section (tears upward into the one above). "bottom": below it. */
-export default function TornEdge({ color, side = "top", seed = 7, fiber = "#fbf5ec" }: { color: string; side?: "top" | "bottom"; seed?: number; fiber?: string }) {
+export default function TornEdge({ color, side = "top", seed = 7, fiber = "#ffffff" }: { color: string; side?: "top" | "bottom"; seed?: number; fiber?: string }) {
   const d = tornPath(seed);
   return (
     <svg

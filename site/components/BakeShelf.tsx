@@ -49,9 +49,9 @@ export default function BakeShelf() {
           {bakes.items.map((b, i) => (
             <article key={b.name} className="bake-card group w-[min(70vw,360px)] shrink-0 snap-start min-[820px]:w-auto" data-card={i} data-cursor="Add">
               <div className="bake-mask">
-              <div className="arch bake-arch tilt-card relative aspect-[3/4] bg-[#e6d6bf]">
+              <div className="arch bake-arch tilt-card relative aspect-[3/4] bg-[#dfe9dc]">
                 <img src={b.image} alt={b.name} className="bake-img absolute inset-0 h-full w-full object-cover" />
-                <span className="absolute bottom-4 left-4 rounded-full bg-[#1b120c]/80 px-3 py-1 text-[12px] font-medium tracking-[0.06em] text-[#f4e9d8] backdrop-blur max-md:text-[14px]">
+                <span className="absolute bottom-4 left-4 rounded-full bg-[#fafcf7]/80 px-3 py-1 text-[12px] font-medium tracking-[0.06em] text-[#133024] backdrop-blur max-md:text-[14px]">
                   {b.out}
                 </span>
               </div>

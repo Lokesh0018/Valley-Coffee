@@ -161,9 +161,9 @@ export const beans = {
   grinds: ["Whole bean", "Espresso", "Pour-over", "French press"],
   items: [
     { origin: "Araku Valley", roast: "Light", roastLevel: 1, notes: "Jasmine · stone fruit · honey", price: 790, label: "#f4e9d8", ink: "#2a1a10" },
-    { origin: "Chikmagalur", roast: "Medium", roastLevel: 2, notes: "Cocoa · orange peel · jaggery", price: 650, label: "#e0913f", ink: "#1b120c" },
+    { origin: "Chikmagalur", roast: "Medium", roastLevel: 2, notes: "Cocoa · orange peel · jaggery", price: 650, label: "#2f7d4a", ink: "#ffffff" },
     { origin: "Coorg", roast: "Medium", roastLevel: 2, notes: "Plum · brown sugar · clove", price: 720, label: "#cdbd9c", ink: "#2a1a10" },
-    { origin: "Ember House", roast: "Ember dark", roastLevel: 4, notes: "Dark chocolate · molasses · spice", price: 690, label: "#2e1f15", ink: "#f4e9d8" },
+    { origin: "Ember House", roast: "Ember dark", roastLevel: 4, notes: "Dark chocolate · molasses · spice", price: 690, label: "#1f4d33", ink: "#f4f8f1" },
   ] satisfies Bag[],
 };
 

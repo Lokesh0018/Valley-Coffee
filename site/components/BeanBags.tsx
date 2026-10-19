@@ -77,7 +77,7 @@ export default function BeanBags() {
     const b = icon.getBoundingClientRect();
     const bean = document.createElement("div");
     bean.className = "flying-bean";
-    bean.innerHTML = `<svg viewBox="0 0 18 22" width="24" height="30"><ellipse cx="9" cy="11" rx="7.5" ry="10" fill="#6b3c1f" stroke="#2a1a10" stroke-width="1"/><path d="M8.2 2.5c-2.6 3 2.8 5.4 0.2 8.4s-1.8 5.6 1 8.4" stroke="#e0913f" stroke-width="1.6" fill="none" stroke-linecap="round"/></svg>`;
+    bean.innerHTML = `<svg viewBox="0 0 18 22" width="24" height="30"><ellipse cx="9" cy="11" rx="7.5" ry="10" fill="#6b3c1f" stroke="#133024" stroke-width="1"/><path d="M8.2 2.5c-2.6 3 2.8 5.4 0.2 8.4s-1.8 5.6 1 8.4" stroke="#2f7d4a" stroke-width="1.6" fill="none" stroke-linecap="round"/></svg>`;
     document.body.appendChild(bean);
     const sx = a.left + a.width / 2 - 12;
     const sy = a.top - 8;
@@ -111,9 +111,9 @@ export default function BeanBags() {
 
   return (
     <section ref={root} id="beans" className="beans relative z-[2] bg-bg pb-[clamp(110px,16vh,190px)] pt-[clamp(90px,13vh,160px)]">
-      <TornEdge color="#1b120c" seed={37} fiber="#c8a57a" />
+      <TornEdge color="#fafcf7" seed={37} fiber="#c8a57a" />
       {/* X1: dims while the next section slides over it */}
-      <div className="x1-dim pointer-events-none absolute inset-0 z-[5] bg-[#1b120c] opacity-0" />
+      <div className="x1-dim pointer-events-none absolute inset-0 z-[5] bg-[#fafcf7] opacity-0" />
       <div className="container-x">
         <div className="grid items-end gap-8 md:grid-cols-12">
           <div className="md:col-span-6">

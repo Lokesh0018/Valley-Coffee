@@ -31,7 +31,7 @@ export default function StayAWhile() {
 
   return (
     <section ref={root} id="stay" data-record-time="1.3" data-record-hold="0.3" data-record-align="center" data-record-label="Stay a while" className="stay paper relative z-[3] overflow-hidden pb-[clamp(110px,16vh,190px)] pt-[clamp(90px,13vh,160px)]">
-      <TornEdge color="#f2e7d6" seed={51} />
+      <TornEdge color="#edf4ea" seed={51} />
       <div className="container-x grid items-center gap-12 md:grid-cols-12">
         <div className="md:col-span-4">
           <p className="eyebrow mb-7 uppercase">{stay.eyebrow}</p>
@@ -62,14 +62,14 @@ export default function StayAWhile() {
             <figcaption className="mt-3 text-right text-[13px] text-muted max-md:text-[14px]">{mid.label}</figcaption>
           </figure>
           <figure className="stay-layer absolute bottom-0 right-[18%] w-[30%] max-md:hidden" data-speed="0.34">
-            <div className="arch tilt-card aspect-[3/4] shadow-[0_30px_60px_-20px_rgba(42,26,16,0.5)]">
+            <div className="arch tilt-card aspect-[3/4] shadow-[0_30px_60px_-20px_rgba(19,48,36,0.5)]">
               <img src={small.image} alt={small.label} className="h-full w-full object-cover" />
             </div>
           </figure>
-          <span className="stay-layer stay-note absolute left-[6%] top-[88%] rotate-[-4deg] rounded-full bg-[#1b120c] px-4 py-2 text-[13px] text-[#f4e9d8] shadow-lg max-md:text-[14px] max-md:left-[30%] max-md:top-[84%]" data-speed="0.4">
+          <span className="stay-layer stay-note absolute left-[6%] top-[88%] rotate-[-4deg] rounded-full bg-[#fafcf7] px-4 py-2 text-[13px] text-[#133024] shadow-lg max-md:text-[14px] max-md:left-[30%] max-md:top-[84%]" data-speed="0.4">
             {mid.note}
           </span>
-          <span className="stay-layer stay-note absolute left-[52%] top-[18%] rotate-[3deg] rounded-full bg-[#e0913f] px-4 py-2 text-[13px] font-medium text-[#1b120c] shadow-lg max-md:hidden" data-speed="0.3">
+          <span className="stay-layer stay-note absolute left-[52%] top-[18%] rotate-[3deg] rounded-full bg-[#2f7d4a] px-4 py-2 text-[13px] font-medium text-[#fafcf7] shadow-lg max-md:hidden" data-speed="0.3">
             {small.note}
           </span>
         </div>
