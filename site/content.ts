@@ -88,7 +88,7 @@ export const pour = {
   ],
 };
 
-export type MenuItem = { name: string; note: string; price: number };
+export type MenuItem = { name: string; note: string; price: number; tag?: string };
 
 export const menu = {
   eyebrow: "The menu",
@@ -98,9 +98,9 @@ export const menu = {
       tab: "Espresso bar",
       image: "/images/ember/menu-espresso.webp",
       items: [
-        { name: "Espresso", note: "Ember house blend, 36 g in 28 seconds", price: 160 },
+        { name: "Espresso", note: "Aura house blend, 36 g in 28 seconds", price: 160 },
         { name: "Cortado", note: "Equal parts espresso and warm milk", price: 200 },
-        { name: "Flat white", note: "Double ristretto, silky milk", price: 230 },
+        { name: "Flat white", note: "Double ristretto, silky milk", price: 230, tag: "Most loved" },
         { name: "Cappuccino", note: "Thick foam, a dust of cocoa", price: 220 },
         { name: "Honey cardamom latte", note: "Wild honey, green cardamom", price: 260 },
         { name: "Kerala cocoa mocha", note: "70% single-estate chocolate", price: 270 },
@@ -110,7 +110,7 @@ export const menu = {
       tab: "Pour-over",
       image: "/images/ember/menu-pourover.webp",
       items: [
-        { name: "Araku Valley", note: "Washed · jasmine, stone fruit", price: 290 },
+        { name: "Araku Valley", note: "Washed · jasmine, stone fruit", price: 290, tag: "Today's pour" },
         { name: "Chikmagalur", note: "Washed · cocoa, orange peel", price: 280 },
         { name: "Coorg", note: "Honey process · plum, brown sugar", price: 300 },
         { name: "Nilgiris", note: "Anaerobic · red wine, cherry", price: 340 },
@@ -122,7 +122,7 @@ export const menu = {
       image: "/images/ember/menu-cold.webp",
       items: [
         { name: "18-hour cold brew", note: "Chikmagalur, steeped overnight", price: 240 },
-        { name: "Filter kaapi tonic", note: "Chicory brew, tonic, orange", price: 260 },
+        { name: "Filter kaapi tonic", note: "Chicory brew, tonic, orange", price: 260, tag: "New" },
         { name: "Iced flat white", note: "Double shot over cold milk", price: 250 },
         { name: "Coconut cold brew", note: "Tender coconut water, cold brew", price: 270 },
         { name: "Espresso lemonade", note: "Fresh lime, a little sugar", price: 230 },
@@ -132,7 +132,7 @@ export const menu = {
       tab: "Bakes",
       image: "/images/ember/bake-croissant.webp",
       items: [
-        { name: "Cardamom bun", note: "Glazed, still warm at 8 am", price: 160 },
+        { name: "Cardamom bun", note: "Glazed, still warm at 8 am", price: 160, tag: "Most loved" },
         { name: "Brown-butter croissant", note: "72 layers, baked in-house", price: 210 },
         { name: "Jaggery banana bread", note: "With salted butter", price: 180 },
         { name: "Filter-coffee tiramisu", note: "Our decoction, mascarpone", price: 290 },
