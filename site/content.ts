@@ -10,7 +10,6 @@ export const nav = {
     { label: "Take home", href: "#beans" },
     { label: "Visit", href: "#visit" },
   ],
-  status: "Open now · till 11 pm",
   todaysPour: { label: "Today's pour", value: "Araku Valley, washed", note: "Jasmine, stone fruit, raw honey" },
   hours: ["Mon–Fri · 7:30 am – 11 pm", "Sat–Sun · 8 am – midnight"],
 };
@@ -227,10 +226,10 @@ export const footer = {
 export const harvest = {
   eyebrow: "Araku Valley · Picked by hand",
   title: ["Picked by hand,", "*in the hills.*"],
-  text: "Our Araku Valley coffee grows under silver oaks on small family farms in the Eastern Ghats. Every cherry is picked by hand, only when it is ripe, then roasted every morning in Hyderabad.",
+  text: "Grown under silver oaks on small family farms in the Eastern Ghats, picked cherry by cherry when ripe, and roasted fresh in Hyderabad.",
   buttons: [
-    { label: "Discover our coffee", href: "#origins" },
+    { label: "Shop our coffee", href: "#beans" },
     { label: "Our story", href: "#story" },
   ],
-  note: "Today's pour · Araku Valley, washed · ₹290",
+  facts: ["1,100 m up", "Shade-grown", "Picked Nov–Feb"],
 };

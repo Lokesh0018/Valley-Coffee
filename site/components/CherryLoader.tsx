@@ -6,15 +6,16 @@ import { loading } from "@/lib/loading";
 import { atFromUrl, waitForClock } from "@/lib/atTime";
 import { LogoMark } from "./Logo";
 
-// Loader "Cherry to bean" (replaces the latte cup; matches the hand-drawn harvest hero). On warm paper:
-// a coffee branch draws itself and its leaves fill in, a green cherry ripens to red, splits open and two coffee
-// beans come out, and the name rises. Then the paper slides up and away (a soft shadow under it) and the farm
-// scene is underneath. The heavy hero scene is built while the finished drawing holds (onBuild), so the drawing
-// itself never stutters; the hold waits for it (at most HOLD_MAX s) with a sliding copper line.
+// Loader "Cherry to bean". On white paper with a soft leaf-green glow, a coffee branch (swaying gently the whole
+// time) draws itself and its leaves unfold; a green cherry grows and ripens to red, pops open with a little spray
+// and two raw (pale green) coffee beans come out; the name rises. While the heavy hero scene is built (onBuild),
+// the beans slowly roast to brown, so the wait is part of the story; both the sway and the roast are CSS
+// animations on their own layers, so they keep moving while the page is busy. Then the paper slides up with a
+// leafy green edge trailing under it, and the farm is underneath.
 // With &at=HH:MM:SS it holds its first frame (preloading every image) and plays at that time.
 
-const DRAW = 1.75;
-const OPEN = 0.85;
+const DRAW = 1.65;
+const OPEN = 0.95;
 const HOLD_MAX = 3;
 export const LOADER_SECONDS = DRAW + OPEN; // 2.6
 
@@ -70,6 +71,39 @@ async function preloadAll() {
 }
 
 const LEAF = "M0 0C14 -15 42 -17 62 0C42 17 14 15 0 0Z";
+const LEAVES: [number, number, number, string][] = [
+  [98, 186, 148, "#3f7a46"],
+  [104, 182, -122, "#6fae5a"],
+  [214, 84, -40, "#3f7a46"],
+  [222, 80, 150, "#6fae5a"],
+];
+const BEANS: [number, number][] = [
+  [138, -14],
+  [162, 14],
+];
+const DROPS: [number, number, number][] = [
+  [-1, -1, 3.2],
+  [1, -1.2, 2.6],
+  [-1.3, 0.4, 2.2],
+  [1.2, 0.6, 2.8],
+  [0, -1.5, 2],
+];
+
+function Beans({ fill, line, crease, shine }: { fill: string; line: string; crease: string; shine: number }) {
+  return (
+    <>
+      {BEANS.map(([x, a], i) => (
+        <g key={i} className="cl-bean" style={{ opacity: 0 }}>
+          <g transform={`translate(${x} 164) rotate(${a})`}>
+            <ellipse rx="15" ry="21" fill={fill} stroke={line} strokeWidth="1.6" />
+            <path d="M0 -17C6 -6 -6 6 0 17" fill="none" stroke={crease} strokeWidth="2.2" strokeLinecap="round" />
+            <ellipse cx="-6" cy="-8" rx="4" ry="7" fill="#fff" opacity={shine} />
+          </g>
+        </g>
+      ))}
+    </>
+  );
+}
 
 export default function CherryLoader({ name }: { name: string }) {
   const root = useRef<HTMLDivElement>(null);
@@ -103,35 +137,40 @@ export default function CherryLoader({ name }: { name: string }) {
     let cancelClock = () => {};
 
     const el = root.current!;
+    const sheet = el.querySelector<HTMLElement>(".cl-sheet")!;
     const ctx = gsap.context(() => {
-      // start only once the first frame is on screen: the hero (a big drawing) is built in the same commit and
-      // can hold the first paint back, and the branch must not finish drawing before anyone sees it
+      // start only once the first frame is on screen (the hero is built in the same commit and can hold the
+      // first paint back; the branch must not finish drawing before anyone sees it)
       const tl = gsap.timeline({ paused: true });
-      gsap.set(".cl-sheet", { transformPerspective: 1800, transformOrigin: "50% 0%" });
-      // the branch draws, the leaves follow it and fill in
-      tl.to(".cl-stem", { strokeDashoffset: 0, duration: 0.65, ease: "power2.inOut" }, 0)
-        .to(".cl-pedicel", { strokeDashoffset: 0, duration: 0.2, ease: "power1.out" }, 0.45)
-        .to(".cl-leaf-line", { strokeDashoffset: 0, duration: 0.45, ease: "power2.out", stagger: 0.12 }, 0.25)
-        .to(".cl-leaf-fill", { opacity: 1, duration: 0.35, stagger: 0.12 }, 0.5)
+      // the branch draws, the leaves unfold from it
+      tl.set(".cl-stem", { opacity: 1 }, 0.02)
+        .set(".cl-pedicel", { opacity: 1 }, 0.4)
+        .to(".cl-stem", { strokeDashoffset: 0, duration: 0.6, ease: "power2.inOut" }, 0.02)
+        .fromTo(".cl-leaf", { scale: 0, rotation: -30, transformOrigin: "0% 50%" }, { scale: 1, rotation: 0, duration: 0.55, ease: "back.out(1.7)", stagger: 0.09 }, 0.2)
+        .to(".cl-pedicel", { strokeDashoffset: 0, duration: 0.2, ease: "power1.out" }, 0.4)
         // a green cherry grows, then ripens: green → yellow → red
-        .fromTo(".cl-cherry", { scale: 0.2, opacity: 0, svgOrigin: "150 162" }, { scale: 1, opacity: 1, duration: 0.4, ease: "back.out(1.6)" }, 0.5)
-        .to(".cl-skin", { attr: { fill: "#c9a23a" }, duration: 0.22, ease: "none" }, 0.82)
-        .to(".cl-skin", { attr: { fill: "#b8322a" }, duration: 0.25, ease: "none" }, 1.04)
-        // it splits open and two beans come out
-        .to(".cl-half-l", { x: -24, rotation: -16, svgOrigin: "150 162", duration: 0.35, ease: "power2.out" }, 1.3)
-        .to(".cl-half-r", { x: 24, rotation: 16, svgOrigin: "150 162", duration: 0.35, ease: "power2.out" }, 1.3)
-        .to([".cl-half-l", ".cl-half-r"], { opacity: 0, duration: 0.18 }, 1.44)
-        .fromTo(".cl-bean", { scale: 0.55, opacity: 0, svgOrigin: "150 162" }, { scale: 1, opacity: 1, duration: 0.4, ease: "back.out(1.8)", stagger: 0.05 }, 1.32)
-        // the name rises
-        .fromTo(".cl-letter", { y: 0, yPercent: 110 }, { yPercent: 0, duration: 0.6, ease: "power3.out", stagger: 0.03 }, 0.85)
-        .fromTo(".cl-sub", { opacity: 0 }, { opacity: 1, duration: 0.4 }, 1.25)
-        // the drawing is nearly done: the page builds its hero now (the hold below waits for it)
-        .to(".cl-wait", { opacity: 1, duration: 0.3 }, DRAW - 0.35)
+        .fromTo(".cl-cherry", { scale: 0.2, opacity: 0, svgOrigin: "150 162" }, { scale: 1, opacity: 1, duration: 0.4, ease: "back.out(1.8)" }, 0.48)
+        .to(".cl-skin", { attr: { fill: "#c9a23a" }, duration: 0.2, ease: "none" }, 0.78)
+        .to(".cl-skin", { attr: { fill: "#c0362b" }, duration: 0.22, ease: "none" }, 0.98)
+        // it swells, pops open with a little spray, and two raw beans come out
+        .to(".cl-cherry", { scale: 1.12, svgOrigin: "150 162", duration: 0.12, ease: "power2.out" }, 1.2)
+        .to(".cl-half-l", { x: -26, y: 4, rotation: -20, svgOrigin: "150 162", duration: 0.34, ease: "power2.out" }, 1.32)
+        .to(".cl-half-r", { x: 26, y: 4, rotation: 20, svgOrigin: "150 162", duration: 0.34, ease: "power2.out" }, 1.32)
+        .to([".cl-half-l", ".cl-half-r"], { opacity: 0, duration: 0.16 }, 1.42)
+        .fromTo(".cl-bean", { scale: 0.5, opacity: 0, svgOrigin: "150 164" }, { scale: 1, opacity: 1, duration: 0.42, ease: "back.out(2)", stagger: 0.05 }, 1.33);
+      gsap.utils.toArray<SVGCircleElement>(".cl-juice").forEach((d, i) => {
+        const [dx, dy] = DROPS[i];
+        tl.fromTo(d, { x: 0, y: 0, opacity: 0 }, { x: dx * 46, y: dy * 40, opacity: 1, duration: 0.2, ease: "power2.out" }, 1.32).to(d, { opacity: 0, y: dy * 40 + 14, duration: 0.18, ease: "power1.in" }, 1.4);
+      });
+      // the name rises
+      tl.fromTo(".cl-letter", { y: 0, yPercent: 110 }, { yPercent: 0, duration: 0.6, ease: "power3.out", stagger: 0.03 }, 0.8)
+        .fromTo(".cl-sub", { opacity: 0, y: 8 }, { opacity: 1, y: 0, duration: 0.45 }, 1.15)
+        // the drawing is done: the beans start to roast while the page builds its hero (the hold below waits)
         .add(() => {
-          el.querySelector(".cl-sheet")?.classList.add("is-building");
+          el.classList.add("is-roasting");
+          sheet.classList.add("is-building");
           build();
-        }, DRAW - 0.15)
-        // hold here until anything the page registered (and with &at=, every image) is in
+        }, DRAW - 0.2)
         .add(() => {
           const t0 = performance.now();
           const ok = () => imagesReady && (ready || (!target && performance.now() - t0 > HOLD_MAX * 1000));
@@ -140,23 +179,22 @@ export default function CherryLoader({ name }: { name: string }) {
           const wait = () => (ok() ? tl.play() : requestAnimationFrame(wait));
           wait();
         }, DRAW - 0.05)
-        // the paper slides up and away; the farm is underneath
-        .add(reveal, DRAW)
-        .set(".cl-wait", { display: "none" }, DRAW)
-        .add(() => el.querySelector(".cl-sheet")?.classList.remove("is-building"), DRAW)
-        .to(".cl-sheet", { yPercent: -100, duration: OPEN, ease: "power3.inOut" }, DRAW)
-        .to(".cl-drop", { opacity: 0, duration: OPEN, ease: "power1.in" }, DRAW)
+        // the paper slides up, a leafy green edge trailing under it; the farm is underneath
+        .add(() => {
+          sheet.classList.remove("is-building");
+          reveal();
+        }, DRAW)
+        .to(sheet, { y: () => -(window.innerHeight + 110), duration: OPEN, ease: "power3.inOut" }, DRAW)
         // the engine starts only after the paper is gone (heavy work never lands mid-reveal on slower phones)
         .add(() => {
           loading.markFinished();
           setGone(true);
         }, LOADER_SECONDS + 0.1);
 
-      if (!target) requestAnimationFrame(() => requestAnimationFrame(() => tl.play(0)));
       if (target) {
         if (Date.now() < target.getTime()) console.log(`[record] loader frozen until ${target.toLocaleTimeString()}`);
         cancelClock = waitForClock(target, () => tl.play(0));
-      }
+      } else requestAnimationFrame(() => requestAnimationFrame(() => tl.play(0)));
     }, el);
 
     return () => {
@@ -170,12 +208,10 @@ export default function CherryLoader({ name }: { name: string }) {
 
   return (
     <div ref={root} data-loader aria-hidden className="fixed inset-0 z-[100] overflow-hidden">
-      {/* a soft shadow under the lifting page */}
-      <div className="cl-drop absolute inset-0 bg-[linear-gradient(180deg,rgba(42,26,16,0.35),rgba(42,26,16,0)_40%)]" />
       <div className="cl-sheet cl-paper absolute inset-0">
-        <div className="cl-content absolute inset-0">
-          <div className="absolute inset-x-0 top-[44%] flex -translate-y-1/2 justify-center">
-            <svg viewBox="0 0 300 300" className="h-[min(48vh,72vw)] w-auto overflow-visible">
+        <div className="absolute inset-x-0 top-[42%] flex -translate-y-1/2 justify-center">
+          <div className="cl-sway relative aspect-square h-[min(48vh,72vw)]">
+            <svg viewBox="0 0 300 300" className="absolute inset-0 h-full w-full overflow-visible">
               <defs>
                 <clipPath id="cl-left">
                   <rect x="0" y="0" width="150" height="300" />
@@ -184,38 +220,23 @@ export default function CherryLoader({ name }: { name: string }) {
                   <rect x="150" y="0" width="150" height="300" />
                 </clipPath>
                 <radialGradient id="cl-shine" cx="0.35" cy="0.3" r="0.6">
-                  <stop offset="0" stopColor="#fff" stopOpacity="0.5" />
+                  <stop offset="0" stopColor="#fff" stopOpacity="0.55" />
                   <stop offset="1" stopColor="#fff" stopOpacity="0" />
                 </radialGradient>
               </defs>
               {/* branch */}
-              <path className="cl-stem" d="M22 246C80 214 118 168 146 130S214 70 272 52" fill="none" stroke="#5a4330" strokeWidth="6" strokeLinecap="round" pathLength={1} strokeDasharray="1" strokeDashoffset="1" />
-              {[
-                [98, 186, 148],
-                [104, 182, -122],
-                [214, 84, -40],
-                [222, 80, 150],
-              ].map(([x, y, a], i) => (
+              <path className="cl-stem" d="M22 246C80 214 118 168 146 130S214 70 272 52" fill="none" stroke="#5a4330" strokeWidth="6" strokeLinecap="round" pathLength={1} strokeDasharray="1" strokeDashoffset="1" opacity="0" />
+              {LEAVES.map(([x, y, a, c], i) => (
                 <g key={i} transform={`translate(${x} ${y}) rotate(${a})`}>
-                  <path className="cl-leaf-fill" d={LEAF} fill={i % 2 ? "#6f9a4a" : "#3f6a3c"} style={{ opacity: 0 }} />
-                  <path className="cl-leaf-line" d={LEAF} fill="none" stroke="#1d3420" strokeWidth="1.6" strokeLinejoin="round" pathLength={1} strokeDasharray="1" strokeDashoffset="1" />
-                  <path className="cl-leaf-fill" d="M4 0Q31 -2 58 0" fill="none" stroke="#a9c77e" strokeWidth="1.2" style={{ opacity: 0 }} />
-                </g>
-              ))}
-              <path className="cl-pedicel" d="M152 126Q153 132 151 138" fill="none" stroke="#5a4330" strokeWidth="3" strokeLinecap="round" pathLength={1} strokeDasharray="1" strokeDashoffset="1" />
-              {/* the two beans inside */}
-              {[
-                [138, -14],
-                [162, 14],
-              ].map(([x, a], i) => (
-                <g key={i} className="cl-bean" style={{ opacity: 0 }}>
-                  <g transform={`translate(${x} 164) rotate(${a})`}>
-                    <ellipse rx="15" ry="21" fill="#6b3c1f" stroke="#3a2010" strokeWidth="1.6" />
-                    <path d="M0 -17C6 -6 -6 6 0 17" fill="none" stroke="#2a160a" strokeWidth="2.2" strokeLinecap="round" />
-                    <ellipse cx="-6" cy="-8" rx="4" ry="7" fill="#fff" opacity="0.14" />
+                  <g className="cl-leaf" style={{ transform: "scale(0)" }}>
+                    <path d={LEAF} fill={c} stroke="#1d3a24" strokeWidth="1.5" strokeLinejoin="round" />
+                    <path d="M4 0Q31 -2 58 0" fill="none" stroke="#bfe0a8" strokeWidth="1.2" opacity="0.8" />
                   </g>
                 </g>
               ))}
+              <path className="cl-pedicel" d="M152 126Q153 132 151 138" fill="none" stroke="#5a4330" strokeWidth="3" strokeLinecap="round" pathLength={1} strokeDasharray="1" strokeDashoffset="1" opacity="0" />
+              {/* raw beans (they roast in the layer above) */}
+              <Beans fill="#bcc78c" line="#6f7c45" crease="#5f6b3a" shine={0.3} />
               {/* the cherry: two halves of one skin, so it can split */}
               <g className="cl-cherry" style={{ opacity: 0 }}>
                 {[
@@ -231,29 +252,38 @@ export default function CherryLoader({ name }: { name: string }) {
                   </g>
                 ))}
               </g>
+              {DROPS.map(([, , r], i) => (
+                <circle key={i} className="cl-juice" cx="150" cy="162" r={r} fill="#c0362b" style={{ opacity: 0 }} />
+              ))}
             </svg>
-          </div>
-          <div className="absolute inset-x-0 top-[calc(44%+min(24vh,36vw)+14px)] flex flex-col items-center gap-3 text-[#2a1a10]">
-            <div className="font-display flex items-center gap-3 overflow-hidden pb-1 text-[clamp(28px,3.4vw,46px)]">
-              <LogoMark className="cl-letter h-[0.9em] w-[0.9em] shrink-0 text-[#985018]" glow={false} />
-              <span className="flex">
-                {name.split("").map((ch, i) => (
-                  <span key={i} className="cl-letter inline-block">
-                    {ch === " " ? " " : ch}
-                  </span>
-                ))}
-              </span>
+            {/* roasted beans: a second layer that cross-fades in while the farm is built */}
+            <div className="cl-roasted absolute inset-0">
+              <svg viewBox="0 0 300 300" className="absolute inset-0 h-full w-full overflow-visible">
+                <Beans fill="#6b3c1f" line="#3a2010" crease="#2a160a" shine={0.16} />
+              </svg>
             </div>
-            <span className="cl-sub text-[12px] uppercase tracking-[0.32em] text-[#6d5744]" style={{ opacity: 0 }}>
-              Picked by hand · Araku Valley
-            </span>
-            {/* while the farm is being built: a copper line slides (a CSS animation, so it keeps moving even while the
-                page is busy) */}
-            <span className="cl-wait mt-2 block h-px w-[140px] overflow-hidden bg-[#2a1a10]/15">
-              <span className="cl-wait-bar block h-full w-1/3 bg-[#985018]" />
-            </span>
           </div>
         </div>
+        <div className="absolute inset-x-0 top-[calc(42%+min(24vh,36vw)+12px)] flex flex-col items-center gap-3 text-[#133024]">
+          <div className="font-display flex items-center gap-3 overflow-hidden pb-1 text-[clamp(28px,3.4vw,46px)]">
+            <LogoMark className="cl-letter h-[0.9em] w-[0.9em] shrink-0 text-[#2f7d4a]" glow={false} />
+            <span className="flex">
+              {name.split("").map((ch, i) => (
+                <span key={i} className="cl-letter inline-block">
+                  {ch === " " ? " " : ch}
+                </span>
+              ))}
+            </span>
+          </div>
+          <span className="cl-sub text-[12px] uppercase tracking-[0.32em] text-[#4f6657]" style={{ opacity: 0 }}>
+            From cherry to cup · Araku Valley
+          </span>
+        </div>
+        {/* a leafy green edge, hanging below the page; it trails into view as the page slides up */}
+        <svg className="absolute left-0 top-full block h-[110px] w-full" viewBox="0 0 1440 110" preserveAspectRatio="none" aria-hidden>
+          <path d="M0 0H1440V46C1340 86 1240 30 1120 58S880 104 760 64 520 22 400 60 160 102 0 52Z" fill="#8fcf9f" />
+          <path d="M0 0H1440V22C1320 60 1220 10 1100 36S860 80 740 44 500 4 380 40 140 78 0 30Z" fill="#2f7d4a" />
+        </svg>
       </div>
     </div>
   );

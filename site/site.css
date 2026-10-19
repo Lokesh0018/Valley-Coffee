@@ -267,23 +267,6 @@ html.is-static .statement {
 
 /* ---------- Round 4 details ---------- */
 
-/* Menu button: copper fills in from the left on hover (and once by itself in record mode) */
-.menu-btn-fill {
-  transform: scaleX(0);
-  transform-origin: left center;
-  transition: transform 0.5s cubic-bezier(0.65, 0, 0.35, 1);
-}
-.menu-btn > span.relative {
-  transition: color 0.4s ease;
-}
-.menu-btn:hover .menu-btn-fill,
-.menu-btn.is-demo .menu-btn-fill {
-  transform: scaleX(1);
-}
-.menu-btn:hover > span.relative,
-.menu-btn.is-demo > span.relative {
-  color: var(--espresso);
-}
 
 /* Text links: a copper underline draws left to right on hover (.is-demo = record mode) */
 .er-link {
@@ -358,7 +341,7 @@ html.is-static .club-btn {
 /* ---------- Hero: "Picked by hand", the Araku harvest (HarvestHero.tsx) ----------
    A 1920 × 1080 stage of absolutely placed layers (scene coordinates), scaled to cover the screen by JS. */
 .hv-hero {
-  background: #ece3c8;
+  background: #eef3ea;
 }
 .hv-stage {
   position: absolute;
@@ -384,7 +367,7 @@ html.is-static .club-btn {
   to { transform: translateX(90px); }
 }
 
-/* sun rays through the canopy + dappled light on the path */
+/* sun rays through the canopy + dappled light in the leaves */
 .hv-rays {
   pointer-events: none;
 }
@@ -440,17 +423,19 @@ html.is-static .club-btn {
 /* paper grain + pigment blooms over the whole painting */
 .hv-paper {
   z-index: 1;
-  --light: radial-gradient(ellipse 44% 58% at 20% 47%, rgba(249, 242, 224, 0.86), rgba(249, 242, 224, 0.55) 45%, rgba(249, 242, 224, 0) 78%);
+  /* a subtle warm-cream wash around the words, from the left edge; it fades out before the centre and well above
+     the ground, so the soil and plants at the bottom keep their full colour */
+  --light: radial-gradient(ellipse 58% 52% at 0% 44%, rgba(248, 244, 233, 0.8), rgba(248, 244, 233, 0.5) 52%, rgba(248, 244, 233, 0) 100%);
   background-image:
     var(--light),
-    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' seed='3'/><feColorMatrix values='0 0 0 0 0.45  0 0 0 0 0.36  0 0 0 0 0.25  0 0 0 0.22 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>"),
-    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='900' height='900'><filter id='b'><feTurbulence type='fractalNoise' baseFrequency='0.004' numOctaves='3' seed='12'/><feColorMatrix values='0 0 0 0 0.62  0 0 0 0 0.5  0 0 0 0 0.32  0 0 0 0.3 -0.07'/></filter><rect width='100%' height='100%' filter='url(%23b)'/></svg>");
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' seed='3'/><feColorMatrix values=' 0 0 0 0 0.2  0 0 0 0 0.3  0 0 0 0 0.24  0 0 0 0.16 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>"),
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='900' height='900'><filter id='b'><feTurbulence type='fractalNoise' baseFrequency='0.004' numOctaves='3' seed='12'/><feColorMatrix values=' 0 0 0 0 0.4  0 0 0 0 0.55  0 0 0 0 0.42  0 0 0 0.24 -0.06'/></filter><rect width='100%' height='100%' filter='url(%23b)'/></svg>");
   background-size: 100% 100%, 220px 220px, 900px 900px;
 }
 
 /* .hv-paper also carries the soft morning light behind the words (one still layer); portrait: light at the top */
 .hv-portrait .hv-paper {
-  --light: linear-gradient(180deg, rgba(249, 242, 224, 0.86) 0%, rgba(249, 242, 224, 0.7) 40%, rgba(249, 242, 224, 0) 62%);
+  --light: linear-gradient(180deg, rgba(248, 244, 233, 0.78) 0%, rgba(248, 244, 233, 0.45) 40%, rgba(248, 244, 233, 0) 60%);
 }
 .hv-portrait .hv-frame {
   display: none;
@@ -550,4 +535,52 @@ html.is-static .hv-anim {
   --copper: #5fb67b;
   background: var(--bg);
   color: var(--text);
+}
+
+
+/* Hero buttons: primary forest-green pill with a nudging arrow; quiet translucent secondary. Hover, pressed, focus. */
+.hv-cta {
+  box-shadow: 0 12px 26px -16px rgba(19, 48, 36, 0.7);
+  transition: background-color 0.25s ease, box-shadow 0.25s ease, transform 0.18s ease;
+}
+.hv-cta:hover {
+  background: #24683c;
+  box-shadow: 0 16px 30px -16px rgba(19, 48, 36, 0.75);
+}
+.hv-cta-arrow {
+  transition: transform 0.25s ease;
+}
+.hv-cta:hover .hv-cta-arrow {
+  transform: translateX(3px);
+}
+.hv-cta-quiet {
+  background: rgba(255, 255, 255, 0.5);
+  border-color: rgba(19, 48, 36, 0.28);
+  color: var(--text);
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+  transition: color 0.25s ease, transform 0.18s ease;
+}
+.hv-cta:active,
+.hv-cta-quiet:active {
+  transform: translateY(1px) scale(0.985);
+}
+
+/* Keyboard focus, site-wide: a clear leaf-green ring (mouse clicks don't show it) */
+:where(a, button, [tabindex]):focus-visible {
+  outline: 2px solid #2f7d4a;
+  outline-offset: 3px;
+}
+.band-forest :where(a, button):focus-visible,
+.band-copper :where(a, button):focus-visible {
+  outline-color: #ffffff;
+}
+
+/* portrait screens (phones and tablets held upright): the words sit at the top, over the sky */
+.hv-portrait .hv-copy {
+  justify-content: flex-start;
+  padding-top: max(13vh, 96px);
+}
+.hv-portrait .hv-facts {
+  display: none;
 }

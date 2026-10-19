@@ -33,7 +33,10 @@ const ROWS = rows();
 function oaks() {
   const r = rng(211);
   const out: { x: number; y: number; h: number; s: number }[] = [];
-  for (let x = -60 + r() * 120; x < 2000; x += 170 + r() * 160) out.push({ x, y: plantation(x) + 26 + r() * 30, h: 170 + r() * 90, s: 0.8 + r() * 0.5 });
+  for (let x = -60 + r() * 120; x < 2000; x += 170 + r() * 160) {
+    const o = { x, y: plantation(x) + 26 + r() * 30, h: 170 + r() * 90, s: 0.8 + r() * 0.5 };
+    if (x > 940) out.push(o); // tall oaks only on the right: the left of the painting stays calm behind the words
+  }
   for (let x = 40 + r() * 200; x < 2000; x += 260 + r() * 220) out.push({ x, y: ridgeNear(x) + 8, h: 70 + r() * 30, s: 0.45 });
   return out;
 }
@@ -105,20 +108,20 @@ export function HarvestDefs() {
           <path d="M0 2.2H10M0 13.8H10" stroke="#efe0bd" strokeWidth="0.8" opacity="0.6" />
         </pattern>
         <linearGradient id="hv-sky" x1="0" x2="0" y1="-700" y2="720" gradientUnits="userSpaceOnUse">
-          <stop offset="0" stopColor="#e9dcb8" />
-          <stop offset="0.45" stopColor="#f3e5bf" />
-          <stop offset="0.75" stopColor="#ece6cc" />
-          <stop offset="1" stopColor="#dfe5d3" />
+          <stop offset="0" stopColor="#dfece8" />
+          <stop offset="0.45" stopColor="#f3f7f0" />
+          <stop offset="0.75" stopColor="#eef4e8" />
+          <stop offset="1" stopColor="#dde9da" />
         </linearGradient>
         <radialGradient id="hv-sun" cx="1480" cy="150" r="700" gradientUnits="userSpaceOnUse">
-          <stop offset="0" stopColor="#fff6da" stopOpacity="0.95" />
-          <stop offset="0.3" stopColor="#fbe7b5" stopOpacity="0.55" />
-          <stop offset="1" stopColor="#f6e2b0" stopOpacity="0" />
+          <stop offset="0" stopColor="#fffdf0" stopOpacity="0.95" />
+          <stop offset="0.3" stopColor="#fbf3d2" stopOpacity="0.45" />
+          <stop offset="1" stopColor="#f6f0d0" stopOpacity="0" />
         </radialGradient>
         <linearGradient id="hv-ground" x1="0" x2="0" y1="860" y2="1100" gradientUnits="userSpaceOnUse">
-          <stop offset="0" stopColor="#b8784a" />
-          <stop offset="0.5" stopColor={C.soil} />
-          <stop offset="1" stopColor={C.soilDark} />
+          <stop offset="0" stopColor="#c4936a" />
+          <stop offset="0.5" stopColor="#b17d55" />
+          <stop offset="1" stopColor="#97663f" />
         </linearGradient>
         <linearGradient id="hv-plant" x1="0" x2="0" y1="660" y2="880" gradientUnits="userSpaceOnUse">
           <stop offset="0" stopColor="#86a66c" />
@@ -147,7 +150,7 @@ function Backdrop() {
       <rect x="-200" y="-700" width="2320" height="1820" fill="url(#hv-sky)" />
       <rect x="-200" y="-700" width="2320" height="1500" fill="url(#hv-sun)" />
       {/* soft streaks of high mist */}
-      <g fill="#fff8e6" opacity="0.5" filter="url(#hv-wash)">
+      <g fill="#ffffff" opacity="0.6" filter="url(#hv-wash)">
         <ellipse cx="420" cy="250" rx="420" ry="26" />
         <ellipse cx="1180" cy="190" rx="360" ry="18" />
         <ellipse cx="760" cy="360" rx="520" ry="22" />

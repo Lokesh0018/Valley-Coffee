@@ -21,7 +21,7 @@ import { Rig } from "./harvest/rig";
 // The scene lives on a 1920 × 1080 stage, scaled to cover the screen (on portrait screens it frames the women and
 // leaves the sky for the text). Paused off screen. ?static=1 / reduced motion: the still illustration.
 
-const T1 = coffeeTree({ seed: 5, x: 1000, base: 882, height: 600, spread: 290, n: 22, lean: 10, leafScale: 1.2, sway: 0.9, cherries: 0.7 });
+const T1 = coffeeTree({ seed: 5, x: 1000, base: 882, height: 600, spread: 290, n: 22, lean: 10, leafScale: 1.2, sway: 0.9, cherries: 0.7, leftScale: 0.4 });
 const T2 = coffeeTree({ seed: 12, x: 1200, base: 878, height: 560, spread: 270, n: 20, lean: -8, leafScale: 1.2, sway: 0.9, cherries: 0.7 });
 const T3 = coffeeTree({ seed: 19, x: 1478, base: 870, height: 520, spread: 250, n: 18, lean: 12, leafScale: 1.15, sway: 0.9, cherries: 0.6 });
 const T4 = coffeeTree({ seed: 27, x: 1740, base: 880, height: 560, spread: 270, n: 20, lean: -6, leafScale: 1.2, sway: 0.9, cherries: 0.6 });
@@ -116,7 +116,13 @@ export default function HarvestHero() {
       const vh = el.clientHeight;
       const portrait = vw / vh < 0.8;
       el.classList.toggle("hv-portrait", portrait);
-      const R = portrait ? { x: 1000, y: -520, w: 720, h: 1600 } : { x: 0, y: 0, w: SCENE_W, h: SCENE_H };
+      // landscape: framed a little closer than the full scene (the women larger), trimming empty sky and the calm left
+      // portrait: phones frame the women tightly; tablets a little wider, so the women sit below the text
+      const R = portrait
+        ? vw >= 600
+          ? { x: 860, y: -520, w: 1000, h: 1600 }
+          : { x: 1000, y: -520, w: 720, h: 1600 }
+        : { x: 120, y: 70, w: SCENE_W - 120, h: SCENE_H - 70 };
       const s = Math.max(vw / R.w, vh / R.h);
       const tx = vw / 2 - (R.x + R.w / 2) * s;
       const ty = vh - (R.y + R.h) * s;
@@ -137,7 +143,7 @@ export default function HarvestHero() {
     const ctx = gsap.context(() => {
       // intro: the headline rises as the latte cup opens
       const lines = q(".hv-copy .line-inner");
-      const rest = q(".hv-copy .eyebrow, .hv-copy p:not(.eyebrow), .hv-copy .hv-actions");
+      const rest = q(".hv-copy .eyebrow, .hv-copy p:not(.eyebrow), .hv-copy .hv-actions, .hv-copy .hv-facts, .hv-scroll");
       gsap.set(lines, { yPercent: 110 });
       gsap.set(rest, { opacity: 0, y: 18 });
       offReveal = onReveal(() => {
@@ -163,6 +169,13 @@ export default function HarvestHero() {
           { opacity: 1, y: 0, duration: 0.25, stagger: 0.07, ease: "power2.out" },
           at + 0.05,
         );
+
+      // very gentle depth on the way out: the distant hills and sky lag behind as the hero scrolls away
+      gsap.to(q(".hv-stage > svg:first-of-type"), {
+        y: 90,
+        ease: "none",
+        scrollTrigger: { trigger: el, start: "top top", end: "bottom top", scrub: true },
+      });
 
       const loop = gsap.timeline({ repeat: -1, defaults: { ease: "sine.inOut" } });
       loop.to({}, { duration: 10 }, 0);
@@ -295,10 +308,6 @@ export default function HarvestHero() {
             <span key={i} className="hv-ray hv-anim" style={{ width: l, height: h, transform: `rotate(${a}deg)`, animationDelay: `${d}s` }} />
           ))}
           {[
-            [1120, 940, 70],
-            [1330, 952, 60],
-            [1560, 945, 90],
-            [930, 965, 55],
             [1250, 600, 45],
             [1050, 420, 40],
           ].map(([x, y, w], i) => (
@@ -326,25 +335,43 @@ export default function HarvestHero() {
 
       {/* paper grain + the soft light behind the words (one still layer) */}
       <div className="hv-paper pointer-events-none absolute inset-0" />
-      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-[9vh] bg-[linear-gradient(180deg,rgba(250,252,247,0)_0%,#fafcf7_100%)]" />
 
       {/* the words: real text over the calm left of the painting */}
-      <div className="hv-copy container-x relative z-10 flex h-full flex-col justify-center pb-[6vh] max-md:justify-start max-md:pt-[13vh]">
-        <div className="max-w-[640px] max-md:max-w-[340px]">
-          <p className="eyebrow mb-6 uppercase">{harvest.eyebrow}</p>
-          <Lines as="h1" lines={harvest.title} className="text-[clamp(46px,6.6vw,118px)]" />
-          <p className="mt-6 max-w-[470px] text-[16px] leading-relaxed text-[color:var(--muted)] md:text-[18px]">{harvest.text}</p>
-          <div className="hv-actions mt-8 flex flex-wrap items-center gap-3">
-            <a href={harvest.buttons[0].href} className="btn btn-solid">
+      <div className="hv-copy relative z-10 flex h-full flex-col justify-center px-[clamp(20px,5vw,80px)] pb-[6vh] max-md:justify-start max-md:pt-[13vh]">
+        <div className="max-w-[560px]">
+          <p className="eyebrow mb-5 uppercase md:mb-6">{harvest.eyebrow}</p>
+          <Lines
+            as="h1"
+            lines={harvest.title}
+            className="hv-title text-[clamp(44px,12vw,56px)] leading-[0.98] md:whitespace-nowrap md:text-[clamp(64px,6vw,88px)]"
+          />
+          <p className="mt-6 max-w-[34ch] text-[17px] leading-[1.65] text-[color:var(--muted)] [text-wrap:pretty] md:mt-7 md:max-w-[36ch] md:text-[18px] xl:max-w-[44ch]">{harvest.text}</p>
+          <div className="hv-actions mt-8 flex flex-wrap items-center gap-3 md:mt-9">
+            <a href={harvest.buttons[0].href} className="btn btn-solid hv-cta">
               {harvest.buttons[0].label}
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden className="hv-cta-arrow">
+                <path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
             </a>
-            <a href={harvest.buttons[1].href} className="btn btn-outline">
+            <a href={harvest.buttons[1].href} className="btn btn-outline hv-cta-quiet">
               {harvest.buttons[1].label}
             </a>
           </div>
-          <p className="mt-7 text-[13px] font-medium tracking-[0.04em] text-[color:var(--muted)] max-md:hidden">{harvest.note}</p>
+          <ul className="hv-facts mt-9 flex flex-wrap items-center gap-x-6 gap-y-3 text-[13px] font-semibold tracking-[0.03em] text-[color:var(--text)] max-sm:hidden">
+            {harvest.facts.map((f, i) => (
+              <li key={f} className="inline-flex items-center gap-2">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden className="text-[color:var(--accent)]">
+                  {i === 0 && <path d="M3 19l6-9 4 5 3-4 5 8H3Z" stroke="currentColor" strokeWidth="1.6" strokeLinejoin="round" />}
+                  {i === 1 && <path d="M5 19C5 10 11 5 19 5c0 8-5 14-14 14Zm0 0 7-7" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />}
+                  {i === 2 && <path d="M4 7h16v13H4zM4 11h16M8 4v4M16 4v4" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />}
+                </svg>
+                {f}
+              </li>
+            ))}
+          </ul>
         </div>
       </div>
+
     </section>
   );
 }

@@ -73,8 +73,7 @@ export default function TreeArt({ tree, rig, id }: { tree: Tree; rig: Rig; id: s
   return (
     <>
       <svg className="hv-layer hv-still" style={{ left: x, top: y, width: w, height: h }} viewBox={`${x} ${y} ${w} ${h}`} aria-hidden>
-        <path d={tree.stem} fill="none" stroke={C.branch} strokeWidth={tree.stemWidth} strokeLinecap="round" />
-        <path d={tree.stem} fill="none" stroke="#7a5d42" strokeWidth={tree.stemWidth * 0.3} strokeLinecap="round" transform="translate(-1.5 0)" opacity="0.6" />
+        <path d={tree.stem} fill={C.branch} stroke="#3f2e20" strokeWidth="0.8" strokeLinejoin="round" />
       </svg>
       {pairs(tree.laterals).map((pair, i) => {
         const a = pair[0];

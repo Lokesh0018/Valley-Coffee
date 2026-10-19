@@ -167,6 +167,8 @@ export type TreeOpts = {
   sway?: number;
   /** share of nodes that carry a cherry cluster */
   cherries?: number;
+  /** shorten the branches on the left side (keeps a tree clear of text beside it) */
+  leftScale?: number;
 };
 
 /** A coffee tree: one stem, laterals in a cone (long low, short high), drooping a little, leaves in opposite
@@ -178,7 +180,21 @@ export function coffeeTree(o: TreeOpts): Tree {
   const cr = o.cherryR ?? 5.5;
   const minT = o.minT ?? 0.1;
   const top = { x: o.x + lean, y: o.base - o.height };
-  const stem = `M${o.x} ${o.base} Q${f1(o.x + lean * 0.2 + 6)} ${f1(o.base - o.height * 0.3)} ${f1(o.x + lean * 0.45 - 4)} ${f1(o.base - o.height * 0.52)}`;
+  // The stem runs along exactly the line every lateral leaves from (x + lean·t², base − height·t), all the way to
+  // the top lateral, so no branch ever floats; it tapers from a trunk at the ground to a thin leader at the top.
+  const stemAt = (t: number) => ({ x: o.x + lean * t * t, y: o.base - o.height * t });
+  const topT = 0.985;
+  const sw = 7 * ls;
+  const side: string[] = [];
+  const back: string[] = [];
+  for (let k = 0; k <= 24; k++) {
+    const t = (topT * k) / 24;
+    const p = stemAt(t);
+    const w = (sw * (1 - 0.82 * t)) / 2;
+    side.push(`${f1(p.x - w)} ${f1(p.y)}`);
+    back.unshift(`${f1(p.x + w)} ${f1(p.y)}`);
+  }
+  const stem = `M${side.join(" L")} L${back.join(" L")} Z`;
   const laterals: Lateral[] = [];
   let minX = Infinity;
   let minY = Infinity;
@@ -189,7 +205,7 @@ export function coffeeTree(o: TreeOpts): Tree {
     const side = o.side ?? (i % 2 ? 1 : -1) * (r() < 0.12 ? -1 : 1);
     const sx = o.x + lean * t * t;
     const sy = o.base - o.height * t;
-    const L = o.spread * (1 - 0.62 * t) * (0.78 + r() * 0.44);
+    const L = o.spread * (1 - 0.62 * t) * (0.78 + r() * 0.44) * (side < 0 ? (o.leftScale ?? 1) : 1);
     const q = {
       sx,
       sy,
@@ -222,7 +238,7 @@ export function coffeeTree(o: TreeOpts): Tree {
   maxX = Math.max(maxX, o.x) + pad;
   minY = Math.min(minY, top.y) - pad;
   maxY = Math.max(maxY, o.base) + 10;
-  return { stem, stemWidth: 7 * ls, laterals, box: [Math.floor(minX), Math.floor(minY), Math.ceil(maxX - minX), Math.ceil(maxY - minY)] };
+  return { stem, stemWidth: sw, laterals, box: [Math.floor(minX), Math.floor(minY), Math.ceil(maxX - minX), Math.ceil(maxY - minY)] };
 }
 
 /** Leaf outline in local space (base at 0,0, tip at l,0); k varies the shape a little (hand-drawn). */
