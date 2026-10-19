@@ -56,7 +56,7 @@ body {
   --muted: #4f6657;
   --accent: #24683c;
   --accent-text: #ffffff;
-  --line: #dccab1;
+  --line: #cfe0cc;
   background: var(--bg);
   color: var(--text);
 }
@@ -65,8 +65,8 @@ body {
   --text: #fafcf7;
   --muted: #e3f1e6;
   --accent: #fafcf7;
-  --accent-text: #133024;
-  --line: rgba(19, 48, 36, 0.25);
+  --accent-text: #1f5a35;
+  --line: rgba(255, 255, 255, 0.3);
   background: var(--bg);
   color: var(--text);
 }
@@ -495,34 +495,44 @@ html.is-static .hv-anim {
   will-change: transform;
 }
 
-/* Loader "Cherry to bean" (CherryLoader.tsx): warm paper with grain; letters start below their mask */
+/* ---------- Loader "Cherry to bean" (CherryLoader.tsx) ----------
+   White paper with a soft leaf-green glow and grain. Things that must keep moving while the farm is being built
+   (the page is busy then) are CSS animations on their own layers: the branch's sway and the beans roasting. */
 .cl-paper {
-  background-color: #f3e9d3;
+  background-color: #fafcf7;
   background-image:
-    radial-gradient(ellipse 60% 50% at 50% 44%, rgba(255, 249, 234, 0.9), rgba(255, 249, 234, 0) 70%),
-    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' seed='3'/><feColorMatrix values='0 0 0 0 0.45  0 0 0 0 0.36  0 0 0 0 0.25  0 0 0 0.22 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+    radial-gradient(ellipse 55% 48% at 50% 42%, rgba(214, 236, 214, 0.75), rgba(214, 236, 214, 0) 70%),
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' seed='3'/><feColorMatrix values='0 0 0 0 0.2  0 0 0 0 0.32  0 0 0 0 0.24  0 0 0 0.12 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
   background-size: 100% 100%, 220px 220px;
-  backface-visibility: hidden;
 }
 .cl-letter {
   transform: translateY(110%);
 }
-.cl-wait {
-  opacity: 0;
-}
-.cl-wait-bar {
+/* the branch sways gently the whole time (composited, so it keeps going while the page is busy) */
+.cl-sway {
+  transform-origin: 8% 82%;
   will-change: transform;
-  animation: cl-wait 1.1s cubic-bezier(0.45, 0, 0.55, 1) infinite;
+  animation: cl-sway 3.4s ease-in-out infinite alternate;
 }
-@keyframes cl-wait {
-  from { transform: translateX(-100%); }
-  to { transform: translateX(300%); }
+@keyframes cl-sway {
+  from { transform: rotate(-1.6deg); }
+  to { transform: rotate(1.8deg); }
 }
-/* the page is its own layer from the start (no re-raster when it starts to turn); while the farm is built under
-   it, it is 99.7 % opaque (no visible ghost), so the browser paints the farm then (fully covered content is skipped and would all be
-   painted in the first frames of the turn) */
+/* raw (pale green) beans roast to brown: a cross-fade of a second layer, started while the farm is built */
+.cl-roasted {
+  opacity: 0;
+  will-change: opacity;
+}
+.is-roasting .cl-roasted {
+  animation: cl-roast 1.8s ease-in-out forwards;
+}
+@keyframes cl-roast {
+  to { opacity: 1; }
+}
+/* the page is its own layer from the start (no re-raster when it moves); while the farm is built under it, it is
+   99.7 % opaque (no visible ghost), so the browser paints the farm then rather than all at once when it is uncovered */
 .cl-sheet {
-  will-change: transform, opacity;
+  will-change: transform;
 }
 .cl-sheet.is-building {
   opacity: 0.997;

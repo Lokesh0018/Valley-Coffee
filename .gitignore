@@ -16,3 +16,4 @@ next-env.d.ts
 
 # other tools' local worktrees (they hold copies of older sites)
 .kilo/
+dist/
