@@ -172,7 +172,7 @@ export default function RoastDial() {
 
           {/* dial + bean tray */}
           <div className="relative mx-auto aspect-square w-full max-w-[min(680px,78vh)] lg:col-span-7 max-lg:order-1 max-lg:w-[min(86vw,46vh)] max-lg:shrink-0">
-            <div className="absolute inset-[13%] overflow-hidden rounded-full shadow-[0_40px_80px_rgba(0,0,0,0.45),0_0_0_10px_color-mix(in_srgb,var(--bg)_70%,transparent),inset_0_0_0_1px_rgba(255,255,255,0.12)]">
+            <div className="absolute inset-[13%] overflow-hidden rounded-full border border-line/40 shadow-md">
               <div className="roast-tray absolute inset-0">
                 {roast.stops.map((s, i) => (
                   <img
@@ -180,7 +180,7 @@ export default function RoastDial() {
                     src={s.image}
                     alt={`${s.name} roast coffee beans`}
                     data-roast-img={i}
-                    className="absolute inset-0 h-full w-full scale-[1.35] object-cover transition-opacity duration-700"
+                    className="absolute inset-0 h-full w-full object-cover transition-opacity duration-700"
                     style={{ opacity: i === active ? 1 : 0 }}
                   />
                 ))}

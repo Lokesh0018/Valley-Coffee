@@ -710,3 +710,30 @@ html.is-static .fm-rays {
     animation: none;
   }
 }
+
+/* Our beans: the card for the estate being looked at gets a soft green ring around its arch */
+.origin-card .arch {
+  transition: box-shadow 0.35s ease;
+}
+.origin-card.is-active .arch {
+  box-shadow: 0 0 0 3px #fafcf7, 0 0 0 5px #24683c;
+}
+.map-dot:focus-visible {
+  outline: none;
+}
+.map-dot:focus-visible .map-pill {
+  stroke: #24683c;
+  stroke-width: 2;
+}
+/* the map on phones: big numbers instead of the (too small) pill labels */
+.map-num {
+  display: none;
+}
+@media (max-width: 767px) {
+  .map-pill-g {
+    display: none;
+  }
+  .map-num {
+    display: inline;
+  }
+}

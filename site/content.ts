@@ -10,26 +10,26 @@ export const nav = {
     { label: "Visit", href: "#visit" },
   ],
   cta: { label: "Shop beans", href: "#beans" },
-  // opening hours in Hyderabad, 24 h clock (7.5 = 7:30). The live "Open now" status and the menu panel both read these.
+  // opening hours in Visakhapatnam, 24 h clock (7.5 = 7:30). The live "Open now" status and the menu panel both read these.
   hours: [
     { days: "Mon–Fri", weekdays: [1, 2, 3, 4, 5], open: 7.5, close: 23 },
     { days: "Sat–Sun", weekdays: [0, 6], open: 8, close: 24 },
   ],
-  address: "Jubilee Hills, Hyderabad",
+  address: "Beach Road, Visakhapatnam",
 };
 
 export const hero = {
   frames: "/frames/ember-hero",
   framesPhone: "/frames/ember-hero-m", // centre-cut portrait frames (560 × 1080) for phones
-  eyebrow: "Specialty coffee · Roastery · Hyderabad",
+  eyebrow: "Specialty coffee · Roastery · Visakhapatnam",
   title: ["Walk in.", "*Slow down.*"],
-  text: "Single-origin Indian coffee, roasted every morning in Jubilee Hills and brewed by hand.",
+  text: "Single-origin Indian coffee, roasted every morning in Visakhapatnam and brewed by hand.",
   buttons: [
     { label: "See the menu", href: "#menu" },
     { label: "Visit us", href: "#visit" },
   ],
   note: "Open today · 7:30 am – 11 pm",
-  captions: ["Roasted in Hyderabad,\nevery morning.", "Pull up a *chair.*"],
+  captions: ["Roasted in Visakhapatnam,\nevery morning.", "Pull up a *chair.*"],
 };
 
 export type Origin = {
@@ -46,8 +46,13 @@ export type Origin = {
 export const origins = {
   eyebrow: "Our beans",
   title: ["Four hills.", "*One roaster.*"],
-  text: "Every bag starts on a hillside in the south, picked ripe and shipped to our roaster in Hyderabad.",
-  roastery: { name: "Aura Roastery, Hyderabad", lon: 78.47, lat: 17.39 },
+  text: "Every bag starts on a hillside in the south, picked ripe and shipped to our roaster in Visakhapatnam, by the sea below the Araku hills.",
+  stats: [
+    ["4", "family estates"],
+    ["1,100–1,700 m", "above the sea"],
+    ["100%", "hand-picked"],
+  ] as [string, string][],
+  roastery: { name: "Aura Roastery, Visakhapatnam", lon: 83.22, lat: 17.69 },
   items: [
     { name: "Chikmagalur", estate: "Kalasa Ridge Estate", altitude: "1,450 m", process: "Washed", notes: ["Cocoa", "Orange peel", "Jaggery"], image: "/images/ember/origin-chikmagalur.webp", lon: 75.77, lat: 13.32 },
     { name: "Coorg", estate: "Misty Fold Estate", altitude: "1,150 m", process: "Honey", notes: ["Plum", "Brown sugar", "Clove"], image: "/images/ember/origin-coorg.webp", lon: 75.74, lat: 12.42 },
@@ -166,7 +171,7 @@ export type Bag = {
 export const beans = {
   eyebrow: "Take home · Araku Valley",
   title: ["Straight from", "*Araku.*"],
-  text: "Four lots from small family farms in the Araku hills, shade-grown under silver oaks. Roasted this week in Hyderabad, packed the same day. 250 g bags, ground the way you brew.",
+  text: "Four lots from small family farms in the Araku hills, shade-grown under silver oaks. Roasted this week in Visakhapatnam, packed the same day. 250 g bags, ground the way you brew.",
   bagImage: "/images/ember/bag-kraft.webp",
   grinds: ["Whole bean", "Espresso", "Pour-over", "French press"],
   // the small "map" caption over the hills behind the bags
@@ -212,7 +217,7 @@ export const reviews = {
 export const visit = {
   eyebrow: "Visit",
   title: ["Come in", "*slow.*"],
-  area: "Jubilee Hills, Hyderabad",
+  area: "Beach Road, Visakhapatnam",
   hours: [
     ["Mon – Fri", "7:30 am – 11 pm"],
     ["Sat – Sun", "8 am – midnight"],
@@ -239,7 +244,7 @@ export const footer = {
 export const harvest = {
   eyebrow: "Araku Valley · Picked by hand",
   title: ["Picked by hand,", "*in the hills.*"],
-  text: "Grown under silver oaks on small family farms in the Eastern Ghats, picked cherry by cherry when ripe, and roasted fresh in Hyderabad.",
+  text: "Grown under silver oaks on small family farms in the Eastern Ghats, picked cherry by cherry when ripe, and roasted fresh in Visakhapatnam.",
   buttons: [
     { label: "Shop our coffee", href: "#beans" },
     { label: "Our story", href: "#origins" },

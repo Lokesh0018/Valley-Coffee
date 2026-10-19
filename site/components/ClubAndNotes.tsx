@@ -72,7 +72,7 @@ export default function ClubAndNotes() {
                 {/* the printer slot the receipt feeds out of */}
                 <div className="relative z-[1] -mx-2 h-3 rounded-full bg-[#10261b] shadow-[inset_0_2px_3px_rgba(0,0,0,0.8),0_1px_0_rgba(19,48,36,0.1)]" />
                 <div className="receipt receipt-lg -mt-1 px-8 pt-8 text-[17px] shadow-[0_28px_50px_-20px_rgba(0,0,0,0.65)]">
-                  <p className="receipt-line text-center text-[13px] font-semibold uppercase tracking-[0.28em]">Aura Roast · Jubilee Hills</p>
+                  <p className="receipt-line text-center text-[13px] font-semibold uppercase tracking-[0.28em]">Aura Roast · Beach Road</p>
                   <p className="receipt-line mt-1 text-center text-[13px] tracking-[0.12em] text-[#4f6657] max-md:text-[14px]">Order #{2041 + i * 17} · Table {3 + i * 2}</p>
                   <div className="receipt-rule my-5" />
                   {r.order.map(([item, price]) => (

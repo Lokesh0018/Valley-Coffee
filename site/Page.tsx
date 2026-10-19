@@ -30,7 +30,7 @@ export default function Page() {
       />
       <link rel="icon" type="image/svg+xml" href={ICON} />
       <SiteFlags />
-      <BrewLoader name={meta.loaderText ?? meta.name} tagline="Roasted every morning · Hyderabad" />
+      <BrewLoader name={meta.loaderText ?? meta.name} tagline="Roasted every morning · Visakhapatnam" />
       <Transitions />
       <MenuCardNav />
       <main className="relative overflow-x-clip">

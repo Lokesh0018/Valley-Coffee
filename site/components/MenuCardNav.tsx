@@ -16,7 +16,7 @@ export const BAG_EVENT = "ember:bag";
 const fmt = (h: number) => (h === 24 ? "midnight" : h === 12 ? "noon" : `${h % 12 === 0 ? 12 : Math.floor(h % 12)}${h % 1 ? ":30" : ""} ${h < 12 ? "am" : "pm"}`);
 const hoursOn = (weekday: number) => nav.hours.find((h) => h.weekdays.includes(weekday))!;
 
-/** "Open now · till 11 pm" or "Closed · opens 7:30 am", from the real time in Hyderabad. */
+/** "Open now · till 11 pm" or "Closed · opens 7:30 am", from the real time in Visakhapatnam. */
 function cafeStatus(now = new Date()): { open: boolean; text: string } {
   const parts = new Intl.DateTimeFormat("en-GB", { timeZone: "Asia/Kolkata", weekday: "short", hour: "numeric", minute: "numeric", hourCycle: "h23" }).formatToParts(now);
   const get = (t: string) => parts.find((p) => p.type === t)?.value ?? "";

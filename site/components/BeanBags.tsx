@@ -41,10 +41,10 @@ export default function BeanBags() {
         defaults: { ease: "none" },
         scrollTrigger: { trigger: row, start: "top 88%", end: "top 30%", scrub: 0.7, invalidateOnRefresh: true },
       });
-      bags.forEach((b, i) => {
+      bags.forEach((b) => {
         tl.fromTo(
           b,
-          { x: () => offset(b).x, y: () => offset(b).y * 0.6, rotation: (i - 1.5) * 7, scale: 0.9 },
+          { x: () => offset(b).x, y: () => offset(b).y * 0.6, rotation: 0, scale: 0.95 },
           { x: 0, y: 0, rotation: 0, scale: 1, duration: 0.75, ease: "power2.out" },
           0,
         );
@@ -150,7 +150,7 @@ export default function BeanBags() {
             <article key={b.name} className="bag-card" data-card={i} data-cursor="Take home">
               <div className="bag-art relative mx-auto w-[88%] [container-type:inline-size]">
                 <div className="amber-glow absolute inset-x-[-10%] bottom-[-6%] h-[40%]" />
-                <img src={beans.bagImage} alt={`${b.name}, Araku Valley coffee bag`} className="relative block w-full drop-shadow-[0_26px_28px_rgba(19,48,36,0.38)]" />
+                <img src={beans.bagImage} alt={`${b.name}, Araku Valley coffee bag`} className="relative block w-full drop-shadow-md" />
                 {/* printed label */}
                 <div
                   className="absolute flex flex-col overflow-hidden rounded-[2px] text-center"
