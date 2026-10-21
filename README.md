@@ -11,9 +11,10 @@ Build **one showcase website a day**, with a **different design every day**, fil
 
 ```bash
 npm install
-npm run dev          # http://localhost:3000   → the current site
-                     # http://localhost:3000/patterns → the pattern library
+npm run dev          # http://localhost:5173   → the current site (Vite picks the next free port if 5173 is busy)
 ```
+
+No environment variables or API keys are needed. There is no test suite: `npm run check` (assets) and `npm run build` (types + bundle) are the checks before a push.
 
 ## Make today's site (with Claude Code)
 
@@ -26,7 +27,7 @@ Open Claude Code in this folder:
 It works in **4 steps** and stops after each for your OK:
 
 0. **Design direction** → `site/DESIGN.md`: the look, colours, fonts, nav, hero, section plan, and which images/videos to generate (with prompts).
-1. **Structure** → builds `site/`. Review with motion off: `http://localhost:3000/?static=1`
+1. **Structure** → builds `site/`. Review with motion off: `http://localhost:5173/?static=1`
 2. **Motion** → tunes the hero and the signature moment. Send a slow screen recording.
 3. **Polish** → readability, phone, filming length, saves the site to `archive/` and logs it.
 
@@ -37,7 +38,7 @@ Then film it: `docs/RECORDING.md`.
 | Command | What it does |
 |---|---|
 | `npm run dev` | Run the site while you edit |
-| `npm run build && npm start` | Production version: **use this when filming** |
+| `npm run build && npm run preview` | Production version (http://localhost:4173): **use this when filming** |
 | `npm run frames -- <video> <folder>` | Turn a video into scroll frames |
 | `npm run check` | Check all images/frames used in `site/` exist |
 | `npm run archive -- day-NN-slug` | Save the current site into `archive/` |
@@ -47,7 +48,7 @@ Frames options: `--zoom 1.2` (hide AI watermark) · `--start 1 --end 7` (trim) �
 
 ## Record mode (filming)
 
-`http://localhost:3000/?record=1`: hides cursor + scrollbar, then scrolls the whole page by itself.
+`http://localhost:4173/?record=1` (production preview): hides cursor + scrollbar, then scrolls the whole page by itself.
 `&duration=30` = whole page in 30 s · `&speed=200` = fixed speed · keys: **R** start/stop, **T** top, **+/−** speed.
 
 ## Folder map
@@ -61,7 +62,7 @@ site/                   ← TODAY'S SITE (rewritten every day)
   components/             this site's sections, nav, footer
   Page.tsx                puts the page together
 components/engine/      ← loader, smooth scroll, animations, record mode (don't change)
-components/patterns/    ← pattern library: copy + restyle (see /patterns)
+components/patterns/    ← pattern library: copy + restyle
 archive/                ← saved sites
 public/images/<slug>/   ← images per site
 public/frames/<slug>-*  ← scroll frames per site

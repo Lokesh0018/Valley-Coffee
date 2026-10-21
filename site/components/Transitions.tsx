@@ -4,11 +4,9 @@ import { useEffect } from "react";
 import { gsap, prefersReducedMotion, ScrollTrigger } from "@/lib/gsap";
 import { onSiteReady } from "@/lib/loading";
 
-// Section transitions (X codes in docs/MOTION-MENU.md; the hero's X2 wash lives in SteamHero):
+// Section transitions (X codes in docs/MOTION-MENU.md):
 //   X3  every torn paper edge stretches tall as it comes up the screen and settles flat as it passes
-//   X1  Origins stays pinned (and dims) while the roast dial slides up over it; the same for Beans → Stay a while
-//   X2  the Ember Club band arrives in Stay a while's cream and washes to copper as it comes up the screen
-//       (the colour change happens on the band itself, so the Stay a while photos are never tinted)
+//   X1  Beans stays pinned (and dims) while Stay a while slides up over it
 // ?static=1: nothing (sections simply follow each other).
 
 export default function Transitions() {
@@ -36,10 +34,6 @@ export default function Transitions() {
           if (dim) gsap.fromTo(dim, { opacity: 0 }, { opacity: 0.65, ease: "none", scrollTrigger: { trigger: el, start: "bottom bottom", end: "bottom top", scrub: true } });
         };
         overlap("#beans");
-
-        // X2: the club band washes cream → copper on its way up (its text is dark on both)
-        const club = document.getElementById("club");
-        if (club) gsap.fromTo(club, { "--bg": "#edf4ea" }, { "--bg": "#2f7d4a", ease: "none", scrollTrigger: { trigger: club, start: "top bottom", end: "top 45%", scrub: true } });
       });
       ScrollTrigger.refresh();
     });

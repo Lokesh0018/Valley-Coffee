@@ -1,4 +1,4 @@
-// All text and data for Ember Roast (a concept site: brand, products and prices are samples).
+// All text and data for Aura Roast (a concept site: brand, products and prices are samples).
 
 export const nav = {
   // in page order; the logo takes you back to the top
@@ -18,19 +18,6 @@ export const nav = {
   address: "Beach Road, Visakhapatnam",
 };
 
-export const hero = {
-  frames: "/frames/ember-hero",
-  framesPhone: "/frames/ember-hero-m", // centre-cut portrait frames (560 × 1080) for phones
-  eyebrow: "Specialty coffee · Roastery · Visakhapatnam",
-  title: ["Walk in.", "*Slow down.*"],
-  text: "Single-origin Indian coffee, roasted every morning in Visakhapatnam and brewed by hand.",
-  buttons: [
-    { label: "See the menu", href: "#menu" },
-    { label: "Visit us", href: "#visit" },
-  ],
-  note: "Open today · 7:30 am – 11 pm",
-  captions: ["Roasted in Visakhapatnam,\nevery morning.", "Pull up a *chair.*"],
-};
 
 export type Origin = {
   name: string;
@@ -201,14 +188,6 @@ export const stay = {
     { image: "/images/ember/stay-table.webp", label: "The long table", note: "Fast Wi-Fi · plugs at every seat" },
     { image: "/images/ember/stay-roaster.webp", label: "The roaster", note: "Roasting days: Tue & Fri" },
   ],
-};
-
-export const club = {
-  eyebrow: "Ember Club",
-  title: "Fresh beans, every two weeks.",
-  perks: ["From ₹1,190 / month", "Your first cup on us", "Students 10% off with ID"],
-  button: "Join the club",
-  image: "/images/ember/menu-flatwhite.webp",
 };
 
 export const reviews = {
