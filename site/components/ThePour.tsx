@@ -85,7 +85,7 @@ export default function ThePour() {
       gsap.to(state, {
         p: 1,
         ease: "none",
-        scrollTrigger: { trigger: root, start: "top top", end: "bottom bottom", scrub: 0.7 },
+        scrollTrigger: { trigger: root, start: "top top", end: "bottom bottom", scrub: 0.3 },
         onUpdate: () => render(state.p),
       });
 

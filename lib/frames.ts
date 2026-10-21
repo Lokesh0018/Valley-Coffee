@@ -85,12 +85,14 @@ export function loadFrames(
 /** Draws an image into a canvas like CSS object-fit (cover/contain). */
 export function drawFit(
   ctx: CanvasRenderingContext2D,
-  img: HTMLImageElement,
+  img: HTMLImageElement | ImageBitmap,
   w: number,
   h: number,
   fit: "cover" | "contain" = "cover",
 ) {
-  const ir = img.naturalWidth / img.naturalHeight;
+  const iw = "naturalWidth" in img ? img.naturalWidth : img.width;
+  const ih = "naturalHeight" in img ? img.naturalHeight : img.height;
+  const ir = iw / ih;
   const cr = w / h;
   let dw = w;
   let dh = h;

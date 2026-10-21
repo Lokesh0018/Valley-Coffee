@@ -40,7 +40,7 @@ export default function BeanBags() {
       };
       const tl = gsap.timeline({
         defaults: { ease: "none" },
-        scrollTrigger: { trigger: row, start: "top 88%", end: "top 30%", scrub: 0.7, invalidateOnRefresh: true },
+        scrollTrigger: { trigger: row, start: "top 88%", end: "top 30%", scrub: 0.3, invalidateOnRefresh: true },
       });
       bags.forEach((b) => {
         tl.fromTo(

@@ -24,7 +24,7 @@ function Thumb({ item }: { item: CartItem }) {
   if (item.kind === "bake" && item.image)
     return (
       <span className="arch block h-[72px] w-[58px] shrink-0 overflow-hidden bg-[#edf4ea]">
-        <img src={item.image} alt="" className="h-full w-full object-cover" loading="lazy" />
+        <img src={item.image} alt="" className="h-full w-full object-cover" loading="lazy" decoding="async" />
       </span>
     );
   // a tiny kraft bag with the lot's label colour

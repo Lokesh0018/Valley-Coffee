@@ -16,7 +16,7 @@ export default function SmoothScroll() {
   useEffect(() => {
     if (prefersReducedMotion()) return;
 
-    const lenis = new Lenis({ duration: 1.25, easing: (t) => 1 - Math.pow(1 - t, 4), smoothWheel: true });
+    const lenis = new Lenis({ duration: 0.85, easing: (t) => 1 - Math.pow(1 - t, 3), smoothWheel: true, wheelMultiplier: 1.1 });
     window.__lenis = lenis;
     lenis.on("scroll", ScrollTrigger.update);
     const tick = (time: number) => lenis.raf(time * 1000);

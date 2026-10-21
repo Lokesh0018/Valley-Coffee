@@ -62,7 +62,6 @@ export default function ClubAndNotes() {
     <>
       <section id="reviews" data-record-time="0.9" data-record-hold="1.3" data-record-label="Reviews" className="reviews band-forest relative z-[4] pb-[clamp(90px,13vh,160px)] pt-[clamp(56px,8vh,96px)]">
         <TornEdge color="#133024" seed={73} />
-        <TornEdge color="#133024" side="bottom" seed={91} fiber="#0b1a13" />
         {/* café counter: pendant-lamp glow over the printers, a warm bounce from below, paper grain */}
         <div aria-hidden className="reviews-light pointer-events-none absolute inset-0 -z-[1]" />
         <div className="container-x">

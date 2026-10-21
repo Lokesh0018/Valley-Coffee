@@ -199,7 +199,7 @@ export default function MenuBoard() {
                   key={p.tab}
                   src={p.image}
                   alt={p.tab}
-                  loading="lazy"
+                  loading="lazy" decoding="async"
                   data-page-img={i}
                   className="absolute inset-0 h-full w-full object-cover transition-opacity duration-700"
                   style={{ opacity: i === page ? 1 : 0 }}

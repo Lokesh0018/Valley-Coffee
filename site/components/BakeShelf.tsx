@@ -46,7 +46,7 @@ export default function BakeShelf() {
       gsap.utils.toArray<HTMLElement>(".bake-card").forEach((card, i) => {
         const tl = gsap.timeline({
           defaults: { ease: "none" },
-          scrollTrigger: { trigger: card, start: `top ${98 - (i % 4) * 5}%`, end: `top ${48 - (i % 4) * 5}%`, scrub: 0.6 },
+          scrollTrigger: { trigger: card, start: `top ${98 - (i % 4) * 5}%`, end: `top ${48 - (i % 4) * 5}%`, scrub: 0.3 },
         });
         if (!phone) tl.fromTo(card.querySelector(".bake-mask"), { clipPath: "inset(10% 9% 0% 9% round 9999px 9999px 12px 12px)" }, { clipPath: "inset(0% 0% 0% 0% round 9999px 9999px 12px 12px)", duration: 1 }, 0);
         tl.fromTo(card.querySelector(".bake-img"), { scale: phone ? 1.2 : 1.35 }, { scale: 1, duration: 1 }, 0);
@@ -115,7 +115,7 @@ export default function BakeShelf() {
                 >
                   <div className="bake-mask">
                     <div className="arch bake-arch tilt-card relative aspect-[4/5] bg-[#dfe9dc]">
-                      <img src={b.image} alt={b.name} loading="lazy" className="bake-img absolute inset-0 h-full w-full object-cover" />
+                      <img src={b.image} alt={b.name} loading="lazy" decoding="async" className="bake-img absolute inset-0 h-full w-full object-cover" />
                       <span className="absolute inset-x-0 bottom-0 h-1/3 bg-[linear-gradient(0deg,rgba(19,48,36,0.45),rgba(19,48,36,0))]" />
                       <span className="absolute bottom-3.5 left-3.5 inline-flex items-center gap-1.5 rounded-full bg-[#fafcf7]/90 px-3 py-1 text-[12px] font-medium text-[#133024] backdrop-blur max-md:text-[13px]">
                         <span className="h-1.5 w-1.5 rounded-full bg-[#2f9a55]" />

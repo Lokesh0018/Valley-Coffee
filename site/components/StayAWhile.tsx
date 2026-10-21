@@ -23,7 +23,7 @@ export default function StayAWhile() {
     const ctx = gsap.context(() => {
       gsap.utils.toArray<HTMLElement>(".stay-layer").forEach((layer) => {
         const amount = Number(layer.dataset.speed || 0.1) * 520 * k;
-        gsap.fromTo(layer, { y: amount / 2 }, { y: -amount / 2, ease: "none", scrollTrigger: { trigger: el, start: "top bottom", end: "bottom top", scrub: 0.5 } });
+        gsap.fromTo(layer, { y: amount / 2 }, { y: -amount / 2, ease: "none", scrollTrigger: { trigger: el, start: "top bottom", end: "bottom top", scrub: 0.3 } });
       });
     }, el);
     return () => ctx.revert();
@@ -51,19 +51,19 @@ export default function StayAWhile() {
         <div className="stay-collage relative h-[clamp(520px,82vh,860px)] md:col-span-8 max-md:h-[120vw]">
           <figure className="stay-layer absolute left-0 top-[6%] w-[46%] max-md:w-[62%]" data-speed="0.08">
             <div className="arch tilt-card aspect-[3/4]">
-              <img src={big.image} alt={big.label} className="h-full w-full object-cover" />
+              <img decoding="async" src={big.image} alt={big.label} className="h-full w-full object-cover" />
             </div>
             <figcaption className="mt-3 text-[13px] text-muted max-md:text-[14px]">{big.label}</figcaption>
           </figure>
           <figure className="stay-layer absolute right-0 top-0 w-[38%] max-md:w-[46%]" data-speed="0.22">
             <div className="arch tilt-card aspect-[3/4]">
-              <img src={mid.image} alt={mid.label} className="h-full w-full object-cover" />
+              <img decoding="async" src={mid.image} alt={mid.label} className="h-full w-full object-cover" />
             </div>
             <figcaption className="mt-3 text-right text-[13px] text-muted max-md:text-[14px]">{mid.label}</figcaption>
           </figure>
           <figure className="stay-layer absolute bottom-0 right-[18%] w-[30%] max-md:hidden" data-speed="0.34">
             <div className="arch tilt-card aspect-[3/4] shadow-[0_30px_60px_-20px_rgba(19,48,36,0.5)]">
-              <img src={small.image} alt={small.label} className="h-full w-full object-cover" />
+              <img decoding="async" src={small.image} alt={small.label} className="h-full w-full object-cover" />
             </div>
           </figure>
           <span className="stay-layer stay-note absolute left-[6%] top-[88%] rotate-[-4deg] rounded-full bg-[#fafcf7] px-4 py-2 text-[13px] text-[#133024] shadow-lg max-md:text-[14px] max-md:left-[30%] max-md:top-[84%]" data-speed="0.4">

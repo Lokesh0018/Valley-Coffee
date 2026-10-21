@@ -21,7 +21,7 @@ export default function Transitions() {
           gsap.fromTo(
             edge,
             { scaleY: 2.6, transformOrigin: "50% 100%" },
-            { scaleY: 1, ease: "none", scrollTrigger: { trigger: edge, start: "top bottom", end: "top 45%", scrub: 0.5 } },
+            { scaleY: 1, ease: "none", scrollTrigger: { trigger: edge, start: "top bottom", end: "top 45%", scrub: 0.3 } },
           );
         });
 

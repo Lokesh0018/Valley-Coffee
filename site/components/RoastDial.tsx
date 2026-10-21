@@ -55,7 +55,7 @@ export default function RoastDial() {
       let last = 0;
       const tl = gsap.timeline({
         defaults: { ease: "power2.inOut" },
-        scrollTrigger: { trigger: root, start: "top top", end: "bottom bottom", scrub: 0.8 },
+        scrollTrigger: { trigger: root, start: "top top", end: "bottom bottom", scrub: 0.3 },
         onUpdate() {
           // switch the stop when the needle is halfway to it
           const p = this.progress();

@@ -930,3 +930,15 @@ html.bag-open {
 .bag-drawer .arch {
   border-radius: 9999px 9999px 10px 10px;
 }
+
+/* Our beans, phone: the card row swipes sideways on its own, the page keeps scrolling vertically */
+@media (max-width: 819px) {
+  .origin-row {
+    touch-action: pan-x pan-y;
+    overscroll-behavior-x: contain;
+    -webkit-overflow-scrolling: touch;
+  }
+  .origin-card .arch {
+    aspect-ratio: 4 / 4.6;
+  }
+}

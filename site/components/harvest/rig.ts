@@ -36,13 +36,26 @@ export class Rig {
     if (!(key in this.pose)) this.pose[key] = 0;
   }
 
+  // what was last written per element, so an unchanged value costs no DOM write (and no style recalc)
+  private last = new Map<object, string>();
+  private lastT = -1;
+
   write(t: number) {
+    // the breeze and the women move slowly: 30 writes a second look the same as 60 and cost half
+    if (t - this.lastT < 1 / 31) return;
+    this.lastT = t;
+    const put = (el: HTMLElement | SVGGElement, v: string, attr: boolean) => {
+      if (this.last.get(el) === v) return;
+      this.last.set(el, v);
+      if (attr) el.setAttribute("transform", v);
+      else (el as HTMLElement).style.transform = v;
+    };
     for (const s of this.sways.values()) {
       const a = s.amp * (Math.sin((t * Math.PI * 2) / s.period + s.phase) * 0.8 + Math.sin((t * Math.PI * 2) / (s.period * 2.7) + s.phase * 1.7) * 0.2);
-      s.el.style.transform = `rotate(${a.toFixed(3)}deg)`;
+      put(s.el, `rotate(${a.toFixed(2)}deg)`, false);
     }
-    for (const [key, el] of this.cssJoints) el.style.transform = `rotate(${this.pose[key].toFixed(2)}deg)`;
-    for (const [key, j] of this.joints) j.el.setAttribute("transform", `translate(${j.x} ${j.y}) rotate(${this.pose[key].toFixed(2)})`);
+    for (const [key, el] of this.cssJoints) put(el, `rotate(${this.pose[key].toFixed(2)}deg)`, false);
+    for (const [key, j] of this.joints) put(j.el, `translate(${j.x} ${j.y}) rotate(${this.pose[key].toFixed(2)})`, true);
   }
 }
 

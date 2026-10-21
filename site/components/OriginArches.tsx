@@ -24,7 +24,7 @@ export default function OriginArches() {
       // M8: routes draw from each estate to the roastery, the estate dots light in turn, then the cards rise
       const tl = gsap.timeline({
         defaults: { ease: "none" },
-        scrollTrigger: { trigger: el, start: "top 65%", end: "bottom 92%", scrub: 0.7 },
+        scrollTrigger: { trigger: el, start: "top 65%", end: "bottom 92%", scrub: 0.3 },
       });
       tl.to({}, { duration: 1 }, 0);
       tl.fromTo(".map-outline", { opacity: 0.2 }, { opacity: 1, duration: 0.25 }, 0);
@@ -34,9 +34,16 @@ export default function OriginArches() {
         tl.fromTo(dot, { opacity: 0.25, scale: 0.6, transformOrigin: "50% 50%", transformBox: "fill-box" }, { opacity: 1, scale: 1, duration: 0.06, ease: "back.out(2)" }, at);
         tl.fromTo(`#route-mask-${i} .route-reveal`, { strokeDashoffset: 1 }, { strokeDashoffset: 0, duration: 0.16, ease: "power1.inOut" }, at + 0.03);
       });
-      gsap.utils.toArray<HTMLElement>(".origin-card").forEach((card, i) => {
-        tl.fromTo(card, { y: 70, opacity: 0 }, { y: 0, opacity: 1, duration: 0.18, ease: "power2.out" }, 0.42 + i * 0.1);
-      });
+      const cards = gsap.utils.toArray<HTMLElement>(".origin-card");
+      if (window.matchMedia("(max-width: 819px)").matches) {
+        // phone: the section is tall, so the scrub would leave the later cards invisible while the row is on screen.
+        // The whole row rises once when it comes into view; the cards are then free to swipe.
+        gsap.fromTo(cards, { y: 40, opacity: 0 }, { y: 0, opacity: 1, duration: 0.8, stagger: 0.08, ease: "power2.out", scrollTrigger: { trigger: ".origin-row", start: "top 88%", once: true } });
+      } else {
+        cards.forEach((card, i) => {
+          tl.fromTo(card, { y: 70, opacity: 0 }, { y: 0, opacity: 1, duration: 0.18, ease: "power2.out" }, 0.42 + i * 0.1);
+        });
+      }
     }, el);
     return () => ctx.revert();
   }, []);
@@ -53,9 +60,9 @@ export default function OriginArches() {
             <Lines lines={origins.title} className="text-[clamp(46px,6vw,104px)]" />
             <p className="mt-7 max-w-[420px] text-[17px] leading-relaxed text-muted">{origins.text}</p>
             {/* a few facts at a glance */}
-            <dl className="mt-8 flex max-w-[480px] flex-wrap gap-x-10 gap-y-5 border-t border-line pt-6">
-              {origins.stats.map(([v, l]) => (
-                <div key={l}>
+            <dl className="mt-8 grid max-w-[480px] grid-cols-2 gap-x-6 gap-y-5 border-t border-line pt-6 md:flex md:flex-wrap md:gap-x-10">
+              {origins.stats.map(([v, l], i) => (
+                <div key={l} className={i === origins.stats.length - 1 ? "max-md:col-span-2 max-md:border-t max-md:border-line max-md:pt-5" : ""}>
                   <dt className="sr-only">{l}</dt>
                   <dd className="whitespace-nowrap font-display text-[clamp(22px,2vw,30px)] leading-none text-fg">{v}</dd>
                   <dd className="mt-2 text-[13px] text-muted max-md:text-[14px]">{l}</dd>
@@ -64,7 +71,31 @@ export default function OriginArches() {
             </dl>
           </div>
           <div className="md:col-span-7">
-            <OriginMap className="mx-auto h-auto w-full max-w-[660px]" active={active} onActive={setActive} />
+            {/* phone: the map runs edge to edge and gets a legend under it (its small pill labels are hidden there, only the numbers show) */}
+            <OriginMap className="mx-auto h-auto w-full max-w-[660px] max-md:-mx-[clamp(20px,5vw,80px)] max-md:w-[calc(100%+2*clamp(20px,5vw,80px))] max-md:max-w-none" active={active} onActive={setActive} />
+            <ol className="mt-4 grid grid-cols-2 gap-2 md:hidden" aria-label="Estates on the map">
+              {origins.items.map((o, i) => (
+                <li key={o.name}>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setActive(i);
+                      // slide the card row to that estate (sideways only, so the page itself stays put)
+                      const card = root.current?.querySelector<HTMLElement>(`[data-card="${i}"]`);
+                      const row = card?.parentElement;
+                      if (card && row) row.scrollTo({ left: card.offsetLeft - parseFloat(getComputedStyle(row).paddingLeft), behavior: "smooth" });
+                    }}
+                    aria-pressed={active === i}
+                    className={`flex min-h-11 w-full cursor-pointer items-center gap-3 rounded-full border px-3 text-left text-[14px] transition-colors duration-200 ${
+                      active === i ? "border-[#24683c] bg-[#24683c] text-white" : "border-line bg-[#fafcf7]/70 text-fg"
+                    }`}
+                  >
+                    <span className={`font-display text-[18px] leading-none ${active === i ? "text-white" : "text-[#24683c]"}`}>{String(i + 1).padStart(2, "0")}</span>
+                    <span className="truncate font-medium">{o.name}</span>
+                  </button>
+                </li>
+              ))}
+            </ol>
           </div>
         </div>
 
@@ -72,18 +103,18 @@ export default function OriginArches() {
           <div
             data-cursor="Swipe"
             onMouseLeave={() => setActive(-1)}
-            className="no-scrollbar -mx-[clamp(20px,5vw,80px)] mt-[clamp(40px,7vh,90px)] flex snap-x snap-mandatory scroll-px-[clamp(20px,5vw,80px)] gap-5 overflow-x-auto px-[clamp(20px,5vw,80px)] min-[820px]:mx-0 min-[820px]:grid min-[820px]:grid-cols-2 min-[820px]:gap-6 min-[820px]:gap-y-12 min-[820px]:overflow-visible min-[820px]:px-0 lg:grid-cols-4"
+            className="origin-row no-scrollbar -mx-[clamp(20px,5vw,80px)] mt-[clamp(32px,7vh,90px)] flex snap-x snap-mandatory scroll-px-[clamp(20px,5vw,80px)] gap-4 overflow-x-auto px-[clamp(20px,5vw,80px)] pb-2 min-[820px]:mx-0 min-[820px]:grid min-[820px]:grid-cols-2 min-[820px]:gap-6 min-[820px]:gap-y-12 min-[820px]:overflow-visible min-[820px]:px-0 min-[820px]:pb-0 lg:grid-cols-4"
           >
             {origins.items.map((o, i) => (
               <article
                 key={o.name}
-                className={`origin-card group w-[min(74vw,360px)] shrink-0 snap-start min-[820px]:w-auto ${active === i ? "is-active" : ""}`}
+                className={`origin-card group w-[min(78vw,360px)] shrink-0 snap-start min-[820px]:w-auto ${active === i ? "is-active" : ""}`}
                 data-card={i}
                 onMouseEnter={() => setActive(i)}
                 onFocus={() => setActive(i)}
               >
                 <div className="arch relative aspect-[4/5]">
-                  <img src={o.image} alt={`Coffee hills of ${o.name}`} loading="lazy" className="arch-img absolute inset-0 h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.04]" />
+                  <img src={o.image} alt={`Coffee hills of ${o.name}`} loading="lazy" decoding="async" className="arch-img absolute inset-0 h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.04]" />
                   <span className="absolute left-1/2 top-5 -translate-x-1/2 rounded-full bg-[#fafcf7]/92 px-3 py-1 text-[12px] font-semibold tracking-[0.18em] text-[#133024]">
                     {String(i + 1).padStart(2, "0")}
                   </span>
