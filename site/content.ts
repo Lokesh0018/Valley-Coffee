@@ -146,12 +146,20 @@ export const bakes = {
   eyebrow: "Fresh bakes",
   title: ["Out of the oven", "*at 8.*"],
   text: "Baked in our own oven every morning, in small batches, until they run out.",
-  items: [
-    { name: "Cardamom bun", note: "Soft, glazed, green cardamom", price: 160, out: "Out at 8 am", image: "/images/ember/bake-bun.webp" },
-    { name: "Brown-butter croissant", note: "Flaky, nutty, 72 layers", price: 210, out: "Out at 8 am", image: "/images/ember/bake-croissant.webp" },
-    { name: "Jaggery banana bread", note: "Warm slice, salted butter", price: 180, out: "Out at 12 pm", image: "/images/ember/bake-bananabread.webp" },
-    { name: "Filter-coffee tiramisu", note: "Made with our decoction", price: 290, out: "Out at 12 pm", image: "/images/ember/bake-tiramisu.webp" },
+  // the day's oven, shown as a small timeline beside the title
+  schedule: [
+    { at: "7 am", label: "Oven on" },
+    { at: "8 am", label: "First batch" },
+    { at: "12 pm", label: "Second batch" },
+    { at: "Till gone", label: "No reheats" },
   ],
+  note: "Whole cakes and boxes of six with a day's notice",
+  items: [
+    { name: "Cardamom bun", note: "Soft, glazed, green cardamom", price: 160, out: "Out at 8 am", tag: "Most loved", pairs: "Cortado", image: "/images/ember/bake-bun.webp" },
+    { name: "Brown-butter croissant", note: "Flaky, nutty, 72 layers", price: 210, out: "Out at 8 am", pairs: "Flat white", image: "/images/ember/bake-croissant.webp" },
+    { name: "Jaggery banana bread", note: "Warm slice, salted butter", price: 180, out: "Out at 12 pm", tag: "Eggless", pairs: "Araku pour-over", image: "/images/ember/bake-bananabread.webp" },
+    { name: "Filter-coffee tiramisu", note: "Made with our decoction", price: 290, out: "Out at 12 pm", pairs: "Espresso", image: "/images/ember/bake-tiramisu.webp" },
+  ] as { name: string; note: string; price: number; out: string; tag?: string; pairs: string; image: string }[],
 };
 
 export type Bag = {
