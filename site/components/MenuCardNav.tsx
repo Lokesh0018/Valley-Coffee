@@ -4,14 +4,13 @@ import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { gsap } from "@/lib/gsap";
 import { nav } from "../content";
 import { Logo } from "./Logo";
+import { useCart } from "../cart";
 
 // The navbar: one light cream bar floating at the top.
 // Laptop: logo · links in page order (a soft pill slides to the section you are in) · live status · "Shop beans" · bag.
 // Phone/tablet: logo · bag · a Menu button that opens a panel under the bar (big tap targets, the live status, the
 // hours, "Shop beans"); it closes on a link, Escape or a tap outside. The bar firms up once you leave the hero.
 // Hours live once, in content.ts (nav.hours): the status and the panel both read them.
-
-export const BAG_EVENT = "ember:bag";
 
 const fmt = (h: number) => (h === 24 ? "midnight" : h === 12 ? "noon" : `${h % 12 === 0 ? 12 : Math.floor(h % 12)}${h % 1 ? ":30" : ""} ${h < 12 ? "am" : "pm"}`);
 const hoursOn = (weekday: number) => nav.hours.find((h) => h.weekdays.includes(weekday))!;
@@ -38,13 +37,16 @@ function StatusDot({ open }: { open: boolean }) {
 }
 
 export default function MenuCardNav() {
-  const [bag, setBag] = useState(0);
+  const cart = useCart();
+  const bag = cart.count;
+  const prevBag = useRef(0);
+  const ready = useRef(false);
   const [status, setStatus] = useState<{ open: boolean; text: string } | null>(null);
   const [active, setActive] = useState<string | null>(null);
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
   const [pill, setPill] = useState<{ x: number; w: number } | null>(null);
-  const bagIcon = useRef<HTMLAnchorElement>(null);
+  const bagIcon = useRef<HTMLButtonElement>(null);
   const linksRef = useRef<HTMLDivElement>(null);
   const panel = useRef<HTMLDivElement>(null);
   const menuBtn = useRef<HTMLButtonElement>(null);
@@ -91,19 +93,19 @@ export default function MenuCardNav() {
     setPill(a ? { x: a.offsetLeft, w: a.offsetWidth } : null);
   }, [active]);
 
-  // a bean landed in the bag: the count bumps
+  // something landed in the bag (count went up, or the flying bean arrived): the count bumps
   useEffect(() => {
-    const onBag = () => {
-      setBag((n) => n + 1);
+    const bump = () => {
       const icon = bagIcon.current;
-      if (icon) {
-        gsap.fromTo(icon.querySelector(".bag-count"), { scale: 1.7 }, { scale: 1, duration: 0.6, ease: "back.out(3)" });
-        gsap.fromTo(icon, { rotation: -10 }, { rotation: 0, duration: 0.5, ease: "back.out(2)" });
-      }
+      if (!icon) return;
+      gsap.fromTo(icon.querySelector(".bag-count"), { scale: 1.7 }, { scale: 1, duration: 0.6, ease: "back.out(3)" });
+      gsap.fromTo(icon, { rotation: -10 }, { rotation: 0, duration: 0.5, ease: "back.out(2)" });
     };
-    window.addEventListener(BAG_EVENT, onBag);
-    return () => window.removeEventListener(BAG_EVENT, onBag);
-  }, []);
+    // (no bump on the first paint after the saved bag loads)
+    if (cart.hydrated && ready.current && bag > prevBag.current) bump();
+    if (cart.hydrated) ready.current = true;
+    prevBag.current = bag;
+  }, [bag, cart.hydrated]);
 
   // phone/tablet panel: Escape or a tap outside closes it
   useEffect(() => {
@@ -190,11 +192,16 @@ export default function MenuCardNav() {
               <path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
           </a>
-          <a
+          <button
             ref={bagIcon}
-            href={nav.cta.href}
-            aria-label={`Bag, ${bag} ${bag === 1 ? "item" : "items"}`}
-            className="bag-icon relative grid h-11 w-11 shrink-0 place-items-center rounded-full border border-[#133024]/15 transition-colors duration-200 hover:border-[#2f7d4a] hover:bg-[#2f7d4a]/8"
+            type="button"
+            onClick={() => {
+              setOpen(false);
+              cart.setOpen(true);
+            }}
+            aria-label={`Open your bag, ${bag} ${bag === 1 ? "item" : "items"}`}
+            aria-haspopup="dialog"
+            className="bag-icon relative grid h-11 w-11 shrink-0 cursor-pointer place-items-center rounded-full border border-[#133024]/15 transition-colors duration-200 hover:border-[#2f7d4a] hover:bg-[#2f7d4a]/8"
             data-cursor="Bag"
           >
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden>
@@ -208,7 +215,7 @@ export default function MenuCardNav() {
             >
               {bag}
             </span>
-          </a>
+          </button>
           {/* phone/tablet: the menu button */}
           <button
             ref={menuBtn}

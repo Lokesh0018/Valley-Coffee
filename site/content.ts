@@ -258,3 +258,14 @@ export const harvest = {
   ],
   facts: ["1,100 m up", "Shade-grown", "Picked Nov–Feb"],
 };
+
+// The bag drawer (BagDrawer.tsx): what you have picked, then the order goes out as a WhatsApp note
+export const cart = {
+  title: ["Your", "*bag.*"],
+  empty: { title: "Nothing in the bag yet.", text: "Beans to take home and bakes to pick up both land here.", links: [{ label: "Shop beans", href: "#beans" }, { label: "See the bakes", href: "#bakes" }] },
+  pickup: "Pick up at the cafe, Beach Road, ready in 20 min",
+  free: 1500, // free delivery in Visakhapatnam from this amount
+  button: "Order on WhatsApp",
+  fine: "Opens WhatsApp with your order typed out. Nothing is sent until you press send there. Payment at pick-up.",
+  clear: "Empty the bag",
+};

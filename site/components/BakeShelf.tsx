@@ -1,11 +1,12 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import { gsap, prefersReducedMotion } from "@/lib/gsap";
 import { bakes } from "../content";
 import Lines from "./Lines";
 import SwipeHint from "./SwipeHint";
 import { useTilt } from "./useTilt";
+import { useCart } from "../cart";
 
 // Fresh bakes (Motion map M13 scale-down inside mask): four arch-top bake cards on the cream band that continues
 // from the menu. As each card scrolls in, its arch opens from a smaller arch to full size while the photo inside
@@ -32,7 +33,9 @@ function Wheat({ className = "" }: { className?: string }) {
 
 export default function BakeShelf() {
   const root = useRef<HTMLElement>(null);
-  const [tray, setTray] = useState<number[]>([]);
+  const cart = useCart();
+  // the tray = the bakes in the bag (site/cart.tsx); the bar under the cards opens the bag drawer
+  const tray = bakes.items.map((b, i) => (cart.has("bake", b.name, b.out) ? i : -1)).filter((i) => i >= 0);
   useTilt(root, ".bake-arch");
 
   useEffect(() => {
@@ -53,8 +56,12 @@ export default function BakeShelf() {
     return () => ctx.revert();
   }, []);
 
-  const toggle = (i: number) => setTray((t) => (t.includes(i) ? t.filter((x) => x !== i) : [...t, i]));
-  const total = tray.reduce((s, i) => s + bakes.items[i].price, 0);
+  const toggle = (i: number) => {
+    const b = bakes.items[i];
+    if (tray.includes(i)) cart.remove(`bake:${b.name}:${b.out}`);
+    else cart.add({ kind: "bake", name: b.name, variant: b.out, price: b.price, image: b.image });
+  };
+  const total = cart.items.filter((i) => i.kind === "bake").reduce((s, i) => s + i.price * i.qty, 0);
 
   return (
     <section ref={root} id="bakes" className="bakes paper relative overflow-hidden pb-[clamp(110px,16vh,190px)] pt-[clamp(40px,6vh,80px)]">
@@ -173,12 +180,12 @@ export default function BakeShelf() {
               <span>{bakes.note}</span>
             )}
           </p>
-          <a href="#visit" className="group inline-flex min-h-11 items-center gap-2 rounded-full bg-[#133024] px-5 text-[14px] font-semibold text-white transition-colors duration-200 hover:bg-[#24683c]">
+          <button type="button" onClick={() => (tray.length ? cart.setOpen(true) : document.getElementById("visit")?.scrollIntoView({ behavior: "smooth" }))} className="group cursor-pointer inline-flex min-h-11 items-center gap-2 rounded-full bg-[#133024] px-5 text-[14px] font-semibold text-white transition-colors duration-200 hover:bg-[#24683c]">
             {tray.length ? "Order ahead" : "Pre-order"}
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden className="transition-transform duration-200 group-hover:translate-x-1">
               <path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
-          </a>
+          </button>
         </div>
       </div>
     </section>

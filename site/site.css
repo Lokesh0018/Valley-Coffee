@@ -922,3 +922,11 @@ html.is-static .bake-ping { animation: none; opacity: 0; }
     animation: none;
   }
 }
+
+/* ---------- The bag drawer (BagDrawer.tsx) ---------- */
+html.bag-open {
+  overflow: hidden;
+}
+.bag-drawer .arch {
+  border-radius: 9999px 9999px 10px 10px;
+}

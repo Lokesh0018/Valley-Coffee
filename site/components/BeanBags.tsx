@@ -6,7 +6,7 @@ import { beans } from "../content";
 import Lines from "./Lines";
 import TornEdge from "./TornEdge";
 import ArakuBackdrop from "./ArakuBackdrop";
-import { BAG_EVENT } from "./MenuCardNav";
+import { useCart } from "../cart";
 import { playOnceInView } from "./recordDemo";
 
 // Take home (Motion map M4 stack fan-out): four Araku Valley lots, one per process / roast, over a backdrop of
@@ -22,6 +22,7 @@ const LABEL = { left: 17.2, top: 32.7, width: 65.2, height: 52.4 };
 export default function BeanBags() {
   const [grind, setGrind] = useState(0);
   const [added, setAdded] = useState<number | null>(null);
+  const cart = useCart();
   const root = useRef<HTMLElement>(null);
   const picked = useRef(false);
 
@@ -68,11 +69,14 @@ export default function BeanBags() {
 
   // "Add to bag": a coffee bean flies in an arc from the button to the bag icon in the nav, then the count bumps
   const add = (i: number, from?: HTMLElement | null) => {
+    const lot = beans.items[i];
+    // the lot lands in the bag (site/cart.tsx) once the bean reaches the icon; the nav count bumps by itself
+    const land = () => cart.add({ kind: "beans", name: lot.name, variant: beans.grinds[grind], price: lot.price, label: lot.label, ink: lot.ink });
     setAdded(i);
     setTimeout(() => setAdded((a) => (a === i ? null : a)), 1600);
     const icon = document.querySelector<HTMLElement>(".bag-icon");
     if (!from || !icon || prefersReducedMotion()) {
-      window.dispatchEvent(new Event(BAG_EVENT));
+      land();
       return;
     }
     const a = from.getBoundingClientRect();
@@ -90,7 +94,7 @@ export default function BeanBags() {
       .timeline({
         onComplete: () => {
           bean.remove();
-          window.dispatchEvent(new Event(BAG_EVENT));
+          land();
         },
       })
       .set(bean, { x: sx, y: sy, rotation: 0, scale: 1.2 })

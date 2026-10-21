@@ -12,6 +12,8 @@ import EmberFooter from "./components/EmberFooter";
 import SiteFlags from "./components/SiteFlags";
 import BrewLoader from "./components/BrewLoader";
 import Transitions from "./components/Transitions";
+import BagDrawer from "./components/BagDrawer";
+import { CartProvider } from "./cart";
 import { faviconSvg } from "./components/Logo";
 import { meta } from "./site";
 
@@ -32,19 +34,22 @@ export default function Page() {
       <SiteFlags />
       <BrewLoader name={meta.loaderText ?? meta.name} tagline="Roasted every morning · Visakhapatnam" />
       <Transitions />
-      <MenuCardNav />
-      <main className="relative overflow-x-clip">
-        <HarvestHero />
-        <RoastDial />
-        <OriginArches />
-        <ThePour />
-        <MenuBoard />
-        <BakeShelf />
-        <BeanBags />
-        <StayAWhile />
+      <CartProvider>
+        <MenuCardNav />
+        <BagDrawer />
+        <main className="relative overflow-x-clip">
+          <HarvestHero />
+          <RoastDial />
+          <OriginArches />
+          <ThePour />
+          <MenuBoard />
+          <BakeShelf />
+          <BeanBags />
+          <StayAWhile />
         <ClubAndNotes />
-      </main>
+        </main>
       <EmberFooter />
+      </CartProvider>
     </>
   );
 }
