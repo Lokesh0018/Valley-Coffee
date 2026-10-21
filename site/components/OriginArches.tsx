@@ -114,7 +114,7 @@ export default function OriginArches() {
                 onFocus={() => setActive(i)}
               >
                 <div className="arch relative aspect-[4/5]">
-                  <img src={o.image} alt={`Coffee hills of ${o.name}`} loading="lazy" decoding="async" className="arch-img absolute inset-0 h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.04]" />
+                  <img width={900} height={1205} src={o.image} alt={`Coffee hills of ${o.name}`} loading="lazy" decoding="async" className="arch-img absolute inset-0 h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.04]" />
                   <span className="absolute left-1/2 top-5 -translate-x-1/2 rounded-full bg-[#fafcf7]/92 px-3 py-1 text-[12px] font-semibold tracking-[0.18em] text-[#133024]">
                     {String(i + 1).padStart(2, "0")}
                   </span>

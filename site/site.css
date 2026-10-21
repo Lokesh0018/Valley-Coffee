@@ -251,6 +251,9 @@ a:hover > .er-link,
 /* Arch cards lift with a soft shadow while tilted (useTilt.ts) */
 .tilt-card {
   transition: box-shadow 0.6s ease;
+}
+/* a GPU layer only while a card is lifted, not for every card all the time */
+.tilt-card.is-lifted {
   will-change: transform;
 }
 .tilt-card.is-lifted {
@@ -428,8 +431,15 @@ html.is-static .hv-anim {
   display: block;
   overflow: visible;
 }
+/* the painted backdrop: an SVG with watercolour filters until it has been rasterised once into an image (HarvestHero.tsx) */
+.hv-backdrop svg,
+.hv-backdrop img {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
 .hv-still,
-.hv-stage > svg:first-of-type,
+.hv-backdrop,
 .hv-paper {
   will-change: transform;
 }
@@ -794,8 +804,7 @@ html.is-static .bake-ping { animation: none; opacity: 0; }
   content: "";
   position: absolute;
   inset: 0;
-  opacity: 0.09;
-  mix-blend-mode: overlay;
+  opacity: 0.06; /* plain low-opacity grain: a blend mode here made the whole section its own compositing group */
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
 
@@ -941,4 +950,16 @@ html.bag-open {
   .origin-card .arch {
     aspect-ratio: 4 / 4.6;
   }
+}
+
+/* ---------- Performance ---------- */
+/* ambient CSS animations (sun, rays, lamps, pings) pause while their section is off screen (AmbientPause.tsx) */
+.off-screen *,
+.off-screen *::before,
+.off-screen *::after {
+  animation-play-state: paused !important;
+}
+/* the roast dial photos get their own layers only while the dial is pinned */
+.roast-outer.is-pinned [data-roast-img] {
+  will-change: opacity;
 }

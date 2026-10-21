@@ -68,7 +68,8 @@ const loadImage = (src: string) =>
   });
 
 async function preloadAll() {
-  const urls = [...new Set(Array.from(document.images).map((i) => i.currentSrc || i.src).filter(Boolean))];
+  // only the images that are not lazy (the first photos on the page); lazy ones arrive as you scroll
+  const urls = [...new Set(Array.from(document.images).filter((i) => i.loading !== "lazy").map((i) => i.currentSrc || i.src).filter(Boolean))];
   await Promise.all([...urls.map(loadImage), document.fonts.ready]);
 }
 

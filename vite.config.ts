@@ -15,7 +15,14 @@ export default defineConfig({
     },
   },
   build: {
-    emptyOutDir: false,
+    emptyOutDir: true, // stale bundles were piling up in dist/
+    chunkSizeWarningLimit: 700,
+    rolldownOptions: {
+      output: {
+        // vendor code in its own chunk so repeat visits re-use it from cache
+        advancedChunks: { groups: [{ name: "vendor", test: /node_modules[\/](react|react-dom|scheduler|gsap|lenis)[\/]/ }] },
+      },
+    },
   },
   server: {
     port: 5173,

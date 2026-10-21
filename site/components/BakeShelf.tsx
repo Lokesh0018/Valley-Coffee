@@ -115,7 +115,7 @@ export default function BakeShelf() {
                 >
                   <div className="bake-mask">
                     <div className="arch bake-arch tilt-card relative aspect-[4/5] bg-[#dfe9dc]">
-                      <img src={b.image} alt={b.name} loading="lazy" decoding="async" className="bake-img absolute inset-0 h-full w-full object-cover" />
+                      <img width={900} height={1205} src={b.image} alt={b.name} loading="lazy" decoding="async" className="bake-img absolute inset-0 h-full w-full object-cover" />
                       <span className="absolute inset-x-0 bottom-0 h-1/3 bg-[linear-gradient(0deg,rgba(19,48,36,0.45),rgba(19,48,36,0))]" />
                       <span className="absolute bottom-3.5 left-3.5 inline-flex items-center gap-1.5 rounded-full bg-[#fafcf7]/90 px-3 py-1 text-[12px] font-medium text-[#133024] backdrop-blur max-md:text-[13px]">
                         <span className="h-1.5 w-1.5 rounded-full bg-[#2f9a55]" />

@@ -194,10 +194,10 @@ export const reviews = {
   eyebrow: "Notes from regulars",
   title: ["Kind words,", "*printed fresh.*"],
   items: [
-    { order: [["Flat white", 230], ["Cardamom bun", 160]], text: "My Tuesday office. Great Wi-Fi, better flat whites, and nobody minds if I stay till lunch.", name: "Meera", who: "UX designer, works here Tuesdays" },
-    { order: [["Pour-over, Araku", 290], ["Pour-over, Coorg", 300]], text: "We come every Sunday and try a new pour-over. The baristas remember our names now.", name: "Arjun & Sana", who: "Sunday regulars" },
-    { order: [["Cold brew", 240], ["Banana bread", 180]], text: "Cheapest good coffee near campus, and the banana bread is unreal. Student discount helps.", name: "Karthik", who: "Final-year student" },
-    { order: [["Beans, Valley Dark", 690]], text: "Bought a bag after the roastery tour. My mornings at home finally taste like this place.", name: "Farah", who: "Takes the beans home" },
+    { order: [["Flat white", 230], ["Cardamom bun", 160]], text: "The flat white is balanced beautifully and the bun is still warm when it hits the table. I’ve started turning my Tuesday meetings into coffee dates here.", name: "Meera S.", who: "Brand designer" },
+    { order: [["Pour-over, Araku", 290], ["Pour-over, Coorg", 300]], text: "The baristas actually remember our preference, and every pour-over tastes like a different little adventure. It’s become our slow Sunday ritual.", name: "Arjun & Sana", who: "Weekend regulars" },
+    { order: [["Cold brew", 240], ["Banana bread", 180]], text: "The cold brew is smooth without being sweet, and the banana bread is the kind of thing you plan your next visit around. Perfect for study sessions.", name: "Karthik R.", who: "Architecture student" },
+    { order: [["Beans, Valley Dark", 690]], text: "We brought home a bag after the roastery talk and it changed our morning routine. The roast is deep, clean, and really worth repeating.", name: "Farah N.", who: "Home brewer" },
   ] as { order: [string, number][]; text: string; name: string; who: string }[],
 };
 

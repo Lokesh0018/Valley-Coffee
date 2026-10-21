@@ -10,12 +10,16 @@ import StayAWhile from "./components/StayAWhile";
 import ClubAndNotes from "./components/ClubAndNotes";
 import EmberFooter from "./components/EmberFooter";
 import SiteFlags from "./components/SiteFlags";
+import AmbientPause from "./components/AmbientPause";
 import BrewLoader from "./components/BrewLoader";
 import Transitions from "./components/Transitions";
-import BagDrawer from "./components/BagDrawer";
+import { lazy, Suspense } from "react";
 import { CartProvider } from "./cart";
 import { faviconSvg } from "./components/Logo";
 import { meta } from "./site";
+
+// the bag drawer is only needed after a click: its code loads after the page
+const BagDrawer = lazy(() => import("./components/BagDrawer"));
 
 const ICON = `data:image/svg+xml,${encodeURIComponent(faviconSvg)}`;
 
@@ -32,11 +36,14 @@ export default function Page() {
       />
       <link rel="icon" type="image/svg+xml" href={ICON} />
       <SiteFlags />
+      <AmbientPause />
       <BrewLoader name={meta.loaderText ?? meta.name} tagline="Roasted every morning · Visakhapatnam" />
       <Transitions />
       <CartProvider>
         <MenuCardNav />
-        <BagDrawer />
+        <Suspense fallback={null}>
+          <BagDrawer />
+        </Suspense>
         <main className="relative overflow-x-clip">
           <HarvestHero />
           <RoastDial />

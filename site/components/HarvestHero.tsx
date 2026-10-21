@@ -171,7 +171,7 @@ export default function HarvestHero() {
         );
 
       // very gentle depth on the way out: the distant hills and sky lag behind as the hero scrolls away
-      gsap.to(q(".hv-stage > svg:first-of-type"), {
+      gsap.to(q(".hv-backdrop"), {
         y: 90,
         ease: "none",
         scrollTrigger: { trigger: el, start: "top top", end: "bottom top", scrub: true },
@@ -262,6 +262,63 @@ export default function HarvestHero() {
       ctx.revert();
     };
   }, [rig, built]);
+
+  // The painted backdrop (ridges, plantation, ground) uses watercolour SVG filters. Drawing those live costs a big
+  // filtered texture that is re-rasterised whenever the layer scales. Once the scene is up, the backdrop is rendered
+  // once into a bitmap (defs + backdrop SVG serialised → <img> → canvas) and the SVG is swapped for that image.
+  // The SVG stays if anything fails, so the hero never goes blank. Skipped with ?static=1 (nothing moves then anyway).
+  useEffect(() => {
+    if (!built || prefersReducedMotion()) return;
+    const el = root.current!;
+    const wrap = el.querySelector<HTMLElement>(".hv-backdrop");
+    const svg = wrap?.querySelector<SVGSVGElement>("svg");
+    const defs = el.querySelector("svg > defs");
+    if (!wrap || !svg || !defs) return;
+    let cancelled = false;
+    let url = "";
+    const done = () => {
+      if (url) URL.revokeObjectURL(url);
+    };
+    const idle = (cb: () => void) => ("requestIdleCallback" in window ? (window as Window & { requestIdleCallback: (cb: () => void) => number }).requestIdleCallback(cb) : setTimeout(cb, 300));
+    idle(() => {
+      if (cancelled) return;
+      try {
+        const doc = `<svg xmlns="http://www.w3.org/2000/svg" width="2320" height="1820" viewBox="-200 -700 2320 1820">${new XMLSerializer().serializeToString(defs)}${svg.innerHTML}</svg>`;
+        url = URL.createObjectURL(new Blob([doc], { type: "image/svg+xml;charset=utf-8" }));
+        const img = new Image();
+        img.onload = () => {
+          if (cancelled) return done();
+          // enough pixels for the stage scale on a 2× screen, capped so the bitmap stays ~20 MB
+          const scale = Math.min(1, 2400 / 2320, (stage.current ? (window.innerWidth / 1800) * Math.min(window.devicePixelRatio || 1, 2) : 1));
+          const c = document.createElement("canvas");
+          c.width = Math.round(2320 * Math.max(0.5, scale));
+          c.height = Math.round(1820 * Math.max(0.5, scale));
+          const g = c.getContext("2d");
+          if (!g) return done();
+          g.drawImage(img, 0, 0, c.width, c.height);
+          c.toBlob((blob) => {
+            done();
+            if (!blob || cancelled) return;
+            const out = new Image();
+            out.alt = "";
+            out.decoding = "async";
+            out.src = URL.createObjectURL(blob);
+            out.onload = () => {
+              if (cancelled) return URL.revokeObjectURL(out.src);
+              wrap.replaceChildren(out);
+            };
+          }, "image/webp", 0.9);
+        };
+        img.onerror = done;
+        img.src = url;
+      } catch {
+        done();
+      }
+    });
+    return () => {
+      cancelled = true;
+    };
+  }, [built]);
 
   return (
     <section ref={root} id="top" className="hv-hero relative h-[100svh] min-h-[620px] overflow-hidden" data-record-time="0" data-record-hold="3.6" data-record-label="Hero: the harvest">

@@ -148,12 +148,12 @@ body {
 .grain::after {
   content: "";
   position: fixed;
-  inset: -50%;
+  inset: 0;
   pointer-events: none;
   z-index: 60;
   opacity: 0.05;
   background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
-  animation: grain 1.2s steps(6) infinite;
+  /* static on purpose: an animated 2x-viewport fixed layer was re-composited over the whole page 5x a second */
 }
 @keyframes grain {
   0% { transform: translate(0, 0); }

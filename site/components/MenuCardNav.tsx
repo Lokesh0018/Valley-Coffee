@@ -133,10 +133,10 @@ export default function MenuCardNav() {
     <header className="fixed inset-x-0 top-0 z-50 px-[clamp(10px,2vw,28px)] pt-[clamp(10px,1.6vw,20px)]">
       {/* outer radius = button radius (22) + bar padding (6), so the buttons sit concentric inside the bar */}
       <div
-        className={`nav-bar relative mx-auto flex max-w-[1360px] items-center justify-between gap-3 rounded-[28px] border py-1.5 pl-4 pr-1.5 text-[#133024] backdrop-blur-md transition-[background-color,box-shadow,border-color] duration-300 md:pl-5 lg:grid lg:grid-cols-[1fr_auto_1fr] ${
+        className={`nav-bar relative mx-auto flex max-w-[1360px] items-center justify-between gap-3 rounded-[28px] border py-1.5 pl-4 pr-1.5 text-[#133024] backdrop-blur-sm max-md:backdrop-blur-none transition-[background-color,box-shadow,border-color] duration-300 md:pl-5 lg:grid lg:grid-cols-[1fr_auto_1fr] ${
           scrolled || open
             ? "border-[#133024]/12 bg-[#fafcf7]/95 shadow-[inset_0_1px_0_rgba(255,255,255,0.8),0_14px_34px_-18px_rgba(19,48,36,0.45)]"
-            : "border-[#133024]/8 bg-[#fafcf7]/75 shadow-[inset_0_1px_0_rgba(255,255,255,0.7),0_10px_28px_-20px_rgba(19,48,36,0.35)]"
+            : "border-[#133024]/8 bg-[#fafcf7]/75 max-md:bg-[#fafcf7]/90 shadow-[inset_0_1px_0_rgba(255,255,255,0.7),0_10px_28px_-20px_rgba(19,48,36,0.35)]"
         }`}
       >
         <a href="#top" className="flex min-h-11 shrink-0 items-center justify-self-start rounded-full" data-cursor="Home" aria-label="Aura Roast, back to top" onClick={() => setOpen(false)}>
@@ -239,7 +239,7 @@ export default function MenuCardNav() {
         id="nav-panel"
         ref={panel}
         aria-hidden={!open}
-        className={`mx-auto mt-2 max-w-[1360px] origin-top rounded-[28px] border border-[#133024]/12 bg-[#fafcf7]/[0.97] p-3 text-[#133024] shadow-[0_24px_50px_-24px_rgba(19,48,36,0.5)] backdrop-blur-md transition-[opacity,transform,visibility] duration-300 lg:hidden ${
+        className={`mx-auto mt-2 max-w-[1360px] origin-top rounded-[28px] border border-[#133024]/12 bg-[#fafcf7]/[0.97] p-3 text-[#133024] shadow-[0_24px_50px_-24px_rgba(19,48,36,0.5)] transition-[opacity,transform,visibility] duration-300 lg:hidden ${
           open ? "visible translate-y-0 opacity-100" : "invisible -translate-y-2 opacity-0"
         }`}
       >

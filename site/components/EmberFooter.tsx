@@ -5,7 +5,10 @@ import { prefersReducedMotion } from "@/lib/gsap";
 import { footer, visit } from "../content";
 import { playOnceInView } from "./recordDemo";
 import Lines from "./Lines";
-import WhatsAppNote from "./WhatsAppNote";
+import { lazy, Suspense } from "react";
+
+// the contact form sits at the very bottom: its code loads after the page
+const WhatsAppNote = lazy(() => import("./WhatsAppNote"));
 import { FolkBirds, FolkMural, FolkShoulder, FolkSunMark, GREEN, INK } from "./FooterScene";
 import { LogoMark } from "./Logo";
 
@@ -71,7 +74,9 @@ export default function EmberFooter() {
       </section>
 
       {/* Contact: a note that opens in WhatsApp */}
-      <WhatsAppNote />
+      <Suspense fallback={<div className="min-h-[480px]" aria-hidden />}>
+        <WhatsAppNote />
+      </Suspense>
 
       {/* Footer: one composition in three layers. (1) a continuous cream surface; (2) the folk-art landscape, anchored
           to the bottom and rising up behind the text (its hill tops start just under the copyright row); (3) the

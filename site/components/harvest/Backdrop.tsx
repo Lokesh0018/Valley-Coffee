@@ -146,7 +146,8 @@ export function HarvestDefs() {
 
 function Backdrop() {
   return (
-    <svg className="hv-layer" style={{ left: -200, top: -700, width: 2320, height: 1820 }} viewBox="-200 -700 2320 1820" aria-hidden>
+    <div className="hv-layer hv-backdrop" style={{ left: -200, top: -700, width: 2320, height: 1820 }}>
+    <svg className="hv-backdrop-svg" width="2320" height="1820" viewBox="-200 -700 2320 1820" aria-hidden>
       <rect x="-200" y="-700" width="2320" height="1820" fill="url(#hv-sky)" />
       <rect x="-200" y="-700" width="2320" height="1500" fill="url(#hv-sun)" />
       {/* soft streaks of high mist */}
@@ -210,6 +211,7 @@ function Backdrop() {
         </g>
       ))}
     </svg>
+    </div>
   );
 }
 

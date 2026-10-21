@@ -54,6 +54,7 @@ export function loadFrames(
     const i = order[cursor++];
     const img = new Image();
     img.decoding = "async";
+    img.fetchPriority = "low"; // photos and fonts first; the frames are needed only further down the page
     img.onload = img.onerror = () => {
       if (cancelled) return;
       if (img.naturalWidth) images[i] = img;

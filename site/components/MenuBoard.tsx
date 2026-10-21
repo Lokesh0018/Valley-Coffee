@@ -195,7 +195,7 @@ export default function MenuBoard() {
           <div className="relative md:col-span-5 max-md:hidden">
             <div className="arch relative h-full min-h-[480px] md:min-h-0">
               {menu.pages.map((p, i) => (
-                <img
+                <img width={900} height={1205}
                   key={p.tab}
                   src={p.image}
                   alt={p.tab}

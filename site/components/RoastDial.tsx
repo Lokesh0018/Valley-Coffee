@@ -55,7 +55,14 @@ export default function RoastDial() {
       let last = 0;
       const tl = gsap.timeline({
         defaults: { ease: "power2.inOut" },
-        scrollTrigger: { trigger: root, start: "top top", end: "bottom bottom", scrub: 0.3 },
+        scrollTrigger: {
+          trigger: root,
+          start: "top top",
+          end: "bottom bottom",
+          scrub: 0.3,
+          // the four bean photos get their own layers only while the dial is pinned
+          onToggle: (st) => root.classList.toggle("is-pinned", st.isActive),
+        },
         onUpdate() {
           // switch the stop when the needle is halfway to it
           const p = this.progress();
@@ -177,6 +184,9 @@ export default function RoastDial() {
                 {roast.stops.map((s, i) => (
                   <img
                     key={s.name}
+                    width={1000}
+                    height={1000}
+                    decoding="async"
                     src={s.image}
                     alt={`${s.name} roast coffee beans`}
                     data-roast-img={i}

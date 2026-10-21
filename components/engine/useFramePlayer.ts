@@ -2,7 +2,7 @@
 
 import { useEffect, useRef } from "react";
 import { drawFit, getManifest, loadFrames, type FrameManifest } from "@/lib/frames";
-import { loading } from "@/lib/loading";
+import { loading, onSiteReady } from "@/lib/loading";
 
 /**
  * Draws an image sequence into a canvas. Call `seek(0..1)` to pick the frame.
@@ -130,7 +130,8 @@ export function useFramePlayer(
       progress.current = p;
     };
 
-    getManifest(folder)
+    // frames the loader does not wait for start downloading only once the site has revealed
+    const start = () => getManifest(folder)
       .then((m) => {
         if (cancelled) return;
         manifest = m;
@@ -146,6 +147,7 @@ export function useFramePlayer(
         console.warn(err.message);
         if (blockLoader) loading.update(taskId, 1);
       });
+    const offReady = blockLoader ? (start(), () => {}) : onSiteReady(start);
 
     resize();
     const ro = new ResizeObserver(resize);
@@ -167,6 +169,7 @@ export function useFramePlayer(
 
     return () => {
       cancelled = true;
+      offReady();
       cancelAnimationFrame(raf);
       ro.disconnect();
       io.disconnect();

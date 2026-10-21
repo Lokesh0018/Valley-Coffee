@@ -16,9 +16,11 @@ export default function SmoothScroll() {
   useEffect(() => {
     if (prefersReducedMotion()) return;
 
-    const lenis = new Lenis({ duration: 0.85, easing: (t) => 1 - Math.pow(1 - t, 3), smoothWheel: true, wheelMultiplier: 1.1 });
+    const lenis = new Lenis({ duration: 0.85, easing: (t) => 1 - Math.pow(1 - t, 3), smoothWheel: true, wheelMultiplier: 1.1, syncTouch: false });
     window.__lenis = lenis;
     lenis.on("scroll", ScrollTrigger.update);
+    // headline fonts swapping in can move every section start: measure again once they are ready
+    document.fonts?.ready.then(() => ScrollTrigger.refresh());
     const tick = (time: number) => lenis.raf(time * 1000);
     gsap.ticker.add(tick);
     gsap.ticker.lagSmoothing(0);

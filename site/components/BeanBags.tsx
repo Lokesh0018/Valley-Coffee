@@ -154,7 +154,7 @@ export default function BeanBags() {
             <article key={b.name} className="bag-card" data-card={i} data-cursor="Take home">
               <div className="bag-art relative mx-auto w-[88%] [container-type:inline-size]">
                 <div className="amber-glow absolute inset-x-[-10%] bottom-[-6%] h-[40%]" />
-                <img src={beans.bagImage} alt={`${b.name}, Araku Valley coffee bag`} className="relative block w-full drop-shadow-md" />
+                <img loading="lazy" decoding="async" width={673} height={1200} src={beans.bagImage} alt={`${b.name}, Araku Valley coffee bag`} className="relative block w-full drop-shadow-md" />
                 {/* printed label */}
                 <div
                   className="absolute flex flex-col overflow-hidden rounded-[2px] text-center"
