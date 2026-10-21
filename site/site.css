@@ -867,3 +867,110 @@ html.is-static .bake-ping { animation: none; opacity: 0; }
 .receipt-drop {
   filter: drop-shadow(0 22px 26px rgba(0, 0, 0, 0.45)) drop-shadow(0 2px 3px rgba(0, 0, 0, 0.25));
 }
+
+/* Contact: form fields on the white card, WhatsApp-style chat preview */
+.contact-label {
+  display: block;
+  margin-bottom: 0.6rem;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #133024;
+}
+.contact-input {
+  display: block;
+  width: 100%;
+  min-height: 52px;
+  border-radius: 16px;
+  border: 1px solid rgba(19, 48, 36, 0.2);
+  background: #fafcf7;
+  padding: 0 1.1rem;
+  font-size: 16px; /* 16px keeps phones from zooming in on focus */
+  color: #133024;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+}
+.contact-input::placeholder {
+  color: #6f8577;
+}
+.contact-input:hover {
+  border-color: rgba(19, 48, 36, 0.4);
+}
+.contact-input:focus {
+  outline: none;
+  border-color: #2f7d4a;
+  background: #ffffff;
+  box-shadow: 0 0 0 4px rgba(47, 125, 74, 0.16);
+}
+.contact-input[aria-invalid="true"] {
+  border-color: #a3331f;
+  box-shadow: 0 0 0 4px rgba(163, 51, 31, 0.12);
+}
+.contact-step {
+  display: grid;
+  place-items: center;
+  height: 44px;
+  width: 44px;
+  border-radius: 999px;
+  font-size: 20px;
+  color: #133024;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+.contact-step:hover:not(:disabled) {
+  background: rgba(19, 48, 36, 0.07);
+}
+.contact-step:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+.wa-send:focus-visible {
+  outline: 2px solid #2f7d4a;
+  outline-offset: 3px;
+}
+/* faint dotted wallpaper behind the chat, like a messaging app */
+.wa-wall {
+  background-color: #eef3ea;
+  background-image: radial-gradient(rgba(19, 48, 36, 0.07) 1px, transparent 1.2px);
+  background-size: 14px 14px;
+}
+.wa-caret {
+  animation: wa-blink 0.9s steps(1) infinite;
+}
+@keyframes wa-blink {
+  50% {
+    opacity: 0;
+  }
+}
+.wa-dots i {
+  display: block;
+  height: 7px;
+  width: 7px;
+  border-radius: 999px;
+  background: #4f6657;
+  animation: wa-dot 1.1s ease-in-out infinite;
+}
+.wa-dots i:nth-child(2) {
+  animation-delay: 0.15s;
+}
+.wa-dots i:nth-child(3) {
+  animation-delay: 0.3s;
+}
+@keyframes wa-dot {
+  0%,
+  60%,
+  100% {
+    opacity: 0.35;
+    transform: translateY(0);
+  }
+  30% {
+    opacity: 1;
+    transform: translateY(-3px);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .wa-caret,
+  .wa-dots i {
+    animation: none;
+  }
+}

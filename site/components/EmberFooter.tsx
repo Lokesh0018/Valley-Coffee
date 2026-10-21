@@ -5,10 +5,11 @@ import { prefersReducedMotion } from "@/lib/gsap";
 import { footer, visit } from "../content";
 import { playOnceInView } from "./recordDemo";
 import Lines from "./Lines";
+import WhatsAppNote from "./WhatsAppNote";
 import { FolkBirds, FolkMural, FolkShoulder, FolkSunMark, GREEN, INK } from "./FooterScene";
 import { LogoMark } from "./Logo";
 
-// Visit (a plain section) + footer. The footer: logo, links and copyright on plain cream, then a Warli-inspired
+// Visit (a plain section) + contact (WhatsAppNote.tsx) + footer. The footer: logo, links and copyright on plain cream, then a Warli-inspired
 // folk-art village mural (FooterScene.tsx) as its own layer. No arrival animation; the sun's rays turn slowly and
 // the women bob gently (CSS, off for reduced motion).
 
@@ -69,10 +70,13 @@ export default function EmberFooter() {
         </div>
       </section>
 
+      {/* Contact: a note that opens in WhatsApp */}
+      <WhatsAppNote />
+
       {/* Footer: one composition in three layers. (1) a continuous cream surface; (2) the folk-art landscape, anchored
           to the bottom and rising up behind the text (its hill tops start just under the copyright row); (3) the
           content in normal flow, with the sun and birds placed in the open sky between the text. */}
-      <footer ref={root} data-record-time="1.5" data-record-hold="1" data-record-align="bottom" data-record-label="Visit + footer" className="footer-folk relative isolate overflow-hidden">
+      <footer ref={root} data-record-time="1.1" data-record-hold="1" data-record-align="bottom" data-record-label="Footer" className="footer-folk relative isolate overflow-hidden">
         {/* layer 2: the landscape (same proportions everywhere; phones crop around the centre) */}
         <FolkMural className="pointer-events-none absolute inset-x-0 bottom-0 -z-10 block h-[max(200px,20.84vw)] w-full" />
         {/* hill shoulders rising up the outer margins, framing the content (laptops; they merge into the edge hills) */}

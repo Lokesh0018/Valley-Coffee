@@ -238,6 +238,26 @@ export const visit = {
   ],
 };
 
+export const contact = {
+  eyebrow: "Write to us",
+  title: ["Say hello,", "*we'll pour.*"],
+  intro: "Book a table, order beans in bulk or plan a small event. Your note opens in WhatsApp, ready to send.",
+  // the café's WhatsApp number in international format, digits only (e.g. country code + number).
+  // Left empty for this concept: WhatsApp then opens with the message and lets you pick the chat.
+  whatsapp: "",
+  replies: "Usually replies within an hour, 7:30 am – 11 pm",
+  topics: [
+    { id: "table", label: "Book a table", placeholder: "Window seat if you have one, it's a birthday…" },
+    { id: "beans", label: "Beans to take home", placeholder: "Which beans, how many bags, whole bean or ground…" },
+    { id: "event", label: "Event or catering", placeholder: "The date, how many people, what you have in mind…" },
+    { id: "hello", label: "Just saying hi", placeholder: "Tell us anything, we read every note." },
+  ],
+  times: ["8:00 am", "10:00 am", "12:30 pm", "4:00 pm", "6:30 pm", "8:30 pm"],
+  sample: "Hi Aura Roast! A table for 2 this Saturday at 10 am, please. Window seat if you have one.",
+  button: "Send on WhatsApp",
+  fine: "Opens WhatsApp with your note. Nothing is sent until you press send there.",
+};
+
 export const footer = {
   wordmark: "Aura Roast",
   columns: [
